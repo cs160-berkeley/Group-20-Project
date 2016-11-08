@@ -54,6 +54,7 @@ export var deviceURL = "";
 // colors
 export var lightGray = "#F2F2F2";
 export var lightGray2 = "#BDBDBD";
+export var darkGray2 = "#4F4F4F";
 export var darkGray = "#202020";
 // skins
 export var whiteSkin = new Skin({ fill: "white" });
@@ -66,6 +67,7 @@ export var midText = new Style({ font: "bold 20px", color: darkGray });
 export var smallText = new Style({ font: "15px", color: "black" });
 export var largeText = new Style({ font: "bold 30px", color: darkGray });
 export var lightGraySmallText = new Style({ font: "bold 15px", color: lightGray2 });
+export var darkGraySmallText = new Style({ font: "bold 15px", color: darkGray2 });
 
 // file io functions
 export function load_json(uri) {
