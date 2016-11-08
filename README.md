@@ -9,8 +9,6 @@ Project Name: HoM (Home Monitor)
 
 General Description: This is a monitor that would help users control the smart devices at home. Users would be able to give commands through a mobile application, and their commands would be sent accurately to the devices at home, no matter where they are, as long as they are connected with the internet. Our APP is especially aimed at helping busy parents take care of everything and have a easier life.
 
-General Description: This is a monitor that would help users control the smart devices at home. Users would be able to give commands through a mobile application, and their commands would be sent accurately to the devices at home, no matter where they are, as long as they are connected with the internet. Our APP is especially aimed at helping busy parents take care of everything and have a easier life.
-
 Tasks Description:
 
 Task 1 (Easy): User can turn a light on/off.
@@ -22,12 +20,17 @@ A user can press the “add device” button on the mobile app’s home screen. 
 Task 3 (Hard): User can set a timing for a device to turn on/off.
 A user can select a device on his/her homescreen list and then be brought to an “Edit” page. Once there, the user can click “Timing” in order to create a timing schedule for that particular device. The user can specify a start and end time for the device to turn on. In our implementation, the Kinoma hardware device will then display a message that shows that a timing schedule has been set for that device, along with which times have been specified. We can also use an analog input in order to simulate time changing that will then trigger a response at the specified times.
 
-Divide the Work:
+Division of the Work:
 We have decided on the following work structure for this assignment - we're going to be working in phases (sequentially) to make sure that we're all on the same page and won't run into any conflicting code issues:
+
 Phase 1: Interface Redesign - Jessica (due Saturday night) - she's going to try to consolidate all our screens so there are less transitions and modify some changes like getting rid of the group home page
+
 Phase 2: Implement device list homescreen of app and code task 1 (turn a light on/off) - Mohan (due Sunday night)
+
 Phase 3: Code task 2 (add a device) - Patricia (due Monday night)
+
 Phase 4: Code task 3 (turn an oven on between 2 - 4 pm ) - Jacque (due Tuesday night)
+
 Phase 5: Report write-up, presentation presentation, miscellaneous tasks - Jonya (due Wednesday night)
 
 
