@@ -21,6 +21,8 @@ export var img_logo = img_dir + "Group.png";
 export var img_plus = img_dir + "add.png";
 export var img_off = img_dir +  "button_off.png";
 export var img_on = img_dir +  "button_on.png";
+export var img_lock = img_dir +  "button_lock.png";
+export var img_unlock = img_dir +  "button_unlock.png";
 export var img_home = {
 	activated: img_dir + "home.png",
 	idel: img_dir + "idel_home.png"
@@ -37,6 +39,11 @@ export var img_sett = {
 	activated: img_dir + "settings.png",
 	idel: img_dir + "idel_settings.png"
 };
+// uri
+export var on_uri = mergeURI(application.url, img_on);
+export var off_uri = mergeURI(application.url, img_off);
+export var lock_uri = mergeURI(application.url, img_lock);
+export var unlock_uri = mergeURI(application.url, img_unlock);
 // connection settings
 export var DeviceSimulator = "portdevice.project.kinoma.marvell.com";
 export var deviceURL = "";

@@ -10,6 +10,12 @@ import {
 	img_plus,
 	img_off,
 	img_on,
+	img_lock,
+	img_unlock,
+	on_uri,
+	off_uri,
+	lock_uri,
+	unlock_uri,
 	hintText,
 	midText,
 	smallText,
@@ -27,6 +33,13 @@ import {
 	bottom_bar_img_size,
 	home_list_topbar_img_size,
 } from "global_settings"
+
+import {
+	DeviceScreenTemplate,
+	DeviceContentTemplate,
+	DeviceScreen,
+	DeviceContent
+} from "device";
 
 export var HomeContent;
 export var HomeScreen;
@@ -76,16 +89,12 @@ let iconButtonTemplate = Container.template($ => ({
 	})
 }));
 
-function test_data(container) {
-	var test = new DeviceItemTemplate({ DeviceName: "Hello", DeviceGroup: "World", id: "hello_world", type: "binary" });	container.add(test);
-}
-
 export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, right: 0,    contents: [
     	// title
     	new HomeTopBar(),
     	// device list
     	new DeviceItemTemplate({ DeviceName: "Night Light", DeviceGroup: "David's Room", id: "night_light", type: "binary" }),
-    	new DeviceItemTemplate({ DeviceName: "Front Door", DeviceGroup: "Home", id: "front_door", type: "binary" }),
+    	new DeviceItemTemplate({ DeviceName: "Front Door", DeviceGroup: "Home", id: "front_door", type: "lock" }),
     	new DeviceItemTemplate({ DeviceName: "Oven", DeviceGroup: "Kittchen", id: "oven", type: "binary" }),    ],}));
 
 var HomeTopBar = Container.template($ => ({
@@ -105,7 +114,12 @@ var HomeTopBar = Container.template($ => ({
 		}),
 	]
 }));
-
+/*
+// debug
+function test_data() {
+	var test = new DeviceItemTemplate({ DeviceName: "Hello", DeviceGroup: "World", id: "hello_world", type: "binary" });	HomeContent.add(test);
+}*/
+// the plus button to add devices
 let AddDeviceTemplate = Container.template($ => ({
 	active: true,
 	contents: [
@@ -114,10 +128,26 @@ let AddDeviceTemplate = Container.template($ => ({
 	behavior: Behavior({
 		onTouchEnded: function(container) {
 			application.remove(TMP_SCREEN);
+			DeviceContent = DeviceContentTemplate({});
+        	DeviceScreen = new DeviceScreenTemplate({ DeviceContent });
+        	TMP_SCREEN = DeviceScreen;
+        	application.add(TMP_SCREEN);
+			// test_data(); // it works!!!
 		}
 	})
 }));
 
+function getStatusURL(type) {
+	var goal_image;
+	if (type == "binary") {
+		goal_image = img_off;
+	}
+	else if (type == "lock") {
+		// trace("\n" + img_lock + "\n");
+		goal_image = img_lock;
+	}
+	return goal_image;
+}
 
 export var DeviceItemTemplate = Line.template($ => ({
 	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
@@ -142,7 +172,7 @@ export var DeviceItemTemplate = Line.template($ => ({
 		new Column ({
 			top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 			contents: [
-				new OnOffTemplate( { img_url: img_off } ),
+				new OnOffTemplate( { img_url: getStatusURL($.type), id: $.id } ),
 			],
 		}),
 	],
@@ -161,18 +191,25 @@ let OnOffTemplate = Container.template($ => ({
 		onTouchEnded: function(container) {
 			// application.remove(TMP_SCREEN);
 			// container is this item
-			var on_uri = mergeURI(application.url, img_on);
 			if (container.img.url == on_uri) { // turn off
-				//trace("turning off\n");
+				trace("turning off " + $.id + "\n");
 				//trace(container.img.url + "\n");
 				container.img.url = img_off;
 				//trace(container.img.url + "\n");
 			}
-			else { // turn on
-				//trace("turning on\n");
+			else if (container.img.url == lock_uri) {
+				trace("unlocking " + $.id + "\n");
+				container.img.url = img_unlock;
+			}
+			else if (container.img.url == off_uri) { // turn on
+				trace("turning on " + $.id + "\n");
 				//trace(container.img.url + "\n");
 				container.img.url = img_on;
 				//trace(container.img.url + "\n");
+			}
+			else if (container.img.url == unlock_uri) {
+				trace("locking " + $.id + "\n");
+				container.img.url = img_lock;
 			}
 			// container.img.url = container.on? img_on: img_off;
 		}
