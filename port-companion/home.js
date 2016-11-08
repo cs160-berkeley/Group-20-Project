@@ -8,6 +8,8 @@ import {
 	img_note,
 	img_sett,
 	img_plus,
+	img_off,
+	img_on,
 	hintText,
 	midText,
 	smallText,
@@ -114,7 +116,7 @@ export var DeviceItemTemplate = Line.template($ => ({
 		new Column ({
 			top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 			contents: [
-				new Picture({					url: "./assets/button_off.png",					// top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,				}),
+				new OnOffTemplate( { img_url: img_off } ),
 			],
 		}),
 	],
@@ -122,3 +124,31 @@ export var DeviceItemTemplate = Line.template($ => ({
 	name: $.id,
 }));
 
+let OnOffTemplate = Container.template($ => ({
+	active: true,
+	// on: false,
+	contents: [
+		new Picture({			url: $.img_url,
+			name: "img",		})
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			// application.remove(TMP_SCREEN);
+			// container is this item
+			var on_uri = mergeURI(application.url, img_on);
+			if (container.img.url == on_uri) { // turn off
+				//trace("turning off\n");
+				//trace(container.img.url + "\n");
+				container.img.url = img_off;
+				//trace(container.img.url + "\n");
+			}
+			else { // turn on
+				//trace("turning on\n");
+				//trace(container.img.url + "\n");
+				container.img.url = img_on;
+				//trace(container.img.url + "\n");
+			}
+			// container.img.url = container.on? img_on: img_off;
+		}
+	})
+}));

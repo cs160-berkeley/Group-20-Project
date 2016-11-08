@@ -19,6 +19,8 @@ export var img_SwitchBGD = img_dir + "switchBackground.png";
 export var img_SwitchFGD = img_dir + "switchForeground.png";
 export var img_logo = img_dir + "Group.png";
 export var img_plus = img_dir + "add.png";
+export var img_off = img_dir +  "button_off.png";
+export var img_on = img_dir +  "button_on.png";
 export var img_home = {
 	activated: img_dir + "home.png",
 	idel: img_dir + "idel_home.png"
