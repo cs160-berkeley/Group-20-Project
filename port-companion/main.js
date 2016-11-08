@@ -6,22 +6,28 @@ import {
 	welcome_button_height,
 	buttonText,
 	DeviceSimulator,
-	deviceURL,} from "global_settings";import { 	Button,    ButtonBehavior,    RadioGroup,     RadioGroupBehavior} from 'lib/buttons';
+	deviceURL,
+	load_data,
+	DATA,} from "global_settings";import { 	Button,    ButtonBehavior,    RadioGroup,     RadioGroupBehavior} from 'lib/buttons';
 
 import {
 	HomeContentTemplate,
 	HomeScreenTemplate,
 	HomeContent,
 	HomeScreen,
+	LoadHomeContent,
 } from "home";
 
 var padding = welcome_img_padding;
 var size = welcome_img_size;
 
+DATA = load_data();
+
 let enterButtonTemplate = Button.template($ => ({    top: 0, width: 200, right: 0, height: welcome_button_height,    contents: [        Label($, {left: 0, right: 0, height: welcome_button_height, string: $.textForLabel, style: buttonText})    ],    Behavior: class extends ButtonBehavior {        onTap(button){      
         	application.remove(TMP_SCREEN);
         	HomeContent = HomeContentTemplate({});
         	//TMP_SCREEN = new HomeScreen({ HomeContent });
+        	LoadHomeContent(HomeContent);
         	HomeScreen = new HomeScreenTemplate({ HomeContent });
         	TMP_SCREEN = HomeScreen;
         	application.add(TMP_SCREEN);        }

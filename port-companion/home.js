@@ -32,6 +32,9 @@ import {
 	bottom_bar_padding,
 	bottom_bar_img_size,
 	home_list_topbar_img_size,
+	// load_data,
+	save_data,
+	DATA,
 } from "global_settings"
 
 /*
@@ -64,6 +67,7 @@ import {
 
 export var HomeContent;
 export var HomeScreen;
+var device_data;
 // let titleStyle = new Style({ font: "20px", color: "white" });
 export var HomeScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
     skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
@@ -105,6 +109,7 @@ let iconButtonTemplate = Container.template($ => ({
 	behavior: Behavior({
 		onTouchEnded: function(container) {
 			// application.remove(TMP_SCREEN);
+			save_data(DATA);
 			trace("going to page " + $.name + "\n");
 		}
 	})
@@ -114,9 +119,29 @@ export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, r
     	// title
     	new HomeTopBar(),
     	// device list
+    	/*
     	new DeviceItemTemplate({ DeviceName: "Night Light", DeviceGroup: "David's Room", id: "night_light", type: "binary" }),
     	new DeviceItemTemplate({ DeviceName: "Front Door", DeviceGroup: "Home", id: "front_door", type: "lock" }),
-    	new DeviceItemTemplate({ DeviceName: "Oven", DeviceGroup: "Kittchen", id: "oven", type: "binary" }),    ],}));
+    	new DeviceItemTemplate({ DeviceName: "Oven", DeviceGroup: "Kittchen", id: "oven", type: "binary" }),
+    	*/    ],}));
+
+export function LoadHomeContent(homeContent) {
+	// device_data = load_data();
+	var len = DATA.init.length;
+	for (var i = 0; i < len; i++) {
+		var data_elem = DATA.init[i];
+		var item = new DeviceItemTemplate({ 
+			DeviceName: data_elem.DeviceName, 
+			DeviceGroup: data_elem.DeviceGroup, 
+			id: data_elem.id, 
+			type: data_elem.type,
+			value: data_elem.value,
+			idx: i,
+		});
+		homeContent.add(item);
+	}
+	// save_data(init_data); // save to local, as a log
+}
 
 var HomeTopBar = Container.template($ => ({
 	// top-bar
@@ -148,6 +173,7 @@ let AddDeviceTemplate = Container.template($ => ({
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
+			save_data(DATA);
 			application.remove(TMP_SCREEN);
 			SearchContent = SearchContentTemplate({});
         	SearchScreen = new SearchScreenTemplate({ SearchContent });
@@ -158,14 +184,20 @@ let AddDeviceTemplate = Container.template($ => ({
 	})
 }));
 
-function getStatusURL(type) {
+function getStatusURL(type, value) {
 	var goal_image;
 	if (type == "binary") {
-		goal_image = img_off;
+		if (value)
+			goal_image = img_on;
+		else
+			goal_image = img_off;
 	}
 	else if (type == "lock") {
 		// trace("\n" + img_lock + "\n");
-		goal_image = img_lock;
+		if (value)
+			goal_image = img_unlock;
+		else
+			goal_image = img_lock;
 	}
 	return goal_image;
 }
@@ -174,6 +206,7 @@ export var DeviceItemTemplate = Line.template($ => ({
 	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 	height: home_list_item_height,
 	skin: lightGraySkin,
+	idx: $.idx,
 	contents: [
 		new Column ({
 			left: home_list_item_padding,
@@ -193,7 +226,7 @@ export var DeviceItemTemplate = Line.template($ => ({
 		new Column ({
 			top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 			contents: [
-				new OnOffTemplate( { img_url: getStatusURL($.type), id: $.id } ),
+				new OnOffTemplate( { img_url: getStatusURL($.type, $.value), id: $.id, idx: $.idx } ),
 			],
 		}),
 	],
@@ -216,21 +249,25 @@ let OnOffTemplate = Container.template($ => ({
 				trace("turning off " + $.id + "\n");
 				//trace(container.img.url + "\n");
 				container.img.url = img_off;
+				DATA.init[$.idx].value = 0;
 				//trace(container.img.url + "\n");
 			}
 			else if (container.img.url == lock_uri) {
 				trace("unlocking " + $.id + "\n");
 				container.img.url = img_unlock;
+				DATA.init[$.idx].value = 1;
 			}
 			else if (container.img.url == off_uri) { // turn on
 				trace("turning on " + $.id + "\n");
 				//trace(container.img.url + "\n");
 				container.img.url = img_on;
+				DATA.init[$.idx].value = 1;
 				//trace(container.img.url + "\n");
 			}
 			else if (container.img.url == unlock_uri) {
 				trace("locking " + $.id + "\n");
 				container.img.url = img_lock;
+				DATA.init[$.idx].value = 0;
 			}
 			// container.img.url = container.on? img_on: img_off;
 		}

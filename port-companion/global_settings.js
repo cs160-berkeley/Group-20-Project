@@ -25,6 +25,8 @@ export var img_off = img_dir +  "button_off.png";
 export var img_on = img_dir +  "button_on.png";
 export var img_lock = img_dir +  "button_lock.png";
 export var img_unlock = img_dir +  "button_unlock.png";
+var file_dir = "./files/";
+export var file_init = file_dir + "init_data.json";
 export var img_home = {
 	activated: img_dir + "home.png",
 	idel: img_dir + "idel_home.png"
@@ -64,3 +66,34 @@ export var midText = new Style({ font: "bold 20px", color: darkGray });
 export var smallText = new Style({ font: "15px", color: "black" });
 export var largeText = new Style({ font: "bold 30px", color: darkGray });
 export var lightGraySmallText = new Style({ font: "bold 15px", color: lightGray2 });
+
+// file io functions
+export function load_json(uri) {
+    //var uri = mergeURI(dir, filepath);	var json = Files.readJSON(uri);
+	return json;
+}
+export function save_data(json_file) {
+	var dir = Files.documentsDirectory; // not working with application.url
+	var uri = mergeURI(dir, file_dat);	Files.writeJSON(uri, json_file);
+}
+
+var file_dat = "HoM.json";
+export function load_data() {
+	var dir_dat = Files.documentsDirectory;
+	var dir_init = application.url;
+	var uri_dat = mergeURI(dir_dat, file_dat);
+	var uri_init = mergeURI(dir_init, file_init);
+	let info = Files.getInfo(uri_dat); // if the file exists or not
+	var json;
+   	if (info) {
+    	trace("loaded data from " + uri_dat + "\n");
+    	json = load_json(uri_dat);
+    }
+    else {
+    	trace("loaded data from " + uri_init + "\n");
+    	json = load_json(uri_init);
+    }	return json;
+}
+
+// data
+export var DATA;
