@@ -51,6 +51,7 @@ export var DeviceSimulator = "portdevice.project.kinoma.marvell.com";
 export var deviceURL = "";
 // colors
 export var lightGray = "#F2F2F2";
+export var lightGray2 = "#BDBDBD";
 export var darkGray = "#202020";
 // skins
 export var whiteSkin = new Skin({ fill: "white" });
@@ -62,3 +63,4 @@ export var hintText = new Style({ font: "10px", color: darkGray });
 export var midText = new Style({ font: "bold 20px", color: darkGray });
 export var smallText = new Style({ font: "15px", color: "black" });
 export var largeText = new Style({ font: "bold 30px", color: darkGray });
+export var lightGraySmallText = new Style({ font: "bold 15px", color: lightGray2 });
