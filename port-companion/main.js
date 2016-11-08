@@ -33,14 +33,15 @@ let enterButtonTemplate = Button.template($ => ({    top: 0, width: 200, right:
 				
 			]
 		}),    ]}));
-
-TMP_SCREEN = new WelcomePageTemplate({ skin: whiteSkin, img_url: img_logo, title: "HoM"});
-application.add(TMP_SCREEN);
-
 /* behavior of connecting the devices */
-
 // connected by port
-Handler.bind("/discover", Behavior({    onInvoke: function(handler, message){        deviceURL = JSON.parse(message.requestText).url;    }}));Handler.bind("/forget", Behavior({    onInvoke: function(handler, message){        deviceURL = "";    }}));
+Handler.bind("/discover", Behavior({    onInvoke: function(handler, message){
+    	trace("found the device.\n");        deviceURL = JSON.parse(message.requestText).url;    }}));Handler.bind("/forget", Behavior({    onInvoke: function(handler, message){
+    	trace("forget the device.\n");        deviceURL = "";    }}));
 var ApplicationBehavior = Behavior.template({    onDisplayed: function(application) {	        application.discover(DeviceSimulator);        // application.add(new HomeScreen({ onOff:"on" }));    },    onQuit: function(application) {        application.forget(DeviceSimulator);    },});
 
-application.behavior = new ApplicationBehavior();
+TMP_SCREEN = new WelcomePageTemplate({ skin: whiteSkin, img_url: img_logo, title: "HoM"});
+application.behavior = new ApplicationBehavior(); 
+application.add(TMP_SCREEN);
+
+

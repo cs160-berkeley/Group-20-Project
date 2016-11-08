@@ -8,6 +8,7 @@ export var home_list_item_height = 60;
 export var home_list_item_padding = 10;
 export var home_list_tag_width = 200;
 export var home_list_topbar_height = 60;
+export var home_list_topbar_img_size = 20;
 export var bottom_bar_padding = 3;
 export var bottom_bar_img_size = 30;//36;
 export var BAR_HEIGHT_TOP = 0; // 25;
@@ -17,6 +18,7 @@ var img_dir = "./assets/";
 export var img_SwitchBGD = img_dir + "switchBackground.png";
 export var img_SwitchFGD = img_dir + "switchForeground.png";
 export var img_logo = img_dir + "Group.png";
+export var img_plus = img_dir + "add.png";
 export var img_home = {
 	activated: img_dir + "home.png",
 	idel: img_dir + "idel_home.png"

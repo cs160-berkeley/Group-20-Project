@@ -2,10 +2,12 @@ import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,   
     HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';
 
 import {
+	TMP_SCREEN,
 	img_home,
 	img_fave,
 	img_note,
 	img_sett,
+	img_plus,
 	hintText,
 	midText,
 	smallText,
@@ -21,6 +23,7 @@ import {
 	home_list_tag_width,
 	bottom_bar_padding,
 	bottom_bar_img_size,
+	home_list_topbar_img_size,
 } from "global_settings"
 
 
@@ -66,8 +69,27 @@ var HomeTopBar = Container.template($ => ({
 			string: "My Home",
 			style: largeText,
 		}),
+		new Line({			
+			contents: [
+				//
+				new AddDeviceTemplate({}),
+			]
+		}),
 	]
 }));
+
+let AddDeviceTemplate = Container.template($ => ({
+	active: true,
+	contents: [
+		new Picture({			url: img_plus,			top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			application.remove(TMP_SCREEN);
+		}
+	})
+}));
+
 
 export var DeviceItemTemplate = Line.template($ => ({
 	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
