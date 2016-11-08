@@ -44,15 +44,43 @@ import {
 
 var iconTemplate = Column.template($ => ({ 
 	top: 0, left: 0, right: 0,
+	// active:true,
 	contents: [
-		new Picture({			url: $.activate? $.icon_img.activated: $.icon_img.idel,			top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),
+		
+		new iconButtonTemplate({
+			name: $.hint, 
+			url: $.activate? $.icon_img.activated: $.icon_img.idel,
+			padding: $.padding, size: $.size,
+		}),
+		
 		new Label({
 			string: $.hint,
 			style: hintText,
 		}),
 	],
 	//bahavior
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			application.remove(TMP_SCREEN);
+		}
+	})
 }));
+
+let iconButtonTemplate = Container.template($ => ({
+	active: true,
+	// on: false,
+	contents: [
+		new Picture({
+			name: $.name,			url: $.url,			top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			// application.remove(TMP_SCREEN);
+			trace("going to page " + $.name + "\n");
+		}
+	})
+}));
+
 
 export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, right: 0,    contents: [
     	// title
