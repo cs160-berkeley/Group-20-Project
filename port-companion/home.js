@@ -1,254 +1,102 @@
-/* main page: home */
-
+import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,
+    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';
 
 import {
-	img_SwitchBGD,
-	img_SwitchFGD,
-	lightGray
-} from "global_settings";
+	img_home,
+	img_fave,
+	img_note,
+	img_sett,
+	hintText,
+	midText,
+	smallText,
+	largeText,
+	BAR_HEIGHT_TOP,
+	BAR_HEIGHT_BOTTOM,
+	whiteSkin,
+	lightGraySkin,
+	darkGraySkin,
+	home_list_topbar_height,
+	home_list_item_height,
+	home_list_item_padding,
+	home_list_tag_width,
+	bottom_bar_padding,
+	bottom_bar_img_size,
+} from "global_settings"
 
-var deviceURL = "";
-let backgroundSkin = new Skin({ fill: "white" });
-let deviceSkin = new Skin({ fill: lightGray });
-let toggleSwitchBackgroundTexture = new Texture(img_SwitchBGD);
-let toggleSwitchForegroundTexture = new Texture(img_SwitchFGD);
 
-let labelStyle = new Style({ font:"20px Verdana", color:"black" });
-	
-/* BEHAVIORS */
+let titleStyle = new Style({ font: "20px", color: "white" });
+export var HomeScreen = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
+    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
+        // top bar
+        /*        new Container({             top: 0, height: BAR_HEIGHT_TOP, left: 0, right: 0, skin: darkGraySkin,            style: titleStyle,             contents: [                new Label({ string: "HoM" }),            ]        }),
+        */
+        // bottom
+        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: lightGraySkin,             style: titleStyle,             contents: [                // new Label({ string: "Bottom Bar" }),
+                new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: true}),
+                new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),
+                new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: false}),
+                new iconTemplate({icon_img: img_sett, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "settings", activate: false}),            ]        }),    ]}));
 
-class ToggleSwitchBehavior extends Behavior {
-	constrain(port, offset) {
-		if (offset < 0)
-			offset = 0;
-		else if (offset > this.size)
-			offset = this.size;
-		return offset;
-	}
-	onCreate(port, data) {
-		this.data = data;
-		this.onOff = this.data.onOff;
-		this.ov_onOff = this.data.ov_onOff;
-		this.fd_onOff = this.data.fd_onOff;
-		this.switchForeground = toggleSwitchForegroundTexture;
-		this.switchBackground = toggleSwitchBackgroundTexture;
-		
-		this.size = this.switchBackground.width - this.switchForeground.width;
-		this.offset = ("off" == this.onOff ? this.size : 0);
-		this.touched = false;
-		this.capturing = false;
-		this.touchMovedOffset = 15;
-	}
-	onDraw(port, x, y, width, height) {
-		port.pushClip();
-		port.intersectClip(x + 6, y + 6, width - 12, height - 12);
-		port.drawImage(this.switchBackground, x - this.offset, y, width + this.size, height, 
-			0, this.touched ? 40 : 0, width + this.size, height);
-		port.popClip();
-		//port.drawImage(this.switchForeground, x, y, width, height);
-	}
-	onFinished(port) {
-		this.touched = false;
-		this.capturing = false;
-		
-		if (this.offset == 0)
-			this.onOff = "on";
-		else
-			this.onOff = "off";
-			
-		this.onSwitchChanged(port, this.onOff);
-	}
-	onSwitchChanged(port, onOff) {
-		debugger
-	}
-	onTimeChanged(port) {
-		let fraction = port.fraction;
-		this.offset = this.anchor + Math.round(this.delta * fraction);
-		port.invalidate();
-	}
-	onTouchBegan(port, id, x, y, ticks) {
-		if (port.running) {
-			port.stop();
-			port.time = port.duration;
-		}
-		this.anchor = x;
-		this.delta = this.offset + x;
-		this.touched = true;
-		port.invalidate();
-	}
-	onTouchCancelled(port, id, x, y, ticks) {
-		this.touched = false;
-	}
-	onTouchEnded(port, id, x, y, ticks) {
-		let offset = this.offset;
-		let size = this.size;
-		let delta = size >> 1;
-		this.anchor = offset;
-		if (this.capturing) {
-			if (offset < delta)
-				delta = 0 - offset;
-			else 
-				delta = size - offset;
-		}
-		else {
-			if (offset == 0)
-				delta = size;
-			else
-				delta = 0 - size;
-		}
-		if (delta) {
-			this.delta = delta;
-			port.duration = 100 * Math.abs(delta) / size;
-			port.time = 0;
-			port.start();
-		}
-		else
-			this.onFinished(port);
-		port.invalidate();
-	}
-	onTouchMoved(port, id, x, y, ticks) {
-		if (this.capturing)
-			this.offset = this.constrain(port, this.delta - x);
-		else if (Math.abs(x - this.anchor) >= this.touchMovedOffset) {
-			port.captureTouch(id, x, y, ticks);
-			this.capturing = true;
-			this.offset = this.constrain(port, this.delta - x);
-		}
-		port.invalidate();
-	}
-}
-
-/* LAYOUTS */
-
-var HomePorts = Port.template($=> ({
-	left:0, right:0, top:0, bottom:0, style:labelStyle,
-	skin:backgroundSkin,
-	Behavior: class extends Behavior {
-		onCreate(port, data) {
-			this.data = data;
-		}
-		onDraw(port, x, y, width, height) {
-			port.fillColor( "white", x, y, width, height );
-			// right down
-			// port.fillColor(lightGray, -80, -140, width, height);
-					
-			// port.fillColor( lightGray, x, y, width, height );
-			/*
-			port.drawLabel( "off" == $.DAT.onOff ? "Night Light: Off" : "Night Light: On" , -80, -140, width, height );
-			port.drawLabel( "off" == $.DAT.fd_onOff ? "Front Door: Off" : "Front Door: On" , -80, -90, width, height );
-			port.drawLabel( "off" == $.DAT.ov_onOff ? "Oven: Off" : "Oven: On" , -80, -40, width, height );
-			*/
-					
-			port.drawLabel("Night Light", -80, -140, width, height );
-			port.drawLabel("Front Door", -80, -90, width, height );
-			port.drawLabel("Oven", -80, -40, width, height );
-					
-		}
-		onSwitchChanged(port, onOff) {
-			port.invalidate();
-		}
-	}
+var iconTemplate = Column.template($ => ({ 
+	top: 0, left: 0, right: 0,
+	contents: [
+		new Picture({			url: $.activate? $.icon_img.activated: $.icon_img.idel,			top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),
+		new Label({
+			string: $.hint,
+			style: hintText,
+		}),
+	],
+	//bahavior
 }));
 
-// device list item: for convenience of device screen implementation
-var DeviceListItem = Container.template($ => ( {
-	top:100, right:30, height:0, skin:deviceSkin,
+export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, right: 0,    contents: [
+    	// title
+    	new HomeTopBar(),
+    	// device list
+    	new DeviceItemTemplate({ DeviceName: "Night Light", DeviceGroup: "David's Room", id: "night_light", type: "binary" }),
+    	new DeviceItemTemplate({ DeviceName: "Front Door", DeviceGroup: "Home", id: "front_door", type: "binary" }),
+    	new DeviceItemTemplate({ DeviceName: "Oven", DeviceGroup: "Kittchen", id: "oven", type: "binary" }),    ]}));
+
+var HomeTopBar = Container.template($ => ({
+	// top-bar
+	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding,
+	height: home_list_topbar_height,
 	contents: [
-		Port($, {
-			width:toggleSwitchForegroundTexture.width, height:toggleSwitchForegroundTexture.height, active:true,
-			// skin:deviceSkin,
-			Behavior: class extends ToggleSwitchBehavior {
-				onSwitchChanged(port, onOff) {
-					if (deviceURL != "") new Message(deviceURL + "getCount").invoke(Message.JSON).then(json => { this.data.onOff = json.count });
-					this.data.onOff = onOff;
-					// port.container.previous.invalidate();
-				}
-			}
-		})
+		new Label({
+			string: "My Home",
+			style: largeText,
+		}),
 	]
 }));
 
-export let HomeScreen = Container.template($ => ({
-	left:0, right:0, top:0, bottom:0,
+export var DeviceItemTemplate = Line.template($ => ({
+	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
+	height: home_list_item_height,
+	skin: lightGraySkin,
 	contents: [
-		new HomePorts({ }),
-		/*
-		Port($, {
-			left:0, right:0, top:0, bottom:0, style:labelStyle,
-			Behavior: class extends Behavior {
-				onCreate(port, data) {
-					this.data = data;
-				}
-				onDraw(port, x, y, width, height) {
-					port.fillColor( "white", x, y, width, height );
-					port.drawLabel( "off" == this.data.onOff ? "Night Light: Off" : "Night Light: On" , -80, -140, width, height );
-					port.drawLabel( "off" == this.data.fd_onOff ? "Front Door: Off" : "Front Door: On" , -80, -90, width, height );
-					port.drawLabel( "off" == this.data.ov_onOff ? "Oven: Off" : "Oven: On" , -80, -40, width, height );
-				}
-				onSwitchChanged(port, onOff) {
-					port.invalidate();
-				}
-			}
+		new Column ({
+			left: home_list_item_padding,
+			width: home_list_tag_width,
+			contents: [
+				new Label({
+					string: $.DeviceName,
+					style: midText,
+				}),
+				new Label({
+					string: $.DeviceGroup,
+					style: smallText,
+				}),
+			]
 		}),
-		*/
 		
-		// new test({$}),
-		new DeviceListItem({}),
-		/*
-		Container($, {
-			top:100, right:30, height:0, skin:backgroundSkin,
+		new Column ({
+			top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 			contents: [
-				Port($, {
-					width:toggleSwitchForegroundTexture.width, height:toggleSwitchForegroundTexture.height, active:true,
-					Behavior: class extends ToggleSwitchBehavior {
-						onSwitchChanged(port, onOff) {
-							if (deviceURL != "") new Message(deviceURL + "getCount").invoke(Message.JSON).then(json => { this.data.onOff = json.count });
-							this.data.onOff = onOff;
-							port.container.previous.invalidate();
-						}
-					}
-				})
-			]
+				new Picture({					url: "./assets/button_off.png",					// top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,				}),
+			],
 		}),
-		*/
-		Container($, {
-			top:150, right:30, height:0, skin:backgroundSkin,
-			contents: [
-				Port($, {
-					width:toggleSwitchForegroundTexture.width, height:toggleSwitchForegroundTexture.height, active:true,
-					Behavior: class extends ToggleSwitchBehavior {
-						onSwitchChanged(port, fd_onOff) {
-							if (deviceURL != "") new Message(deviceURL + "getFrontDoor").invoke(Message.JSON).then(json => { this.data.fd_onOff = json.fd_count });
-							this.data.fd_onOff = fd_onOff;
-							// port.container.previous.invalidate();
-						}
-					}
-				})
-			]
-		}),
-		Container($, {
-			top:200, right:30, height:0, skin:backgroundSkin,
-			contents: [
-				Port($, {
-					width:toggleSwitchForegroundTexture.width, height:toggleSwitchForegroundTexture.height, active:true,
-					Behavior: class extends ToggleSwitchBehavior {
-						onSwitchChanged(port, ov_onOff) {
-							if (deviceURL != "") new Message(deviceURL + "getOven").invoke(Message.JSON).then(json => { this.data.ov_onOff = json.ov_count });
-							this.data.ov_onOff = ov_onOff;
-							// port.container.previous.invalidate();
-						}
-					}
-				})
-			]
-		})
-	]
+	],
+	type: $.type,
+	name: $.id,
 }));
-
-Handler.bind("/discover", Behavior({    onInvoke: function(handler, message){        deviceURL = JSON.parse(message.requestText).url;    }}));Handler.bind("/forget", Behavior({    onInvoke: function(handler, message){        deviceURL = "";    }}));
-
-var ApplicationBehavior = Behavior.template({    onDisplayed: function(application) {        application.discover("portdevice.project.kinoma.marvell.com");        // application.add(new HomeScreen({ onOff:"on" }));    },    onQuit: function(application) {        application.forget("portdevice.project.kinoma.marvell.com");    },});
-
-/* APPLICATION */
-
-application.behavior = new ApplicationBehavior();
 
