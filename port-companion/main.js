@@ -1,3 +1,5 @@
+/* main page: home */
+
 
 import {
 	img_SwitchBGD,
@@ -115,6 +117,22 @@ class ToggleSwitchBehavior extends Behavior {
 
 /* LAYOUTS */
 
+let test = Container.template($ => ( {
+			top:100, right:30, height:0, skin:footerSkin,
+			contents: [
+				Port($, {
+					width:toggleSwitchForegroundTexture.width, height:toggleSwitchForegroundTexture.height, active:true,
+					Behavior: class extends ToggleSwitchBehavior {
+						onSwitchChanged(port, onOff) {
+							if (deviceURL != "") new Message(deviceURL + "getCount").invoke(Message.JSON).then(json => { this.data.onOff = json.count });
+							this.data.onOff = onOff;
+							// port.container.previous.invalidate();
+						}
+					}
+				})
+			]
+		}));
+
 let MainScreen = Container.template($ => ({
 	left:0, right:0, top:0, bottom:0,
 	contents: [
@@ -135,6 +153,9 @@ let MainScreen = Container.template($ => ({
 				}
 			}
 		}),
+		// new test({$}),
+		new test({}),
+		/*
 		Container($, {
 			top:100, right:30, height:0, skin:footerSkin,
 			contents: [
@@ -150,6 +171,7 @@ let MainScreen = Container.template($ => ({
 				})
 			]
 		}),
+		*/
 		Container($, {
 			top:150, right:30, height:0, skin:footerSkin,
 			contents: [
@@ -159,7 +181,7 @@ let MainScreen = Container.template($ => ({
 						onSwitchChanged(port, fd_onOff) {
 							if (deviceURL != "") new Message(deviceURL + "getFrontDoor").invoke(Message.JSON).then(json => { this.data.fd_onOff = json.fd_count });
 							this.data.fd_onOff = fd_onOff;
-							port.container.previous.invalidate();
+							// port.container.previous.invalidate();
 						}
 					}
 				})
@@ -174,7 +196,7 @@ let MainScreen = Container.template($ => ({
 						onSwitchChanged(port, ov_onOff) {
 							if (deviceURL != "") new Message(deviceURL + "getOven").invoke(Message.JSON).then(json => { this.data.ov_onOff = json.ov_count });
 							this.data.ov_onOff = ov_onOff;
-							port.container.previous.invalidate(); // have bug when calling it, please fix it @Mo
+							// port.container.previous.invalidate();
 						}
 					}
 				})
