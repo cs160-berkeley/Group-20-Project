@@ -28,15 +28,16 @@ import {
 	home_list_topbar_img_size,
 } from "global_settings"
 
-
-let titleStyle = new Style({ font: "20px", color: "white" });
-export var HomeScreen = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
+export var HomeContent;
+export var HomeScreen;
+// let titleStyle = new Style({ font: "20px", color: "white" });
+export var HomeScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
     skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
         // top bar
         /*        new Container({             top: 0, height: BAR_HEIGHT_TOP, left: 0, right: 0, skin: darkGraySkin,            style: titleStyle,             contents: [                new Label({ string: "HoM" }),            ]        }),
         */
         // bottom
-        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: lightGraySkin,             style: titleStyle,             contents: [                // new Label({ string: "Bottom Bar" }),
+        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: lightGraySkin,             // style: titleStyle,             contents: [                // new Label({ string: "Bottom Bar" }),
                 new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: true}),
                 new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),
                 new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: false}),
@@ -58,12 +59,6 @@ var iconTemplate = Column.template($ => ({
 			style: hintText,
 		}),
 	],
-	//bahavior
-	behavior: Behavior({
-		onTouchEnded: function(container) {
-			application.remove(TMP_SCREEN);
-		}
-	})
 }));
 
 let iconButtonTemplate = Container.template($ => ({
@@ -81,6 +76,9 @@ let iconButtonTemplate = Container.template($ => ({
 	})
 }));
 
+function test_data(container) {
+	var test = new DeviceItemTemplate({ DeviceName: "Hello", DeviceGroup: "World", id: "hello_world", type: "binary" });	container.add(test);
+}
 
 export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, right: 0,    contents: [
     	// title
@@ -88,7 +86,7 @@ export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, r
     	// device list
     	new DeviceItemTemplate({ DeviceName: "Night Light", DeviceGroup: "David's Room", id: "night_light", type: "binary" }),
     	new DeviceItemTemplate({ DeviceName: "Front Door", DeviceGroup: "Home", id: "front_door", type: "binary" }),
-    	new DeviceItemTemplate({ DeviceName: "Oven", DeviceGroup: "Kittchen", id: "oven", type: "binary" }),    ]}));
+    	new DeviceItemTemplate({ DeviceName: "Oven", DeviceGroup: "Kittchen", id: "oven", type: "binary" }),    ],}));
 
 var HomeTopBar = Container.template($ => ({
 	// top-bar
