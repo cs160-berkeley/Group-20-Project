@@ -128,7 +128,7 @@ let MainScreen = Container.template($ => ({
 					port.fillColor( "white", x, y, width, height );
 					port.drawLabel( "off" == this.data.onOff ? "Night Light: Off" : "Night Light: On" , -80, -140, width, height );
 					port.drawLabel( "off" == this.data.fd_onOff ? "Front Door: Off" : "Front Door: On" , -80, -90, width, height );
-					port.drawLabel( "off" == this.data.onOff ? "Oven: Off" : "Oven: On" , -80, -40, width, height );
+					port.drawLabel( "off" == this.data.ov_onOff ? "Oven: Off" : "Oven: On" , -80, -40, width, height );
 				}
 				onSwitchChanged(port, onOff) {
 					port.invalidate();
