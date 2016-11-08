@@ -34,12 +34,33 @@ import {
 	home_list_topbar_img_size,
 } from "global_settings"
 
+/*
 import {
 	DeviceScreenTemplate,
 	DeviceContentTemplate,
 	DeviceScreen,
 	DeviceContent
 } from "device";
+*/
+	/*
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			application.remove(TMP_SCREEN);
+			DeviceContent = DeviceContentTemplate({});
+        	DeviceScreen = new DeviceScreenTemplate({ DeviceContent });
+        	TMP_SCREEN = DeviceScreen;
+        	application.add(TMP_SCREEN);
+			// test_data(); // it works!!!
+		}
+	})
+	*/
+
+import {
+	SearchScreenTemplate,
+	SearchContentTemplate,
+	SearchScreen,
+	SearchContent
+} from "search_device";
 
 export var HomeContent;
 export var HomeScreen;
@@ -128,9 +149,9 @@ let AddDeviceTemplate = Container.template($ => ({
 	behavior: Behavior({
 		onTouchEnded: function(container) {
 			application.remove(TMP_SCREEN);
-			DeviceContent = DeviceContentTemplate({});
-        	DeviceScreen = new DeviceScreenTemplate({ DeviceContent });
-        	TMP_SCREEN = DeviceScreen;
+			SearchContent = SearchContentTemplate({});
+        	SearchScreen = new SearchScreenTemplate({ SearchContent });
+        	TMP_SCREEN = SearchScreen;
         	application.add(TMP_SCREEN);
 			// test_data(); // it works!!!
 		}
