@@ -45,7 +45,7 @@ let deviceItemTemplate = Line.template($ => ({
 }));
 
 function getLabel(label, type) {
-	return label
+	return label;
 }
 
 function getValue(value, type) {
@@ -55,10 +55,21 @@ function getValue(value, type) {
 	else if (type == "lock") {
 		return value? "unlocked": "locked";
 	}
-	return value
+	return value;
+}
+
+// empty a container
+function empty(container) {
+	var content = container;
+	var len = container.length;
+	for (var i = 0; i < len; i++) {
+		container.remove(container[0]);
+	} 
 }
 
 function updateData(container) {
+	// trace(container.length + "\n");
+	empty(container);
 	DATA = load_data();
 	LEN = DATA.init.length;
 	for (var i = 0; i < LEN; i++) {
@@ -77,9 +88,27 @@ function updateData(container) {
 		container.add(item);
 	}
 	save_data(DATA);
+	// trace(container.length + "\n");
+	// empty(container); // works
+	return 0;
 }
 
+Handler.bind("/update", Behavior({    onInvoke: function(handler, message){        var state = updateData(mainContent);
+        var response;
+        if (state == 0) {
+        	response = JSON.stringify( { success: "true" } );
+        }
+        else {
+        	response = JSON.stringify( { success: "false" } );
+        }
+        message.responseText = response;
+        message.status = 200;	    }}));
+
+class ApplicationBehavior extends Behavior {    onLaunch(application) {
+    	trace("device simulator sharing\n");        application.shared = true;    }    onQuit(application) {
+    	trace("device simulator stopped sharing\n");        application.shared = false;    }}
 
 let mainContent = new contentTemplate();
 updateData(mainContent);
 let mainScreen = new MainContainer({ mainContent });application.add(mainScreen);
+application.behavior = new ApplicationBehavior();
