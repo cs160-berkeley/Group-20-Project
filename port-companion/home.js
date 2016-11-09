@@ -37,26 +37,13 @@ import {
 	DATA,
 } from "global_settings"
 
-/*
+
 import {
 	DeviceScreenTemplate,
 	DeviceContentTemplate,
 	DeviceScreen,
 	DeviceContent
 } from "device";
-*/
-	/*
-	behavior: Behavior({
-		onTouchEnded: function(container) {
-			application.remove(TMP_SCREEN);
-			DeviceContent = DeviceContentTemplate({});
-        	DeviceScreen = new DeviceScreenTemplate({ DeviceContent });
-        	TMP_SCREEN = DeviceScreen;
-        	application.add(TMP_SCREEN);
-			// test_data(); // it works!!!
-		}
-	})
-	*/
 
 import {
 	SearchScreenTemplate,
@@ -212,6 +199,8 @@ export var DeviceItemTemplate = Line.template($ => ({
 			left: home_list_item_padding,
 			width: home_list_tag_width,
 			contents: [
+				new DeviceEntryTemplate({DeviceName: $.DeviceName, DeviceGroup: $.DeviceGroup, idx: $.idx}),
+				/*
 				new Label({
 					string: $.DeviceName,
 					style: midText,
@@ -220,6 +209,7 @@ export var DeviceItemTemplate = Line.template($ => ({
 					string: $.DeviceGroup,
 					style: smallText,
 				}),
+				*/
 			]
 		}),
 		
@@ -232,6 +222,35 @@ export var DeviceItemTemplate = Line.template($ => ({
 	],
 	type: $.type,
 	name: $.id,
+}));
+
+let DeviceEntryTemplate = Container.template($ => ({
+	active: true,
+	idx: $.idx,
+	// on: false,
+	contents: [
+		new Column ( {
+			contents: [
+				new Label({
+					string: $.DeviceName,
+					style: midText,
+				}),
+				new Label({
+					string: $.DeviceGroup,
+					style: smallText,
+				}),
+			]
+		}),
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			application.remove(TMP_SCREEN);
+			DeviceContent = DeviceContentTemplate({idx: $.idx});
+        	DeviceScreen = new DeviceScreenTemplate({ DeviceContent });
+        	TMP_SCREEN = DeviceScreen;
+        	application.add(TMP_SCREEN);
+		}
+	})
 }));
 
 let OnOffTemplate = Container.template($ => ({
