@@ -1,0 +1,41 @@
+{"init":[
+    { 
+    	"DeviceName":"Lamp", 
+    	"DeviceGroup":"David's Room", 
+    	"id": "lamp", 
+    	"type": "binary", 
+    	"value": 0, 
+    	"img": "./assets/img_device_00.png",
+    	"timing": 0,
+    	"time_start": 0,
+    	"time_end": 0,
+    	"alert": 0,
+    	"alert_time": 0
+    },
+    { 
+    	"DeviceName":"Back Door", 
+    	"DeviceGroup":"Home", 
+    	"id": "back_door", 
+    	"type": "lock", 
+    	"value": 0, 
+    	"img": "./assets/img_device_00.png",
+    	"timing": 0,
+    	"time_start": 0,
+    	"time_end": 0,
+    	"alert": 0,
+    	"alert_time": 0
+    },
+    { 	
+    	"DeviceName":"Television", 
+    	"DeviceGroup":"Living Room", 
+    	"id": "tv", 
+    	"type": "binary", 
+    	"value": 0, 
+    	"img": "./assets/img_device_00.png",
+    	"timing": 0,
+    	"time_start": 0,
+    	"time_end": 0,
+    	"alert": 0,
+    	"alert_time": 0
+    }
+]}

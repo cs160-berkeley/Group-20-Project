@@ -30,12 +30,6 @@ export var DeviceScreen;
 export var DeviceContent;export var DeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
     skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.DeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
 
-function debug(idx) {
-	trace("\n" + DATA.init[idx].img + "\n");
-	return "./assets/img_device_00.png";
-	//debug($.idx),//"./assets/img_device_00.png", //
-}
-
 export var DeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
     	new DeviceTopBar({idx: $.idx}),
         new Line ( {
@@ -126,29 +120,6 @@ var SettingOptions = Line.template($ => ({
 	})
 	
 }));
-/*
-var SettingOptions = Line.template($ => ({
-	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding * 2,
-	height: device_list_setting_height,
-	contents: [
-		new Label({
-			string: $.label,
-			style: darkGrayMidText_thin,
-			width: 100,
-		}),
-		new Blank({length: 100}),
-		new Label({
-			string: "None",
-			style: darkGrayMidText_thin,
-			width: 60,
-		}),
-		new Label({
-			string: ">",
-			style: darkGrayMidText_thin,
-		}),
-	]
-}));
-*/
 
 var DeviceTopBar = Container.template($ => ({
 	// top-bar
