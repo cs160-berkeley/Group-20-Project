@@ -29,5 +29,6 @@
 
 
 > Updates:
+
 1. Jessica redesigned the interface ([Mockup](https://www.figma.com/file/M1zJ6hF1zPVKDqP8ib8u8Xiu/HoM---v2))
 2. Mo's and Patricia's part is done ([Half-Way Implemented](https://youtu.be/150_U_h_4Tg))
