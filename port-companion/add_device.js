@@ -10,7 +10,8 @@ import {
 	device_list_item_padding,
 	device_list_topbar_height,
 	// lightGraySmallText,
-	darkGraySmallText
+	darkGraySmallText,
+	darkGrayMidText_thin
 } from "global_settings";
 
 import {
@@ -20,6 +21,12 @@ import {
 	HomeScreen,
 	LoadHomeContent,
 } from "home";
+
+
+import {
+	Divide,
+	// SettingOptions,
+} from "device";
 
 import {
 	SearchScreenTemplate,
@@ -35,7 +42,32 @@ export var AddDeviceScreen;
 export var AddDeviceContent;export var AddDeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.AddDeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
 
 export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
-    	new AddDeviceTopBar(),    ]}));
+    	new AddDeviceTopBar(),
+    	new Line( {
+    		contents: [
+    			new Column( {
+    				width: 200,
+    				contents: [
+    					new Label({							string: newDeviceData[SELECTED].DeviceName,							style: darkGrayMidText_thin,						}),
+						new Label({							string: newDeviceData[SELECTED].DeviceGroup,							style: darkGrayMidText_thin,						}),
+    				]
+    			}),
+    			new Column ({
+    				width: 100,
+    				contents: [
+    					new Picture({							url: newDeviceData[SELECTED].img,						}),
+    				]
+    			})
+    		]
+    	}),
+    	/*
+    	new SettingOptions({label: "TYPE", idx: $.idx}),
+		new Divide({height: 1, length: 200}),
+		new SettingOptions({label: "TIMING", idx: $.idx}),
+		new Divide({height: 1, length: 200}),
+		new SettingOptions({label: "ALERT", idx: $.idx}),
+		new Divide({height: 1, length: 200}),
+		*/    ]}));
 
 var AddDeviceTopBar = Container.template($ => ({	// top-bar	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,	contents: [
 		new Column( { contents: [
@@ -43,7 +75,7 @@ var AddDeviceTopBar = Container.template($ => ({	// top-bar	top: device_list_i
 				new BackTemplate(),
 				new Blank(),
 				new SaveTemplate()
-			] }),			new Label({				string: "DEVICE XYZ",				style: largeText,			}),
+			] }),			new Label({				string: newDeviceData[SELECTED].DeviceName,				style: largeText,			}),
 		]}),	]}));
 
 let BackTemplate = Container.template($ => ({

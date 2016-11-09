@@ -72,7 +72,7 @@ function getStr(idx, option) {
 	}
 	return "NULL";
 }
-var Divide = Line.template($ => ({
+export var Divide = Line.template($ => ({
 	top: 0, left: device_list_item_padding, right: device_list_item_padding, bottom: 0,
 	height: $.height, width: $.length, skin: lightGraySkin,
 }));
@@ -82,7 +82,7 @@ import {
 	TimingContentTemplate
 } from "timing";
 
-var SettingOptions = Line.template($ => ({
+export var SettingOptions = Line.template($ => ({
 	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding * 2,
 	height: device_list_setting_height,
 	active: true,
