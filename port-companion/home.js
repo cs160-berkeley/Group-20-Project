@@ -81,7 +81,8 @@ import {
 	SearchContentTemplate,
 	SearchScreen,
 	SearchContent,
-	loadNewDevicesJSON
+	loadNewDevicesJSON,
+	SELECTED
 } from "search_device";
 
 // the Content and Screen (screen = content with scroll bar) variables
@@ -180,6 +181,7 @@ let AddDeviceTemplate = Container.template($ => ({
 		onTouchEnded: function(container) {
 			save_data(DATA);
 			application.remove(TMP_SCREEN);
+			SELECTED = -1;
 			SearchContent = SearchContentTemplate({});
 			loadNewDevicesJSON(SearchContent);
         	SearchScreen = new SearchScreenTemplate({ SearchContent });
