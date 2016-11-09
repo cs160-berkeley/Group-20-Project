@@ -1,5 +1,28 @@
 /* 
- * this is the part where home screen is implemented 
+ * this is the part where home screen is implemented; includes:
+ * 	Variables:
+ *		HomeContent	- an instance of HomeContentTemplate, home page's content
+ *		HomeScreen	- an instance of HomeScreenTemplate, the whole home page's screen
+ *	Functions:
+ *		LoadHomeContent - take in HomeContent as its parameter, add the device data to the HomeContent
+ *		getStatusURL - 	an assistant function of template OnOffTemplate, 
+ *						used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status
+ *						device type is taken into consideration
+ * 	Templates:
+ *		HomeScreenTemplate
+ * 			HomeContentTemplate - serves as a parameter
+ *				HomeTopBar - the title of home screen, scrolling with content, located on the top
+ *					AddDeviceTemplate - 	the "+" button on the top of the screen, to add devices
+ *											lead you to "search_device" page
+ * 				DeviceItemTemplate - for each of the listed items (that is, devices) in the data file
+ *					DeviceEntryTemplate - 	appearance is the label telling users the device's name / location 
+ *											functionality is to click it and enter the "device" page
+ *					OnOffTemplate 	- 	appearance is the on / off, or lock / unlock button on the right
+ *										functionality is to update DATA and to change the appearance of itself by calling getStatusURL
+ *			iconTemplate - serves as layout elements stick to the bottom of the screen
+ *				iconButtonTemplate - 	the image used as icon is loaded here
+ *										implemented this way so that we might be able to adapt the icons more easily
+ * 				
  */
 
 

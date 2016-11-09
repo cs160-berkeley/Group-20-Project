@@ -1,9 +1,9 @@
 /* 
  * this part is the code for welcome page 
  * include:
- * 	WelcomePageTemplate
- *		enterButtonTemplate
- *	ApplicationBehavior
+ * 	WelcomePageTemplate - the welcome screen's template
+ *		enterButtonTemplate - the button, clicking it would lead to "home" screen
+ *	ApplicationBehavior - the application's behavior of connecting to devices
  *
  */
 
