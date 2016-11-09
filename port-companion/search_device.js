@@ -4,11 +4,23 @@
  *		SearchContent	- an instance of SearchContentTemplate, search page's content
  *		SearchScreen	- an instance of SearchScreenTemplate, the whole search page's screen
  *	Functions:
- *		
+ *		loadNewDevicesJSON - add local new device data automatically (instead of hard-coded, loading from local files)
+ *		updateSkins - 	update the skin colors of the new device data,
+ *						so as to show to the users which one of them is selected, or none of them is selected
+ *						click once to select, click twice to cancel selection
+ *						if you don't select any device, you won't be able to move on to the next step (add_device)
+ *						called by passing parameter SearchContent, and calling Template NewDeviceTemplate
  * 	Templates:
  *		SearchScreenTemplate - the template of the whole search screen
  * 			SearchContentTemplate - serves as a parameter of the whole search screen's template, contains the main contents
  *				SearchTopBar - the title part of the timing screen, contains brief discription & back button
+ *					CancelTemplate - a part of the "top bar", the cancel button on top left of the screen
+ *					Blank - just for indentation
+ *					AddTemplate - 	a part of the "top bar", the add button on top right
+ *									by clicking it, jump directly to "add_device" page,
+ *										but nothing would happen if none of the devices are selected
+ *				NewDeviceTemplate -	used to show new devices information, and make it possible to choose one to add
+ *									by clicking on one of the instances to select, will be able to go to page "add_device"
  *					
  *				
  * 				
