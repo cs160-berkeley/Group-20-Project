@@ -49,7 +49,8 @@ import {
 	SearchScreenTemplate,
 	SearchContentTemplate,
 	SearchScreen,
-	SearchContent
+	SearchContent,
+	loadNewDevicesJSON
 } from "search_device";
 
 export var HomeContent;
@@ -163,6 +164,7 @@ let AddDeviceTemplate = Container.template($ => ({
 			save_data(DATA);
 			application.remove(TMP_SCREEN);
 			SearchContent = SearchContentTemplate({});
+			loadNewDevicesJSON(SearchContent);
         	SearchScreen = new SearchScreenTemplate({ SearchContent });
         	TMP_SCREEN = SearchScreen;
         	application.add(TMP_SCREEN);

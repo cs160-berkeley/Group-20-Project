@@ -15,7 +15,7 @@ export var device_list_topbar_width = 250;
 export var device_list_setting_height = 20;
 export var device_image_size = 100;
 export var bottom_bar_padding = 3;
-export var bottom_bar_img_size = 20;//36;
+export var bottom_bar_img_size = 30;//20;//36;
 export var BAR_HEIGHT_TOP = 0; // 25;
 export var BAR_HEIGHT_BOTTOM = 45;
 // directories
@@ -108,3 +108,5 @@ export function load_data() {
 
 // data
 export var DATA;
+var file_new = "devices.json";
+export var newDevicesFile = mergeURI(application.url, file_new);

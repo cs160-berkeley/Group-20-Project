@@ -3,7 +3,8 @@ import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,   
 	DATA,	TMP_SCREEN,	midText,	whiteSkin,
 	lightGraySkin,
 	lightGraySmallText,
-	darkGraySmallText,	device_list_item_padding,	device_list_topbar_height} from "global_settings";
+	darkGraySmallText,	device_list_item_padding,	device_list_topbar_height,
+	newDevicesFile} from "global_settings";
 
 import {
 	HomeContentTemplate,
@@ -17,7 +18,12 @@ import {
 	AddDeviceScreen,
 	AddDeviceContent,	AddDeviceScreenTemplate,
 	AddDeviceContentTemplate
-} from "add_device";export var SearchScreen;export var SearchContent;export var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: lightGraySkin, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));export var SearchContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [    	new SearchTopBar(),    ]}));var SearchTopBar = Container.template($ => ({	// top-bar	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,	contents: [
+} from "add_device";export var SearchScreen;export var SearchContent;export var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: lightGraySkin, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+
+export function loadNewDevicesJSON(container) {
+	var uri = newDevicesFile;
+	var json_content = load_json(uri);
+}export var SearchContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [    	new SearchTopBar(),    ]}));var SearchTopBar = Container.template($ => ({	// top-bar	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,	contents: [
 		new Column( { contents: [
 			new Line( { contents: [
 				new CancelTemplate(),
