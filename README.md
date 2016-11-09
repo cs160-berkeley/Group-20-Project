@@ -25,9 +25,9 @@ We have decided on the following work structure for this assignment - we're goin
 
 Phase 1: Interface Redesign - Jessica (due Saturday night) - she's going to try to consolidate all our screens so there are less transitions and modify some changes like getting rid of the group home page
 
-Phase 2: Implement device list homescreen of app and code task 1 (turn a light on/off) - Mohan (due Sunday night)
+Phase 2: Backend & Code task 1 (turn a light on/off) - Mohan (due Sunday night)
 
-Phase 3: Adjusting layouts & Code task 2 (add a device) - Patricia (due Monday night)
+Phase 3: Frontend layouts & Code task 2 (add a device) - Patricia (due Monday night)
 
 Phase 4: Code task 3 (turn an oven on between 2 - 4 pm ) - Jacque (due Tuesday night)
 

@@ -11,8 +11,11 @@ export var home_list_topbar_height = 60;
 export var home_list_topbar_img_size = 20;
 export var device_list_item_padding = 10;
 export var device_list_topbar_height = 60;
+export var device_list_topbar_width = 250;
+export var device_list_setting_height = 20;
+export var device_image_size = 100;
 export var bottom_bar_padding = 3;
-export var bottom_bar_img_size = 30;//36;
+export var bottom_bar_img_size = 20;//36;
 export var BAR_HEIGHT_TOP = 0; // 25;
 export var BAR_HEIGHT_BOTTOM = 45;
 // directories
@@ -68,6 +71,8 @@ export var smallText = new Style({ font: "15px", color: "black" });
 export var largeText = new Style({ font: "bold 30px", color: darkGray });
 export var lightGraySmallText = new Style({ font: "bold 15px", color: lightGray2 });
 export var darkGraySmallText = new Style({ font: "bold 15px", color: darkGray2 });
+export var darkGrayMidText = new Style({ font: "bold 20px", color: darkGray2 });
+export var darkGrayMidText_thin = new Style({ font: "18px", color: darkGray2 });
 
 // file io functions
 export function load_json(uri) {
