@@ -59,7 +59,8 @@ export var darkGray = "#202020";
 export var whiteSkin = new Skin({ fill: "white" });
 export var lightGraySkin = new Skin({ fill: lightGray });
 export var darkGraySkin = new Skin({ fill: darkGray });
-// text stylesexport var titleText = new Style({ font: "bold 18px", color: darkGray });
+// text styles
+export var titleText = new Style({ font: "bold 18px", color: darkGray });
 export var buttonText = new Style({ font: "bold 18px", color: "#DDDDDD" });
 export var hintText = new Style({ font: "10px", color: darkGray });
 export var midText = new Style({ font: "bold 20px", color: darkGray });
@@ -69,12 +70,14 @@ export var lightGraySmallText = new Style({ font: "bold 15px", color: lightGray2
 
 // file io functions
 export function load_json(uri) {
-    //var uri = mergeURI(dir, filepath);	var json = Files.readJSON(uri);
+    //var uri = mergeURI(dir, filepath);
+	var json = Files.readJSON(uri);
 	return json;
 }
 export function save_data(json_file) {
 	var dir = Files.documentsDirectory; // not working with application.url
-	var uri = mergeURI(dir, file_dat);	Files.writeJSON(uri, json_file);
+	var uri = mergeURI(dir, file_dat);
+	Files.writeJSON(uri, json_file);
 }
 
 var file_dat = "HoM.json";
@@ -92,7 +95,8 @@ export function load_data() {
     else {
     	trace("loaded data from " + uri_init + "\n");
     	json = load_json(uri_init);
-    }	return json;
+    }
+	return json;
 }
 
 // data
