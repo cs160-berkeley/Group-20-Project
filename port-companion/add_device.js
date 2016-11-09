@@ -91,6 +91,7 @@ let BackTemplate = Container.template($ => ({
 		onTouchEnded: function(container) {
 			//save_data(DATA);
 			//synch_data();
+			SELECTED = -1; // back to unselected stage
 			application.remove(TMP_SCREEN);
 			SearchContent = SearchContentTemplate({});
 			loadNewDevicesJSON(SearchContent);
