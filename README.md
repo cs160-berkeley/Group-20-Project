@@ -18,6 +18,11 @@
 * Task 3 (Hard): User can set a timing for a device to turn on/off.
 > A user can select a device on his/her homescreen list and then be brought to an “Edit” page. Once there, the user can click “Timing” in order to create a timing schedule for that particular device. The user can specify a start and end time for the device to turn on. In our implementation, the Kinoma hardware device will then display a message that shows that a timing schedule has been set for that device, along with which times have been specified. We can also use an analog input in order to simulate time changing that will then trigger a response at the specified times.
 
+## Stage 0: Design
+
+> Using [Figma](https://www.figma.com/file/gpUP6uhKAOyJVdrn4yxy7nEs/LOW-FIDELITY-MOCKUP) and [Invision](https://projects.invisionapp.com/share/MN93TI05V#/screens)
+> ![first_design](img/HoM_v1_design.png "The First Design")
+
 ## Stage 1: Interactive Prototype
 
 > The Division of the Work: We have decided on the following work structure for this assignment - we're going to be working in phases (sequentially) to make sure that we're all on the same page and won't run into any conflicting code issues:
@@ -31,4 +36,6 @@
 Updates:
 
 1. Jessica redesigned the interface ([Mockup](https://www.figma.com/file/M1zJ6hF1zPVKDqP8ib8u8Xiu/HoM---v2))
+> ![second_design](img/HoM_v2_design.png "The Second Design")
 2. Mo's and Patricia's part is done ([Half-Way Implemented](https://youtu.be/150_U_h_4Tg))
+> ![second_design_implement_halfway](img/HoM_v2_design_implement_phase_1_2.png "Half-Way Implementation of the Second Design")
