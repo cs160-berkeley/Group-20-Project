@@ -1,4 +1,7 @@
-/* this is the part where home screen is implemented */
+/* 
+ * this is the part where home screen is implemented 
+ */
+
 
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,
     HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';
@@ -95,7 +98,7 @@ var iconTemplate = Column.template($ => ({
 		}
 	})
 }));
-let iconButtonTemplate = Container.template($ => ({ // the icons
+let iconButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar
 	contents: [
 		new Picture({
 			name: $.name,			url: $.url,			top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),
@@ -105,8 +108,9 @@ let iconButtonTemplate = Container.template($ => ({ // the icons
 // home content template, used to implement HomeContent
 export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, right: 0,    contents: [
     	new HomeTopBar(),	// the top bar
-    	// device list would be added latter by the function LoadHomeContent    ],}));
-// functions used to load device data contents to home page especially.
+    	// device list would be added latter by the function LoadHomeContent
+    	// those devices are implemented by DeviceItemTemplate    ],}));
+// functions used to load device data contents to home page, from the device data stored in a file
 export function LoadHomeContent(homeContent) {
 	var len = DATA.init.length;
 	for (var i = 0; i < len; i++) {
@@ -134,14 +138,14 @@ var HomeTopBar = Container.template($ => ({
 		}),
 		new Line({			
 			contents: [
-				//
 				new AddDeviceTemplate({}),
 			]
 		}),
 	]
 }));
 
-// the plus button to add devices
+// the plus button's template, click it to add devices
+// by clicking it you'll jump to "search_device" screen
 let AddDeviceTemplate = Container.template($ => ({
 	active: true,
 	contents: [
@@ -160,6 +164,9 @@ let AddDeviceTemplate = Container.template($ => ({
 	})
 }));
 
+// the function getStatusURL is an assistant function of template OnOffTemplate (used in DeviceItemTemplate)
+// used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status
+// device type is taken into consideration
 function getStatusURL(type, value) {
 	var goal_image;
 	if (type == "binary") {
@@ -203,6 +210,8 @@ export var DeviceItemTemplate = Line.template($ => ({
 	name: $.id,
 }));
 
+// the Labels (group of labels), such as "Night Light", clicked to enter a page of the device, where you can change its settings
+// by clicking it you'll jump to "device" screen
 let DeviceEntryTemplate = Container.template($ => ({
 	active: true,
 	idx: $.idx,
@@ -232,6 +241,7 @@ let DeviceEntryTemplate = Container.template($ => ({
 	})
 }));
 
+// the switcher template, used for every devices, a part of DeviceItemTemplate
 let OnOffTemplate = Container.template($ => ({
 	active: true,
 	// on: false,

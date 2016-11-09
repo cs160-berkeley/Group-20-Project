@@ -1,4 +1,11 @@
-/* this part is the code for welcome page */
+/* 
+ * this part is the code for welcome page 
+ * include:
+ * 	WelcomePageTemplate
+ *		enterButtonTemplate
+ *	ApplicationBehavior
+ *
+ */
 
 import {
 	TMP_SCREEN,	img_logo,	whiteSkin,
@@ -54,6 +61,7 @@ let enterButtonTemplate = Button.template($ => ({    top: 0, width: 200, right:
 Handler.bind("/discover", Behavior({    onInvoke: function(handler, message){
     	trace("found the device.\n");        deviceURL = JSON.parse(message.requestText).url;    }}));Handler.bind("/forget", Behavior({    onInvoke: function(handler, message){
     	trace("forget the device.\n");        deviceURL = "";    }}));
+// will be used to communicate between device and the companion application
 var ApplicationBehavior = Behavior.template({    onDisplayed: function(application) {	        application.discover(DeviceSimulator);        // application.add(new HomeScreen({ onOff:"on" }));    },    onQuit: function(application) {        application.forget(DeviceSimulator);    },});
 
 // initialize the welcome screen
