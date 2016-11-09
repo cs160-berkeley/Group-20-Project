@@ -1,3 +1,12 @@
+/*
+ * the global settings that are:
+ *	1. not relying on any page
+ *	2. fixed parameters
+ *	3. might be frequently changed but don't want to re-coding
+ * are saved here
+ */
+
+
 // temporary screen
 export var TMP_SCREEN;
 // parameters
