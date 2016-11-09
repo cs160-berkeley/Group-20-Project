@@ -1,3 +1,20 @@
+/* 
+ * this is the part where search screen is implemented; includes:
+ * 	Variables:
+ *		SearchContent	- an instance of SearchContentTemplate, search page's content
+ *		SearchScreen	- an instance of SearchScreenTemplate, the whole search page's screen
+ *	Functions:
+ *		
+ * 	Templates:
+ *		SearchScreenTemplate - the template of the whole search screen
+ * 			SearchContentTemplate - serves as a parameter of the whole search screen's template, contains the main contents
+ *				SearchTopBar - the title part of the timing screen, contains brief discription & back button
+ *					
+ *				
+ * 				
+ */
+
+
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';import {
 	load_json,
 	save_data,
@@ -20,11 +37,11 @@ import {
 	AddDeviceScreen,
 	AddDeviceContent,	AddDeviceScreenTemplate,
 	AddDeviceContentTemplate
-} from "add_device";export var SearchScreen;export var SearchContent;export var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: lightGraySkin, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+} from "add_device";export var SearchScreen;export var SearchContent;
 
 var NUM_NEW = 0;
 export var SELECTED = -1;
-export var newDeviceData;
+export var newDeviceData;export var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: lightGraySkin, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
 
 export function loadNewDevicesJSON(container) {
 	var uri = newDevicesFile;

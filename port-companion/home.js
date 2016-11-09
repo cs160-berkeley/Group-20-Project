@@ -301,6 +301,7 @@ let OnOffTemplate = Container.template($ => ({
 				DATA.init[$.idx].value = 0;
 			}
 			// container.img.url = container.on? img_on: img_off;
+			save_data(DATA); // update data file
 		}
 	})
 }));

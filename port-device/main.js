@@ -1,52 +1,85 @@
-/*
- *     Copyright (C) 2010-2016 Marvell International Ltd.
- *     Copyright (C) 2002-2010 Kinoma, Inc.
- *
- *     Licensed under the Apache License, Version 2.0 (the "License");
- *     you may not use this file except in compliance with the License.
- *     You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *     Unless required by applicable law or agreed to in writing, software
- *     distributed under the License is distributed on an "AS IS" BASIS,
- *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *     See the License for the specific language governing permissions and
- *     limitations under the License.
- */
-var whiteSkin = new Skin( { fill: "white" } );var labelStyle = new Style( { font: "bold 40px", color: "black" } );var onOff = "off";
-var count = "on";
-var fd_count = "on";
-var ov_count = "on";var counterLabel = new Label({ left:0, right:0, height:40, string:"on", style: labelStyle });
-var frontdoorLabel = new Label({ left:0, right:0, height:40, string:"on", style: labelStyle });
-var ovenLabel = new Label({ left:0, right:0, height:40, string:"on", style: labelStyle });trace("PORT DEVICE");var mainColumn = new Column({    left: 0, right: 0, top: 0, bottom: 0, skin: whiteSkin,    contents: [        new Label({left:0, right:0, height:40, string:"Light:", style: labelStyle}),        counterLabel,
-        new Label({left:0, right:0, height:40, string:"Front Door:", style: labelStyle}),
-        frontdoorLabel,
-        new Label({left:0, right:0, height:40, string:"Oven:", style: labelStyle}),
-        ovenLabel,    ]});
+import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow} from 'lib/scroller';
 
-var MainContainer = Container.template($ => ({     left: 0, right: 0, top: 0, bottom: 0,     skin: new Skin({ fill: 'white',}),     contents: [        Label($, {             left: 0, right: 0,             style: new Style({ color: 'black', font: '46px' }),             behavior: Behavior({                onAnalogValueChanged: function(content, result) {                    content.string = result;                },            }),            string: '- - -',         }),    ]}));
+import {
+	save_data,
+	load_data,
+	whiteSkin,
+	lightGraySkin,
+	labelStyle,
+	padding,
+	height,
+	height_label,
+	width_label
+} from "global_settings";
 
-Handler.bind("/getCount", Behavior({    onInvoke: function(handler, message){
-    	if(count == "off") {
-    		count = "on";
-    	} else {
-    		count = "off";
-    	}
-    	trace("HELLO WORLD");        counterLabel.string = count;        message.responseText = JSON.stringify( { count: count } );        message.status = 200;    }}));
+let darkGraySkin = new Skin({ fill: "#202020" });let titleStyle = new Style({ font: "20px", color: "white" });
+var DATA;
+var LEN;let MainContainer = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
+    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 25, bottom: 0,            contents: [                $.mainContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),        new Container({             top: 0, height: 25, left: 0, right: 0, skin: darkGraySkin,             style: titleStyle,             contents: [                new Label({ string: "Device Simulator" }),            ]        })    ]}));
 
-Handler.bind("/getFrontDoor", Behavior({    onInvoke: function(handler, message){
-    	if(fd_count == "off") {
-    		fd_count = "on";
-    	} else {
-    		fd_count = "off";
-    	}
-    	trace("HELLO WORLD");        frontdoorLabel.string = fd_count;        message.responseText = JSON.stringify( { fd_count: fd_count } );        message.status = 200;    }}));
+let contentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
+    	// wait to be filled automatically at runtime    ]}));
 
-Handler.bind("/getOven", Behavior({    onInvoke: function(handler, message){
-    	if(ov_count == "off") {
-    		ov_count = "on";
-    	} else {
-    		ov_count = "off";
-    	}
-    	trace("HELLO WORLD");        ovenLabel.string = ov_count;        message.responseText = JSON.stringify( { ov_count: ov_count } );        message.status = 200;    }}));class ApplicationBehavior extends Behavior {    onLaunch(application) {        application.shared = true;        application.add(mainColumn);    }    onQuit(application) {        application.shared = false;    }}application.behavior = new ApplicationBehavior();
+let deviceItemTemplate = Line.template($ => ({
+	top: padding, bottom: padding, left: padding, right: padding,
+	height: height,
+	skin: lightGraySkin,
+	contents: [
+		new Label({
+			left:	0, right:	0, 
+			height:	height_label, 
+			width: 	width_label,
+			string:	$.label, 
+			style: 	labelStyle,
+			name:	"label",
+		}),
+		new Label({
+			left:0, right:0, 
+			height:	height_label, 
+			width: 	width_label,
+			string:	$.value, 
+			style: 	labelStyle,
+			name:	"value"
+		}),
+	]
+}));
+
+function getLabel(label, type) {
+	return label
+}
+
+function getValue(value, type) {
+	if (type == "binary") {
+		return value? "on": "off";
+	}
+	else if (type == "lock") {
+		return value? "unlocked": "locked";
+	}
+	return value
+}
+
+function updateData(container) {
+	DATA = load_data();
+	LEN = DATA.init.length;
+	for (var i = 0; i < LEN; i++) {
+		var item_data = DATA.init[i];
+		var item_label = item_data.DeviceName;
+		var item_value = item_data.value;
+		var item_type = item_data.type;
+		var str_label = getLabel(item_label, item_type);
+		var str_value = getValue(item_value, item_type);
+		var item = new deviceItemTemplate(
+			{
+				label: str_label, 
+				value: str_value,
+			}
+		);
+		container.add(item);
+	}
+	save_data(DATA);
+}
+
+
+let mainContent = new contentTemplate();
+updateData(mainContent);
+let mainScreen = new MainContainer({ mainContent });application.add(mainScreen);
