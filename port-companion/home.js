@@ -9,8 +9,8 @@
  *						used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status
  *						device type is taken into consideration
  * 	Templates:
- *		HomeScreenTemplate
- * 			HomeContentTemplate - serves as a parameter
+ *		HomeScreenTemplate - the template of the whole home screen
+ * 			HomeContentTemplate - serves as a parameter of the whole screen's template, contains the main contents
  *				HomeTopBar - the title of home screen, scrolling with content, located on the top
  *					AddDeviceTemplate - 	the "+" button on the top of the screen, to add devices
  *											lead you to "search_device" page

@@ -1,3 +1,27 @@
+/* 
+ * this is the part where device screen is implemented; includes:
+ * 	Variables:
+ *		DeviceContent	- an instance of DeviceContentTemplate, device page's content
+ *		DeviceScreen	- an instance of DeviceScreenTemplate, the whole device page's screen
+ *	Functions:
+ *		getStr - 	get the annotation string that appears on screen for each option (such as "On/Off" for "TYPE")
+ *					called by SettingOptions only
+ * 	Templates:
+ *		DeviceScreenTemplate - the template of the whole device screen
+ * 			DeviceContentTemplate - serves as a parameter of the whole screen's template, contains the main contents
+ *				DeviceTopBar - the title part of the device screen, contains brief discription & back button
+ *					BackTemplate - 	the "< BACK" button on top left of the screen, 
+ *									click it to return to "home" page
+ *					Blank - used completely as an indentation element
+ *				SettingOptions 	- 	the template of the three setting options (they use the same template)
+ *									namely "TYPE", "TIMING", "ALERT"
+ *									taking care of both the layout and the functionality: 
+ *										will react to click, react differently according to the different options
+ *										for example, click "TIMING" bar to jump to "timing" screen
+ *				Divide - the line elements, simply layout purpose, no functionality
+ * 				
+ */
+
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,
     HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';
 
@@ -26,10 +50,19 @@ import {
 	LoadHomeContent,
 } from "home";
 
+import {
+	TimingScreen,	TimingContent,	TimingScreenTemplate,
+	TimingContentTemplate
+} from "timing";
+
+// the variables: device screen (=content + top / bottom bar + scroller) & device screen's main content
 export var DeviceScreen;
-export var DeviceContent;export var DeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
+export var DeviceContent;
+
+// the template: device screen, contains main contents & scroller (without top / bottom navbar on this page)export var DeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
     skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.DeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
 
+// the template: device content, a parameter of device screen's template, contains the main contents
 export var DeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
     	new DeviceTopBar({idx: $.idx}),
         new Line ( {
@@ -45,6 +78,8 @@ export var DeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, 
 		new SettingOptions({label: "ALERT", idx: $.idx}),
 		new Divide({height: 1, length: 200}),    ]}));
 
+// get the annotation string that appears on screen for each option (such as "On/Off" for "TYPE")
+// called by the template: SettingOptions only
 function getStr(idx, option) {
 	if (option == "TYPE") {
 		var type = DATA.init[idx].type;
@@ -55,7 +90,7 @@ function getStr(idx, option) {
 		return "?type";
 	}
 	else if (option == "TIMING") {
-		// return "24 to 24";//debug
+		// return "24 to 24";// probably showing this way (a proposal)
 		var timing = DATA.init[idx].timing;
 		if (timing) {
 			return DATA.init[idx].time_start + " to " + DATA.init[idx].time_end;
@@ -63,7 +98,7 @@ function getStr(idx, option) {
 		return "None";
 	}
 	else if (option == "ALERT") {
-		// return "24:00" // debug
+		// return "24:00" // probably showing this way (a proposal)
 		var alert = DATA.init[idx].alert;
 		if (alert) {
 			return DATA.init[idx].alert_time;
@@ -72,18 +107,20 @@ function getStr(idx, option) {
 	}
 	return "NULL";
 }
+
+// the dividing line
+// only layout purpose, no functionality
 export var Divide = Line.template($ => ({
 	top: 0, left: device_list_item_padding, right: device_list_item_padding, bottom: 0,
 	height: $.height, width: $.length, skin: lightGraySkin,
 }));
 
-import {
-	TimingScreen,	TimingContent,	TimingScreenTemplate,
-	TimingContentTemplate
-} from "timing";
-
+// the setting-options bar
+// shown as something like "TYPE	On/Off >"
+// click each of the instance of this template, they'll react differently
+// for example, click "TIMING" bar, to visit "timing" page
 export var SettingOptions = Line.template($ => ({
-	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding * 2,
+	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,
 	height: device_list_setting_height,
 	active: true,
 	contents: [
@@ -108,7 +145,6 @@ export var SettingOptions = Line.template($ => ({
 			trace("selecting " + $.label + "\n")
 			var command = $.label;
 			if (command == "TIMING") {
-				// application.remove(TMP_SCREEN);
 				application.remove(TMP_SCREEN);
 				TimingContent = TimingContentTemplate({idx: $.idx});
 	        	TimingScreen = new TimingScreenTemplate({ TimingContent });
@@ -121,8 +157,8 @@ export var SettingOptions = Line.template($ => ({
 	
 }));
 
+// the title part of the device screen, contains brief discription & back button
 var DeviceTopBar = Container.template($ => ({
-	// top-bar
 	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,
 	height: device_list_topbar_height,
 	contents: [
@@ -144,12 +180,13 @@ var DeviceTopBar = Container.template($ => ({
 	]
 }));
 
-
+// the template of the back button on top left of the screen
+// by clicking it users would go back to "home" page
 let BackTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "< BACK",
-			style: darkGraySmallText,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
+			style: darkGraySmallText,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -164,6 +201,7 @@ let BackTemplate = Container.template($ => ({
 	})
 }));
 
+// just for indentation, similar with Division, nothing special
 let Blank = Container.template($ => ({
 	width: $.length,
 }));
