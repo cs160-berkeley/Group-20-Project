@@ -1,3 +1,5 @@
+/* this part is the code for welcome page */
+
 import {
 	TMP_SCREEN,	img_logo,	whiteSkin,
 	titleText,
@@ -21,8 +23,10 @@ import {
 var padding = welcome_img_padding;
 var size = welcome_img_size;
 
+// the devices' data
 DATA = load_data();
 
+// the button 
 let enterButtonTemplate = Button.template($ => ({    top: 0, width: 200, right: 0, height: welcome_button_height,    contents: [        Label($, {left: 0, right: 0, height: welcome_button_height, string: $.textForLabel, style: buttonText})    ],    Behavior: class extends ButtonBehavior {        onTap(button){      
         	application.remove(TMP_SCREEN);
         	HomeContent = HomeContentTemplate({});

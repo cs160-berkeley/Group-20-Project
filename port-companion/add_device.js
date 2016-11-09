@@ -49,7 +49,9 @@ export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 
     				width: 200,
     				contents: [
     					new Label({							string: newDeviceData[SELECTED].DeviceName,							style: darkGrayMidText_thin,						}),
+						new Divide({height: 1, length: 200}),
 						new Label({							string: newDeviceData[SELECTED].DeviceGroup,							style: darkGrayMidText_thin,						}),
+						new Divide({height: 1, length: 200}),
     				]
     			}),
     			new Column ({
