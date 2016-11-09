@@ -36,6 +36,6 @@
 Updates:
 
 1. Jessica redesigned the interface ([Mockup](https://www.figma.com/file/M1zJ6hF1zPVKDqP8ib8u8Xiu/HoM---v2))
-> ![second_design](img/HoM_v2_design.png "The Second Design")
+![second_design](img/HoM_v2_design.png "The Second Design")
 2. Mo's and Patricia's part is done ([Half-Way Implemented](https://youtu.be/150_U_h_4Tg))
-> ![second_design_implement_halfway](img/HoM_v2_design_implement_phase_1_2.png "Half-Way Implementation of the Second Design")
+![second_design_implement_halfway](img/HoM_v2_design_implement_phase_1_2.png "Half-Way Implementation of the Second Design")
