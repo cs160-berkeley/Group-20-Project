@@ -65,6 +65,7 @@ import {
 	save_data,
 	DATA,
 	deviceURL,
+	synch_data
 } from "global_settings"
 
 
@@ -304,11 +305,7 @@ let OnOffTemplate = Container.template($ => ({
 			// container.img.url = container.on? img_on: img_off;
 			save_data(DATA); // update data file
 			// update the hardware simulator
-			if (deviceURL != "") {
-				new Message(deviceURL + "update").invoke(Message.JSON).then(json => { 
-					trace(json.success? "successfully updated hardware\n": "failed to update hardware\n");
-				});
-			}
+			synch_data();
 		}
 	})
 }));

@@ -4,6 +4,7 @@ import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,   
 import {
 	DATA,
 	save_data,
+	synch_data,
 	TMP_SCREEN,
 	largeText,
 	whiteSkin,
@@ -88,7 +89,8 @@ let BackTemplate = Container.template($ => ({
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
-			save_data(DATA);
+			//save_data(DATA);
+			//synch_data();
 			application.remove(TMP_SCREEN);
 			SearchContent = SearchContentTemplate({});
 			loadNewDevicesJSON(SearchContent);
@@ -109,6 +111,7 @@ let SaveTemplate = Container.template($ => ({
 		onTouchEnded: function(container) {
 			DATA.init[DATA.init.length] = newDeviceData[SELECTED];
 			save_data(DATA);
+			synch_data();
 			application.remove(TMP_SCREEN);
         	HomeContent = HomeContentTemplate({});
         	LoadHomeContent(HomeContent);

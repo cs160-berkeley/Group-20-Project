@@ -117,6 +117,14 @@ export function load_data() {
 	return json;
 }
 
+export function synch_data() {
+	if (deviceURL != "") {
+		new Message(deviceURL + "update").invoke(Message.JSON).then(json => { 
+			trace(json.success? "successfully updated hardware\n": "failed to update hardware\n");
+		});
+	}
+}
+
 // data
 export var DATA;
 var file_new = file_dir + "devices.json";
