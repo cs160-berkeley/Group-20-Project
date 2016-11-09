@@ -1,3 +1,12 @@
+/*
+ * the global settings that are:
+ *	1. not relying on any page
+ *	2. fixed parameters
+ *	3. might be frequently changed but don't want to re-coding
+ * are saved here
+ */
+
+
 // temporary screen
 export var TMP_SCREEN;
 // parameters
@@ -15,7 +24,7 @@ export var device_list_topbar_width = 250;
 export var device_list_setting_height = 20;
 export var device_image_size = 100;
 export var bottom_bar_padding = 3;
-export var bottom_bar_img_size = 20;//36;
+export var bottom_bar_img_size = 30;//20;//36;
 export var BAR_HEIGHT_TOP = 0; // 25;
 export var BAR_HEIGHT_BOTTOM = 45;
 // directories
@@ -59,10 +68,12 @@ export var lightGray = "#F2F2F2";
 export var lightGray2 = "#BDBDBD";
 export var darkGray2 = "#4F4F4F";
 export var darkGray = "#202020";
+export var midGray = "#E0E0E0";
 // skins
 export var whiteSkin = new Skin({ fill: "white" });
 export var lightGraySkin = new Skin({ fill: lightGray });
 export var darkGraySkin = new Skin({ fill: darkGray });
+export var midGraySkin = new Skin({ fill: midGray });
 // text styles
 export var titleText = new Style({ font: "bold 18px", color: darkGray });
 export var buttonText = new Style({ font: "bold 18px", color: "#DDDDDD" });
@@ -106,5 +117,15 @@ export function load_data() {
 	return json;
 }
 
+export function synch_data() {
+	if (deviceURL != "") {
+		new Message(deviceURL + "update").invoke(Message.JSON).then(json => { 
+			trace(json.success? "successfully updated hardware\n": "failed to update hardware\n");
+		});
+	}
+}
+
 // data
 export var DATA;
+var file_new = file_dir + "devices.json";
+export var newDevicesFile = mergeURI(application.url, file_new);

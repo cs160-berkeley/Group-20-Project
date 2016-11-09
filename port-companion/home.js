@@ -1,6 +1,35 @@
+/* 
+ * this is the part where home screen is implemented; includes:
+ * 	Variables:
+ *		HomeContent	- an instance of HomeContentTemplate, home page's content
+ *		HomeScreen	- an instance of HomeScreenTemplate, the whole home page's screen
+ *	Functions:
+ *		LoadHomeContent - take in HomeContent as its parameter, add the device data to the HomeContent
+ *		getStatusURL - 	an assistant function of template OnOffTemplate, 
+ *						used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status
+ *						device type is taken into consideration
+ * 	Templates:
+ *		HomeScreenTemplate - the template of the whole home screen
+ * 			HomeContentTemplate - serves as a parameter of the whole screen's template, contains the main contents
+ *				HomeTopBar - the title of home screen, scrolling with content, located on the top
+ *					AddDeviceTemplate - 	the "+" button on the top of the screen, to add devices
+ *											lead you to "search_device" page
+ * 				DeviceItemTemplate - for each of the listed items (that is, devices) in the data file
+ *					DeviceEntryTemplate - 	appearance is the label telling users the device's name / location 
+ *											functionality is to click it and enter the "device" page
+ *					OnOffTemplate 	- 	appearance is the on / off, or lock / unlock button on the right
+ *										functionality is to update DATA and to change the appearance of itself by calling getStatusURL
+ *			iconTemplate - serves as layout elements stick to the bottom of the screen
+ *				iconButtonTemplate - 	the image used as icon is loaded here
+ *										implemented this way so that we might be able to adapt the icons more easily
+ * 				
+ */
+
+
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,
     HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';
 
+// parameters & frequently-used functions
 import {
 	TMP_SCREEN,
 	img_home,
@@ -35,6 +64,8 @@ import {
 	// load_data,
 	save_data,
 	DATA,
+	deviceURL,
+	synch_data
 } from "global_settings"
 
 
@@ -49,28 +80,30 @@ import {
 	SearchScreenTemplate,
 	SearchContentTemplate,
 	SearchScreen,
-	SearchContent
+	SearchContent,
+	loadNewDevicesJSON,
+	SELECTED
 } from "search_device";
 
+// the Content and Screen (screen = content with scroll bar) variables
 export var HomeContent;
 export var HomeScreen;
-var device_data;
-// let titleStyle = new Style({ font: "20px", color: "white" });
-export var HomeScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
+
+// home screen template, used to implement HomeScreenexport var HomeScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
     skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
-        // top bar
+        // top bar // not needed for now
         /*        new Container({             top: 0, height: BAR_HEIGHT_TOP, left: 0, right: 0, skin: darkGraySkin,            style: titleStyle,             contents: [                new Label({ string: "HoM" }),            ]        }),
         */
-        // bottom
-        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: lightGraySkin,             // style: titleStyle,             contents: [                // new Label({ string: "Bottom Bar" }),
+        // bottom bar // the navigation bar for now
+        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: lightGraySkin,             contents: [
                 new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: true}),
                 new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),
                 new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: false}),
                 new iconTemplate({icon_img: img_sett, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "settings", activate: false}),            ]        }),    ]}));
-
+// the bottom navigate bar's elements' template // not implemented for now
 var iconTemplate = Column.template($ => ({ 
 	top: 0, left: 0, right: 0,
-	// active:true,
+	active:true,
 	contents: [
 		
 		new iconButtonTemplate({
@@ -84,36 +117,27 @@ var iconTemplate = Column.template($ => ({
 			style: hintText,
 		}),
 	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			save_data(DATA);
+			trace("going to page " + $.hint + "\n");
+		}
+	})
 }));
-
-let iconButtonTemplate = Container.template($ => ({
-	active: true,
-	// on: false,
+let iconButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar
 	contents: [
 		new Picture({
 			name: $.name,			url: $.url,			top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),
 	],
-	behavior: Behavior({
-		onTouchEnded: function(container) {
-			// application.remove(TMP_SCREEN);
-			save_data(DATA);
-			trace("going to page " + $.name + "\n");
-		}
-	})
 }));
 
+// home content template, used to implement HomeContent
 export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, right: 0,    contents: [
-    	// title
-    	new HomeTopBar(),
-    	// device list
-    	/*
-    	new DeviceItemTemplate({ DeviceName: "Night Light", DeviceGroup: "David's Room", id: "night_light", type: "binary" }),
-    	new DeviceItemTemplate({ DeviceName: "Front Door", DeviceGroup: "Home", id: "front_door", type: "lock" }),
-    	new DeviceItemTemplate({ DeviceName: "Oven", DeviceGroup: "Kittchen", id: "oven", type: "binary" }),
-    	*/    ],}));
-
+    	new HomeTopBar(),	// the top bar
+    	// device list would be added latter by the function LoadHomeContent
+    	// those devices are implemented by DeviceItemTemplate    ],}));
+// functions used to load device data contents to home page, from the device data stored in a file
 export function LoadHomeContent(homeContent) {
-	// device_data = load_data();
 	var len = DATA.init.length;
 	for (var i = 0; i < len; i++) {
 		var data_elem = DATA.init[i];
@@ -127,9 +151,8 @@ export function LoadHomeContent(homeContent) {
 		});
 		homeContent.add(item);
 	}
-	// save_data(init_data); // save to local, as a log
 }
-
+// the "top" navigate bar of home screen (not really stick to the top, it goes up and down with the scroller
 var HomeTopBar = Container.template($ => ({
 	// top-bar
 	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding,
@@ -141,18 +164,14 @@ var HomeTopBar = Container.template($ => ({
 		}),
 		new Line({			
 			contents: [
-				//
 				new AddDeviceTemplate({}),
 			]
 		}),
 	]
 }));
-/*
-// debug
-function test_data() {
-	var test = new DeviceItemTemplate({ DeviceName: "Hello", DeviceGroup: "World", id: "hello_world", type: "binary" });	HomeContent.add(test);
-}*/
-// the plus button to add devices
+
+// the plus button's template, click it to add devices
+// by clicking it you'll jump to "search_device" screen
 let AddDeviceTemplate = Container.template($ => ({
 	active: true,
 	contents: [
@@ -162,15 +181,19 @@ let AddDeviceTemplate = Container.template($ => ({
 		onTouchEnded: function(container) {
 			save_data(DATA);
 			application.remove(TMP_SCREEN);
+			SELECTED = -1;
 			SearchContent = SearchContentTemplate({});
+			loadNewDevicesJSON(SearchContent);
         	SearchScreen = new SearchScreenTemplate({ SearchContent });
         	TMP_SCREEN = SearchScreen;
         	application.add(TMP_SCREEN);
-			// test_data(); // it works!!!
 		}
 	})
 }));
 
+// the function getStatusURL is an assistant function of template OnOffTemplate (used in DeviceItemTemplate)
+// used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status
+// device type is taken into consideration
 function getStatusURL(type, value) {
 	var goal_image;
 	if (type == "binary") {
@@ -180,7 +203,6 @@ function getStatusURL(type, value) {
 			goal_image = img_off;
 	}
 	else if (type == "lock") {
-		// trace("\n" + img_lock + "\n");
 		if (value)
 			goal_image = img_unlock;
 		else
@@ -188,7 +210,7 @@ function getStatusURL(type, value) {
 	}
 	return goal_image;
 }
-
+// device item template, used to implement an item in the device list
 export var DeviceItemTemplate = Line.template($ => ({
 	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 	height: home_list_item_height,
@@ -199,17 +221,8 @@ export var DeviceItemTemplate = Line.template($ => ({
 			left: home_list_item_padding,
 			width: home_list_tag_width,
 			contents: [
+				// when you click this part you'll enter a device's page
 				new DeviceEntryTemplate({DeviceName: $.DeviceName, DeviceGroup: $.DeviceGroup, idx: $.idx}),
-				/*
-				new Label({
-					string: $.DeviceName,
-					style: midText,
-				}),
-				new Label({
-					string: $.DeviceGroup,
-					style: smallText,
-				}),
-				*/
 			]
 		}),
 		
@@ -224,6 +237,8 @@ export var DeviceItemTemplate = Line.template($ => ({
 	name: $.id,
 }));
 
+// the Labels (group of labels), such as "Night Light", clicked to enter a page of the device, where you can change its settings
+// by clicking it you'll jump to "device" screen
 let DeviceEntryTemplate = Container.template($ => ({
 	active: true,
 	idx: $.idx,
@@ -253,6 +268,7 @@ let DeviceEntryTemplate = Container.template($ => ({
 	})
 }));
 
+// the switcher template, used for every devices, a part of DeviceItemTemplate
 let OnOffTemplate = Container.template($ => ({
 	active: true,
 	// on: false,
@@ -289,6 +305,9 @@ let OnOffTemplate = Container.template($ => ({
 				DATA.init[$.idx].value = 0;
 			}
 			// container.img.url = container.on? img_on: img_off;
+			save_data(DATA); // update data file
+			// update the hardware simulator
+			synch_data();
 		}
 	})
 }));
