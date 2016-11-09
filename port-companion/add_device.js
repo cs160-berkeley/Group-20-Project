@@ -26,7 +26,9 @@ import {
 	SearchContentTemplate,
 	SearchScreen,
 	SearchContent,
-	loadNewDevicesJSON
+	loadNewDevicesJSON,
+	SELECTED,
+	newDeviceData
 } from "search_device";
 
 export var AddDeviceScreen;
@@ -71,7 +73,8 @@ let SaveTemplate = Container.template($ => ({
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
-	
+			DATA.init[DATA.init.length] = newDeviceData[SELECTED];
+			save_data(DATA);
 			application.remove(TMP_SCREEN);
         	HomeContent = HomeContentTemplate({});
         	LoadHomeContent(HomeContent);

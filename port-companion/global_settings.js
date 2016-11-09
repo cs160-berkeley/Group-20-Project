@@ -59,10 +59,12 @@ export var lightGray = "#F2F2F2";
 export var lightGray2 = "#BDBDBD";
 export var darkGray2 = "#4F4F4F";
 export var darkGray = "#202020";
+export var midGray = "#E0E0E0";
 // skins
 export var whiteSkin = new Skin({ fill: "white" });
 export var lightGraySkin = new Skin({ fill: lightGray });
 export var darkGraySkin = new Skin({ fill: darkGray });
+export var midGraySkin = new Skin({ fill: midGray });
 // text styles
 export var titleText = new Style({ font: "bold 18px", color: darkGray });
 export var buttonText = new Style({ font: "bold 18px", color: "#DDDDDD" });
@@ -108,5 +110,5 @@ export function load_data() {
 
 // data
 export var DATA;
-var file_new = "devices.json";
+var file_new = file_dir + "devices.json";
 export var newDevicesFile = mergeURI(application.url, file_new);
