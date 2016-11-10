@@ -3,8 +3,6 @@
  * 	Variables:
  *		AddDeviceContent	- an instance of AddDeviceContentTemplate, search page's content
  *		AddDeviceScreen		- an instance of AddDeviceScreenTemplate, the whole search page's screen
- *	Functions:
- *		
  * 	Templates:
  *		AddDeviceScreenTemplate - the template of the whole add device screen
  * 			AddDeviceContentTemplate - serves as a parameter of the whole add_device screen's template, contains the main contents
@@ -12,7 +10,7 @@
  *					BackTemplate - 	a part of the "top bar", the back button on top left of the screen
  *									by clicking it, jumping back to "search_device"
  *					Blank - just for indentation
- *					SaveTemplate - 	
+ *					SaveTemplate - 	the button to click to save device data to the device list
  *					
  *				
  * 				
@@ -107,6 +105,7 @@ var AddDeviceTopBar = Container.template($ => ({	// top-bar	top: device_list_i
 			] }),			new Label({				string: newDeviceData[SELECTED].DeviceName,				style: largeText,			}),
 		]}),	]}));
 
+// the button to click to go back to search_device screen
 let BackTemplate = Container.template($ => ({
 	active: true,
 	contents: [
@@ -128,6 +127,7 @@ let BackTemplate = Container.template($ => ({
 	})
 }));
 
+// the button to click to save device data to the device list
 let SaveTemplate = Container.template($ => ({
 	active: true,
 	contents: [
@@ -149,6 +149,7 @@ let SaveTemplate = Container.template($ => ({
 	})
 }));
 
+// just for indentation
 let Blank = Container.template($ => ({
 	width: 200
 }));

@@ -7,10 +7,10 @@
     	"value": 0, 
     	"img": "./assets/img_device_00.png",
     	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
+    	"time_start": -1,
+    	"time_end": -1,
     	"alert": 0,
-    	"alert_time": 0
+    	"alert_time": -1
     },
     { 
     	"DeviceName":"Front Door", 
@@ -20,22 +20,22 @@
     	"value": 0, 
     	"img": "./assets/img_device_00.png",
     	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
+    	"time_start": -1,
+    	"time_end": -1,
     	"alert": 0,
-    	"alert_time": 0
+    	"alert_time": -1
     },
     { 	
     	"DeviceName":"Oven", 
-    	"DeviceGroup":"Kittchen", 
+    	"DeviceGroup":"Kitchen", 
     	"id": "oven", 
     	"type": "binary", 
     	"value": 0, 
     	"img": "./assets/img_device_00.png",
     	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
+    	"time_start": -1,
+    	"time_end": -1,
     	"alert": 0,
-    	"alert_time": 0
+    	"alert_time": -1
     }
 ]}
