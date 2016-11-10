@@ -27,7 +27,7 @@
     },
     { 	
     	"DeviceName":"Oven", 
-    	"DeviceGroup":"Kittchen", 
+    	"DeviceGroup":"Kitchen", 
     	"id": "oven", 
     	"type": "binary", 
     	"value": 0, 

@@ -22,8 +22,16 @@
  * 				
  */
 
-import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,
-    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';
+import {
+    VerticalScroller,
+    VerticalScrollbar,
+    TopScrollerShadow,
+    BottomScrollerShadow,
+    HorizontalScroller,
+    HorizontalScrollbar,
+    LeftScrollerShadow,
+    RightScrollerShadow
+} from 'lib/scroller';
 
 import {
 	DATA,
@@ -51,7 +59,9 @@ import {
 } from "home";
 
 import {
-	TimingScreen,	TimingContent,	TimingScreenTemplate,
+	TimingScreen,
+	TimingContent,
+	TimingScreenTemplate,
 	TimingContentTemplate
 } from "timing";
 
@@ -59,15 +69,34 @@ import {
 export var DeviceScreen;
 export var DeviceContent;
 
-// the template: device screen, contains main contents & scroller (without top / bottom navbar on this page)export var DeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
-    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.DeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+// the template: device screen, contains main contents & scroller (without top / bottom navbar on this page)
+export var DeviceScreenTemplate = Container.template($ => ({
+    left: 0, right: 0, top: 0, bottom: 0,
+    skin: whiteSkin,
+    contents: [
+        VerticalScroller($, { 
+            active: true, top: 0, bottom: 0,
+            contents: [
+                $.DeviceContent,
+                VerticalScrollbar(), 
+                TopScrollerShadow(), 
+                BottomScrollerShadow(),    
+            ]                     
+        }),
+    ]
+}));
 
 // the template: device content, a parameter of device screen's template, contains the main contents
-export var DeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
+export var DeviceContentTemplate = Column.template($ => ({
+    top: 0, left: 0, right: 0, 
+    contents: [
     	new DeviceTopBar({idx: $.idx}),
         new Line ( {
 			contents: [
-				new Picture({					url:  DATA.init[$.idx].img,					top: 0, left: 0, width: device_image_size, height: device_image_size,				}),
+				new Picture({
+					url:  DATA.init[$.idx].img,
+					top: 0, left: 0, width: device_image_size, height: device_image_size,
+				}),
 			]
 		}),
 		new Line({height: 20}),
@@ -76,7 +105,9 @@ export var DeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, 
 		new SettingOptions({label: "TIMING", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "ALERT", idx: $.idx}),
-		new Divide({height: 1, length: 200}),    ]}));
+		new Divide({height: 1, length: 200}),
+    ]
+}));
 
 // get the annotation string that appears on screen for each option (such as "On/Off" for "TYPE")
 // called by the template: SettingOptions only
@@ -93,7 +124,8 @@ function getStr(idx, option) {
 		// return "24 to 24";// probably showing this way (a proposal)
 		var timing = DATA.init[idx].timing;
 		if (timing) {
-			return DATA.init[idx].time_start + " to " + DATA.init[idx].time_end;
+			return "Set";
+			//return DATA.init[idx].time_start + " to " + DATA.init[idx].time_end;
 		}
 		return "None";
 	}
@@ -167,7 +199,8 @@ var DeviceTopBar = Container.template($ => ({
 				new BackTemplate(),
 				new Blank({length: device_list_topbar_width}),
 			] }),
-						new Label({
+			
+			new Label({
 				string: DATA.init[$.idx].DeviceName,
 				style: largeText,
 			}),
@@ -185,8 +218,10 @@ var DeviceTopBar = Container.template($ => ({
 let BackTemplate = Container.template($ => ({
 	active: true,
 	contents: [
-		new Label({			string: "< BACK",
-			style: darkGraySmallText,		})
+		new Label({
+			string: "< BACK",
+			style: darkGraySmallText,
+		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
