@@ -18,16 +18,23 @@ function translate_time(time_val) {
 }
 
 // get the time set, return the proper stringfunction getTimeSet(settingName, idx){	var timing = DATA.init[idx].timing;	// trace("TIMING:"+timing+"\n");	// trace("IDX:"+idx+"\n");	if (timing) {		if (settingName == "Starts"){	 		return translate_time(DATA.init[idx].time_start);		}		else if (settingName == "Ends"){			return translate_time(DATA.init[idx].time_end);		}	}	return "None";}
-// the back button "< BACK", click it to go back to device screenlet BackTemplate = Container.template($ => ({	active: true,	contents: [		new Label({			string: "< BACK",			style: darkGraySmallText,		})	],	behavior: Behavior({		onTouchEnded: function(container) {			save_data(DATA);			application.remove(TMP_SCREEN);			DeviceContent = DeviceContentTemplate({idx: $.idx});        	DeviceScreen = new DeviceScreenTemplate({ DeviceContent });        	TMP_SCREEN = DeviceScreen;        	application.add(TMP_SCREEN);		}	})}));
+// the back button "< BACK", click it to go back to device screenlet BackTemplate = Container.template($ => ({	active: true,	contents: [		new Label({			string: "< BACK",			style: darkGraySmallText,		})	],	behavior: Behavior({		onTouchEnded: function(container) {
+			if ( DATA.init[$.idx].timing == 0){
+				DATA.init[$.idx].time_start = -1;
+				DATA.init[$.idx].time_end = -1;
+				save_data(DATA);
+			}			application.remove(TMP_SCREEN);			DeviceContent = DeviceContentTemplate({idx: $.idx});        	DeviceScreen = new DeviceScreenTemplate({ DeviceContent });        	TMP_SCREEN = DeviceScreen;        	application.add(TMP_SCREEN);		}	})}));
 
 // the SAVE button on right of the screenlet SaveTemplate = Container.template($ => ({	active: true,	contents: [		new Label({			string: "SAVE",			style: darkGraySmallText,		})	],	behavior: Behavior({		onTouchEnded: function(container) {
 			if (DATA.init[$.idx].time_start != -1 && DATA.init[$.idx].time_end != -1) {
 				DATA.init[$.idx].timing = 1;
 				save_data(DATA);
 				synch_data();
+				// jump back to previous screen: "device"
+				application.remove(TMP_SCREEN);				DeviceContent = DeviceContentTemplate({idx: $.idx});	        	DeviceScreen = new DeviceScreenTemplate({ DeviceContent });	        	TMP_SCREEN = DeviceScreen;	        	application.add(TMP_SCREEN);
 			}
 			else {
 				trace("timing isn't completely setted, can't save now\n");
 				DATA.init[$.idx].timing = 0;
-				save_data(DATA);
+				// save_data(DATA);
 			}		}	})}));// just for indentationlet Blank = Container.template($ => ({	width: $.length,}));
