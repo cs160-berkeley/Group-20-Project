@@ -6,6 +6,7 @@ import {
 	whiteSkin,
 	lightGraySkin,
 	labelStyle,
+	midStyle,
 	padding,
 	height,
 	height_label,
@@ -20,6 +21,7 @@ var LEN;let MainContainer = Container.template($ => ({    left: 0, right: 0, 
 let contentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
     	// wait to be filled automatically at runtime    ]}));
 
+/*
 let deviceItemTemplate = Line.template($ => ({
 	top: padding, bottom: padding, left: padding, right: padding,
 	height: height,
@@ -43,6 +45,42 @@ let deviceItemTemplate = Line.template($ => ({
 		}),
 	]
 }));
+*/
+let deviceItemTemplate = Line.template($ => ({
+	top: padding, bottom: padding, left: padding, right: padding,
+	height: height,
+	skin: lightGraySkin,
+	contents: [
+		new Label({
+			left:	0, right:	0, 
+			height:	height_label, 
+			width: 	width_label,
+			string:	$.label, 
+			style: 	labelStyle,
+			name:	"label",
+		}),
+		new Column({
+			contents: [
+				new Label({
+					left:0, right:0, 
+					//height:	height_label, 
+					width: 	width_label,
+					string:	$.value, 
+					style: 	labelStyle,
+					name:	"value"
+				}),
+				new Label({
+					left:0, right:0, 
+					//height:	height_label, 
+					width: 	width_label,
+					string:	$.timing, 
+					style: 	midStyle,
+					name:	"timing"
+				}),
+			]
+		}),
+	]
+}));
 
 function getLabel(label, type) {
 	return label;
@@ -56,6 +94,13 @@ function getValue(value, type) {
 		return value? "unlocked": "locked";
 	}
 	return value;
+}
+
+function getTime(flag) {
+	if (flag) {
+		return "Set";
+	}
+	return "None";
 }
 
 // empty a container
@@ -77,12 +122,15 @@ function updateData(container) {
 		var item_label = item_data.DeviceName;
 		var item_value = item_data.value;
 		var item_type = item_data.type;
+		var item_timing = item_data.timing;
 		var str_label = getLabel(item_label, item_type);
 		var str_value = getValue(item_value, item_type);
+		var str_timing = getTime(item_timing);
 		var item = new deviceItemTemplate(
 			{
 				label: str_label, 
 				value: str_value,
+				timing: str_timing,
 			}
 		);
 		container.add(item);

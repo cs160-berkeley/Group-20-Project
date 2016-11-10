@@ -1,26 +1,18 @@
 /* 
- * this is the part where search screen is implemented; includes:
+ * this is the part where add device screen is implemented; includes:
  * 	Variables:
- *		SearchContent	- an instance of SearchContentTemplate, search page's content
- *		SearchScreen	- an instance of SearchScreenTemplate, the whole search page's screen
+ *		AddDeviceContent	- an instance of AddDeviceContentTemplate, search page's content
+ *		AddDeviceScreen		- an instance of AddDeviceScreenTemplate, the whole search page's screen
  *	Functions:
- *		loadNewDevicesJSON - add local new device data automatically (instead of hard-coded, loading from local files)
- *		updateSkins - 	update the skin colors of the new device data,
- *						so as to show to the users which one of them is selected, or none of them is selected
- *						click once to select, click twice to cancel selection
- *						if you don't select any device, you won't be able to move on to the next step (add_device)
- *						called by passing parameter SearchContent, and calling Template NewDeviceTemplate
+ *		
  * 	Templates:
- *		SearchScreenTemplate - the template of the whole search screen
- * 			SearchContentTemplate - serves as a parameter of the whole search screen's template, contains the main contents
- *				SearchTopBar - the title part of the timing screen, contains brief discription & back button
- *					CancelTemplate - a part of the "top bar", the cancel button on top left of the screen
+ *		AddDeviceScreenTemplate - the template of the whole add device screen
+ * 			AddDeviceContentTemplate - serves as a parameter of the whole add_device screen's template, contains the main contents
+ *				AddDeviceTopBar - the title part of the add_device screen, contains brief discription & back button
+ *					BackTemplate - 	a part of the "top bar", the back button on top left of the screen
+ *									by clicking it, jumping back to "search_device"
  *					Blank - just for indentation
- *					AddTemplate - 	a part of the "top bar", the add button on top right
- *									by clicking it, jump directly to "add_device" page,
- *										but nothing would happen if none of the devices are selected
- *				NewDeviceTemplate -	used to show new devices information, and make it possible to choose one to add
- *									by clicking on one of the instances to select, will be able to go to page "add_device"
+ *					SaveTemplate - 	
  *					
  *				
  * 				
@@ -68,9 +60,13 @@ import {
 	newDeviceData
 } from "search_device";
 
+// instances of templates of screen & contents
 export var AddDeviceScreen;
-export var AddDeviceContent;export var AddDeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.AddDeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+export var AddDeviceContent;
 
+// the template of the whole add device screenexport var AddDeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.AddDeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+
+// the template of main contents on the screen "add_device"
 export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
     	new AddDeviceTopBar(),
     	new Line( {
@@ -101,6 +97,7 @@ export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 
 		new Divide({height: 1, length: 200}),
 		*/    ]}));
 
+// the top bar of add_device screen
 var AddDeviceTopBar = Container.template($ => ({	// top-bar	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,	contents: [
 		new Column( { contents: [
 			new Line( { contents: [

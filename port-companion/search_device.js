@@ -3,6 +3,9 @@
  * 	Variables:
  *		SearchContent	- an instance of SearchContentTemplate, search page's content
  *		SearchScreen	- an instance of SearchScreenTemplate, the whole search page's screen
+ *		NUM_NEW 		- number of the new devices
+ *		SELECTED		- the selected index of the device
+ *		newDeviceData	- the new device's data list
  *	Functions:
  *		loadNewDevicesJSON - add local new device data automatically (instead of hard-coded, loading from local files)
  *		updateSkins - 	update the skin colors of the new device data,
@@ -13,7 +16,7 @@
  * 	Templates:
  *		SearchScreenTemplate - the template of the whole search screen
  * 			SearchContentTemplate - serves as a parameter of the whole search screen's template, contains the main contents
- *				SearchTopBar - the title part of the timing screen, contains brief discription & back button
+ *				SearchTopBar - the title part of the search_device screen, contains brief discription & back button
  *					CancelTemplate - a part of the "top bar", the cancel button on top left of the screen
  *					Blank - just for indentation
  *					AddTemplate - 	a part of the "top bar", the add button on top right
