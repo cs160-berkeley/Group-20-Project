@@ -49,12 +49,18 @@ import {
 	AddDeviceScreen,
 	AddDeviceContent,	AddDeviceScreenTemplate,
 	AddDeviceContentTemplate
-} from "add_device";export var SearchScreen;export var SearchContent;
+} from "add_device";
 
+// the screen and contentexport var SearchScreen;export var SearchContent;
+
+// the selected device information
 var NUM_NEW = 0;
 export var SELECTED = -1;
-export var newDeviceData;export var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: lightGraySkin, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+export var newDeviceData;
 
+// the screen's whole templateexport var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: lightGraySkin, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+
+// load new device information from the JSON file
 export function loadNewDevicesJSON(container) {
 	var uri = newDevicesFile;
 	var json_content = load_json(uri);
@@ -82,6 +88,7 @@ export function loadNewDevicesJSON(container) {
 	// container[1].skin = lightGraySkin; // it also works
 }
 
+// update the skins of the device list so as to indicate which device is selected
 function updateSkins(container, idx) {
 	if (SELECTED == idx)
 		SELECTED = -1;
@@ -95,8 +102,12 @@ function updateSkins(container, idx) {
 			//container["newdevice_" + i].skin = whiteSkin;
 			container[i + 1].skin = whiteSkin;
 	}
-}export var SearchContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [    	new SearchTopBar(),    ]}));
+}
 
+// the search screen's contentsexport var SearchContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [    	new SearchTopBar(),
+    	// to be loaded latter on by function loadNewDevicesJSON, using template NewDeviceTemplate    ]}));
+
+// new device's list item template
 var NewDeviceTemplate= Container.template($ => ({
 	top: device_list_item_padding, left: device_list_item_padding, 
 	right: device_list_item_padding, bottom: device_list_item_padding, 
@@ -116,7 +127,9 @@ var NewDeviceTemplate= Container.template($ => ({
 			updateSkins(SearchContent, $.idx);
 		}
 	})
-}));var SearchTopBar = Container.template($ => ({	// top-bar	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,	contents: [
+}));
+
+// the top bar that contains title and buttonsvar SearchTopBar = Container.template($ => ({	// top-bar	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,	contents: [
 		new Column( { contents: [
 			new Line( { contents: [
 				new CancelTemplate(),
@@ -125,6 +138,7 @@ var NewDeviceTemplate= Container.template($ => ({
 			] }),			new Label({				string: "SELECT DEVICE TO ADD",				style: midText,			}),
 		]}),		/*		new Line({						contents: [				//				new AddSearchTemplate({}),			]		}),		*/	]}));
 
+// cancel button on top left of the screen
 let CancelTemplate = Container.template($ => ({
 	active: true,
 	contents: [
@@ -143,6 +157,7 @@ let CancelTemplate = Container.template($ => ({
 	})
 }));
 
+// the add button on top right of the screen
 let AddTemplate = Container.template($ => ({
 	active: true,
 	contents: [
@@ -166,6 +181,7 @@ let AddTemplate = Container.template($ => ({
 	})
 }));
 
+// the indentational blank
 let Blank = Container.template($ => ({
 	width: 200
 }));
