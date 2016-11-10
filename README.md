@@ -39,3 +39,5 @@ Updates:
 ![second_design](img/HoM_v2_design.png "The Second Design")
 2. Mo's and Patricia's part is done ([YouTube](https://youtu.be/150_U_h_4Tg))
 ![second_design_implement_halfway](img/HoM_v2_design_implement_phase_1_2.png "Second Design Half-Way Implemented")
+3. Jacqueline's part is done and device simulator side's screen is updated
+![second_design_implemented](img/HoM_v2_design_implement_phase_3.png "Second Design Implemented")
