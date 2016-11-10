@@ -73,7 +73,7 @@ let deviceItemTemplate = Line.template($ => ({
 					left:0, right:0, 
 					//height:	height_label, 
 					width: 	width_label,
-					string:	$.timing, 
+					string:	"Timing " + $.timing, 
 					style: 	midStyle,
 					name:	"timing"
 				}),
