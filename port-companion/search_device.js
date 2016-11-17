@@ -33,9 +33,8 @@
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';import {
 	load_json,
 	save_data,
-	DATA,	TMP_SCREEN,	midText,	whiteSkin,
-	midGraySkin,
-	lightGraySkin,
+	DATA,	TMP_SCREEN,
+	skins,	midText,
 	lightGraySmallText,
 	darkGraySmallText,	device_list_item_padding,	device_list_topbar_height,
 	newDevicesFile} from "global_settings";
@@ -61,7 +60,7 @@ var NUM_NEW = 0;
 export var SELECTED = -1;
 export var newDeviceData;
 
-// the screen's whole templateexport var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: lightGraySkin, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+// the screen's whole templateexport var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: skins.background.search_device, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
 
 // load new device information from the JSON file
 export function loadNewDevicesJSON(container) {
@@ -100,10 +99,10 @@ function updateSkins(container, idx) {
 	for (var i = 0; i < NUM_NEW; i++) {
 		if (SELECTED == i)
 			//container["newdevice_" + i].skin = midGraySkin;
-			container[i + 1].skin = midGraySkin;
+			container[i + 1].skin = skins.highlight.search_device;
 		else
 			//container["newdevice_" + i].skin = whiteSkin;
-			container[i + 1].skin = whiteSkin;
+			container[i + 1].skin = skins.foreground.search_device;
 	}
 }
 
@@ -115,7 +114,7 @@ var NewDeviceTemplate= Container.template($ => ({
 	top: device_list_item_padding, left: device_list_item_padding, 
 	right: device_list_item_padding, bottom: device_list_item_padding, 
 	height: device_list_topbar_height,
-	skin: whiteSkin,
+	skin: skins.foreground.search_device,
 	idx: $.idx,
 	active: true, // active the behavior
 	contents: [

@@ -10,7 +10,7 @@
 import {
 	TMP_SCREEN,
 	img_logo,
-	whiteSkin,
+	skins,
 	titleText,
 	welcome_img_padding,
 	welcome_img_size,
@@ -111,7 +111,7 @@ var ApplicationBehavior = Behavior.template({
 });
 
 // initialize the welcome screen
-TMP_SCREEN = new WelcomePageTemplate({ skin: whiteSkin, img_url: img_logo, title: "HoM"});
+TMP_SCREEN = new WelcomePageTemplate({ skin: skins.background.welcome, img_url: img_logo, title: "HoM"});
 application.behavior = new ApplicationBehavior(); 
 application.add(TMP_SCREEN);
 

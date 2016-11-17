@@ -70,10 +70,33 @@ export var darkGray2 = "#4F4F4F";
 export var darkGray = "#202020";
 export var midGray = "#E0E0E0";
 // skins
-export var whiteSkin = new Skin({ fill: "white" });
-export var lightGraySkin = new Skin({ fill: lightGray });
-export var darkGraySkin = new Skin({ fill: darkGray });
-export var midGraySkin = new Skin({ fill: midGray });
+
+var whiteSkin = new Skin({ fill: "white" });
+var lightGraySkin = new Skin({ fill: lightGray });
+var darkGraySkin = new Skin({ fill: darkGray });
+var midGraySkin = new Skin({ fill: midGray });
+
+// skins exported
+export var skins = {
+	navbar: lightGraySkin,
+	background: {
+		welcome: whiteSkin,
+		home: whiteSkin,
+		search_device: lightGraySkin,
+		add_device: whiteSkin,
+		device: whiteSkin,
+		timing: whiteSkin,
+	},
+	foreground: {
+		welcome: whiteSkin,
+		home: lightGraySkin,
+		search_device: whiteSkin,
+		device: lightGraySkin,
+	},
+	highlight: {
+		search_device: midGraySkin,
+	}
+};
 // text styles
 export var titleText = new Style({ font: "bold 18px", color: darkGray });
 export var buttonText = new Style({ font: "bold 18px", color: "#DDDDDD" });

@@ -26,7 +26,7 @@ import {
 	synch_data,
 	TMP_SCREEN,
 	largeText,
-	whiteSkin,
+	skins,
 	device_list_item_padding,
 	device_list_topbar_height,
 	// lightGraySmallText,
@@ -62,7 +62,7 @@ import {
 export var AddDeviceScreen;
 export var AddDeviceContent;
 
-// the template of the whole add device screenexport var AddDeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.AddDeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+// the template of the whole add device screenexport var AddDeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: skins.background.add_device,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.AddDeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
 
 // the template of main contents on the screen "add_device"
 export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [

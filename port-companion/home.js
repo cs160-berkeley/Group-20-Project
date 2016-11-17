@@ -51,9 +51,7 @@ import {
 	largeText,
 	BAR_HEIGHT_TOP,
 	BAR_HEIGHT_BOTTOM,
-	whiteSkin,
-	lightGraySkin,
-	darkGraySkin,
+	skins,
 	home_list_topbar_height,
 	home_list_item_height,
 	home_list_item_padding,
@@ -90,12 +88,12 @@ export var HomeContent;
 export var HomeScreen;
 
 // home screen template, used to implement HomeScreenexport var HomeScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
-    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
+    skin: skins.background.home,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
         // top bar // not needed for now
         /*        new Container({             top: 0, height: BAR_HEIGHT_TOP, left: 0, right: 0, skin: darkGraySkin,            style: titleStyle,             contents: [                new Label({ string: "HoM" }),            ]        }),
         */
         // bottom bar // the navigation bar for now
-        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: lightGraySkin,             contents: [
+        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: skins.navbar,             contents: [
                 new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: true}),
                 new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),
                 new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: false}),
@@ -214,7 +212,7 @@ function getStatusURL(type, value) {
 export var DeviceItemTemplate = Line.template($ => ({
 	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 	height: home_list_item_height,
-	skin: lightGraySkin,
+	skin: skins.foreground.home,
 	idx: $.idx,
 	contents: [
 		new Column ({

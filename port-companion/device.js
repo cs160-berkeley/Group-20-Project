@@ -40,8 +40,7 @@ import {
 	largeText,
 	darkGrayMidText,
 	darkGrayMidText_thin,
-	whiteSkin,
-	lightGraySkin,
+	skins,
 	device_list_item_padding,
 	device_list_topbar_height,
 	device_list_topbar_width,
@@ -72,7 +71,7 @@ export var DeviceContent;
 // the template: device screen, contains main contents & scroller (without top / bottom navbar on this page)
 export var DeviceScreenTemplate = Container.template($ => ({
     left: 0, right: 0, top: 0, bottom: 0,
-    skin: whiteSkin,
+    skin: skins.background.device,
     contents: [
         VerticalScroller($, { 
             active: true, top: 0, bottom: 0,
@@ -144,7 +143,7 @@ function getStr(idx, option) {
 // only layout purpose, no functionality
 export var Divide = Line.template($ => ({
 	top: 0, left: device_list_item_padding, right: device_list_item_padding, bottom: 0,
-	height: $.height, width: $.length, skin: lightGraySkin,
+	height: $.height, width: $.length, skin: skins.foreground.device,
 }));
 
 // the setting-options bar
