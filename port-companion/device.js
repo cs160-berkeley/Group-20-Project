@@ -37,15 +37,12 @@ import {
 	DATA,
 	save_data,
 	TMP_SCREEN,
-	largeText,
-	darkGrayMidText,
-	darkGrayMidText_thin,
+	texts,
 	skins,
 	device_list_item_padding,
 	device_list_topbar_height,
 	device_list_topbar_width,
 	device_list_setting_height,
-	darkGraySmallText,
 	device_image_size
 } from "global_settings";
 
@@ -157,18 +154,18 @@ export var SettingOptions = Line.template($ => ({
 	contents: [
 		new Label({
 			string: $.label,
-			style: darkGrayMidText_thin,
+			style: texts.device.content,
 			width: 100,
 		}),
 		new Blank({length: 100}),
 		new Label({
 			string: getStr($.idx, $.label),
-			style: darkGrayMidText_thin,
+			style: texts.device.content,
 			width: 60,
 		}),
 		new Label({
 			string: ">",
-			style: darkGrayMidText_thin,
+			style: texts.device.content,
 		}),
 	],
 	behavior: Behavior({
@@ -201,11 +198,11 @@ var DeviceTopBar = Container.template($ => ({
 			
 			new Label({
 				string: DATA.init[$.idx].DeviceName,
-				style: largeText,
+				style: texts.device.title,
 			}),
 			new Label({
 				string: DATA.init[$.idx].DeviceGroup,
-				style: darkGrayMidText,
+				style: texts.device.subtitle,
 			}),
 		
 		]}),
@@ -219,7 +216,7 @@ let BackTemplate = Container.template($ => ({
 	contents: [
 		new Label({
 			string: "< BACK",
-			style: darkGraySmallText,
+			style: texts.device.topbutton,
 		})
 	],
 	behavior: Behavior({

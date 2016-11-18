@@ -45,13 +45,10 @@ import {
 	off_uri,
 	lock_uri,
 	unlock_uri,
-	hintText,
-	midText,
-	smallText,
-	largeText,
 	BAR_HEIGHT_TOP,
 	BAR_HEIGHT_BOTTOM,
 	skins,
+	texts,
 	home_list_topbar_height,
 	home_list_item_height,
 	home_list_item_padding,
@@ -112,7 +109,7 @@ var iconTemplate = Column.template($ => ({
 		
 		new Label({
 			string: $.hint,
-			style: hintText,
+			style: texts.home.navhint,
 		}),
 	],
 	behavior: Behavior({
@@ -158,7 +155,7 @@ var HomeTopBar = Container.template($ => ({
 	contents: [
 		new Label({
 			string: "My Home",
-			style: largeText,
+			style: texts.home.title,
 		}),
 		new Line({			
 			contents: [
@@ -246,11 +243,11 @@ let DeviceEntryTemplate = Container.template($ => ({
 			contents: [
 				new Label({
 					string: $.DeviceName,
-					style: midText,
+					style: texts.home.content,
 				}),
 				new Label({
 					string: $.DeviceGroup,
-					style: smallText,
+					style: texts.home.small,
 				}),
 			]
 		}),

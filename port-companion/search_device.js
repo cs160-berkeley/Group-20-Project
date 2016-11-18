@@ -34,9 +34,7 @@ import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,   
 	load_json,
 	save_data,
 	DATA,	TMP_SCREEN,
-	skins,	midText,
-	lightGraySmallText,
-	darkGraySmallText,	device_list_item_padding,	device_list_topbar_height,
+	skins,	texts,	device_list_item_padding,	device_list_topbar_height,
 	newDevicesFile} from "global_settings";
 
 import {
@@ -120,7 +118,7 @@ var NewDeviceTemplate= Container.template($ => ({
 	contents: [
 		new Label({
 			string: $.data.DeviceName,
-			style: midText,
+			style: texts.search_device.name,
 		}),
 	],
 	name: "newdevice_" + "0",//$.idx,
@@ -137,7 +135,7 @@ var NewDeviceTemplate= Container.template($ => ({
 				new CancelTemplate(),
 				new Blank(),
 				new AddTemplate()
-			] }),			new Label({				string: "SELECT DEVICE TO ADD",				style: midText,			}),
+			] }),			new Label({				string: "SELECT DEVICE TO ADD",				style: texts.search_device.title,			}),
 		]}),		/*		new Line({						contents: [				//				new AddSearchTemplate({}),			]		}),		*/	]}));
 
 // cancel button on top left of the screen
@@ -145,7 +143,7 @@ let CancelTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "CANCEL",
-			style: lightGraySmallText,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
+			style: texts.search_device.topbutton,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -164,7 +162,7 @@ let AddTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "ADD",
-			style: darkGraySmallText,		})
+			style: texts.search_device.topbutton,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {

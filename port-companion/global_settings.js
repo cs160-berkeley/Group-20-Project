@@ -63,19 +63,18 @@ export var unlock_uri = mergeURI(application.url, img_unlock);
 // connection settings
 export var DeviceSimulator = "portdevice.project.kinoma.marvell.com";
 export var deviceURL = "";
-// colors
-export var lightGray = "#F2F2F2";
-export var lightGray2 = "#BDBDBD";
-export var darkGray2 = "#4F4F4F";
-export var darkGray = "#202020";
-export var midGray = "#E0E0E0";
-// skins
 
+// colors
+var lightGray = "#F2F2F2";
+var lightGray2 = "#BDBDBD";
+var darkGray2 = "#4F4F4F";
+var darkGray = "#202020";
+var midGray = "#E0E0E0";
+// skins
 var whiteSkin = new Skin({ fill: "white" });
 var lightGraySkin = new Skin({ fill: lightGray });
 var darkGraySkin = new Skin({ fill: darkGray });
 var midGraySkin = new Skin({ fill: midGray });
-
 // skins exported
 export var skins = {
 	navbar: lightGraySkin,
@@ -98,16 +97,50 @@ export var skins = {
 	}
 };
 // text styles
-export var titleText = new Style({ font: "bold 18px", color: darkGray });
-export var buttonText = new Style({ font: "bold 18px", color: "#DDDDDD" });
-export var hintText = new Style({ font: "10px", color: darkGray });
-export var midText = new Style({ font: "bold 20px", color: darkGray });
-export var smallText = new Style({ font: "15px", color: "black" });
-export var largeText = new Style({ font: "bold 30px", color: darkGray });
-export var lightGraySmallText = new Style({ font: "bold 15px", color: lightGray2 });
-export var darkGraySmallText = new Style({ font: "bold 15px", color: darkGray2 });
-export var darkGrayMidText = new Style({ font: "bold 20px", color: darkGray2 });
-export var darkGrayMidText_thin = new Style({ font: "18px", color: darkGray2 });
+var titleText = new Style({ font: "bold 18px", color: darkGray });
+var buttonText = new Style({ font: "bold 18px", color: "#DDDDDD" });
+var hintText = new Style({ font: "10px", color: darkGray });
+var midText = new Style({ font: "bold 20px", color: darkGray });
+var smallText = new Style({ font: "15px", color: "black" });
+var largeText = new Style({ font: "bold 30px", color: darkGray });
+var lightGraySmallText = new Style({ font: "bold 15px", color: lightGray2 });
+var darkGraySmallText = new Style({ font: "bold 15px", color: darkGray2 });
+var darkGrayMidText = new Style({ font: "bold 20px", color: darkGray2 });
+var darkGrayMidText_thin = new Style({ font: "18px", color: darkGray2 });
+// exported text styles
+export var texts = {
+	welcome: {
+		title: titleText,
+		button: buttonText,
+	},
+	home: {
+		title: largeText,
+		navhint: hintText,
+		content: midText,
+		small: smallText,
+	},
+	search_device: {
+		name: midText,
+		title: midText,
+		topbutton: lightGraySmallText,
+		darkGraySmallText,
+	},
+	add_device: {
+		title: largeText,
+		topbutton: darkGraySmallText,
+		content: darkGrayMidText_thin,
+	},
+	device: {
+		title: largeText,
+		subtitle: darkGrayMidText,
+		content: darkGrayMidText_thin,
+		topbutton: darkGraySmallText,
+	},
+	timing: {
+		title: largeText,		darkGrayMidText,
+		topbutton: darkGraySmallText,		content: darkGrayMidText_thin,
+	}
+}
 
 // file io functions
 export function load_json(uri) {

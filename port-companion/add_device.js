@@ -25,13 +25,10 @@ import {
 	save_data,
 	synch_data,
 	TMP_SCREEN,
-	largeText,
+	texts,
 	skins,
 	device_list_item_padding,
 	device_list_topbar_height,
-	// lightGraySmallText,
-	darkGraySmallText,
-	darkGrayMidText_thin
 } from "global_settings";
 
 import {
@@ -72,9 +69,9 @@ export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 
     			new Column( {
     				width: 200,
     				contents: [
-    					new Label({							string: newDeviceData[SELECTED].DeviceName,							style: darkGrayMidText_thin,						}),
+    					new Label({							string: newDeviceData[SELECTED].DeviceName,							style: texts.add_device.content,						}),
 						new Divide({height: 1, length: 200}),
-						new Label({							string: newDeviceData[SELECTED].DeviceGroup,							style: darkGrayMidText_thin,						}),
+						new Label({							string: newDeviceData[SELECTED].DeviceGroup,							style: texts.add_device.content,						}),
 						new Divide({height: 1, length: 200}),
     				]
     			}),
@@ -102,7 +99,7 @@ var AddDeviceTopBar = Container.template($ => ({	// top-bar	top: device_list_i
 				new BackTemplate(),
 				new Blank(),
 				new SaveTemplate()
-			] }),			new Label({				string: newDeviceData[SELECTED].DeviceName,				style: largeText,			}),
+			] }),			new Label({				string: newDeviceData[SELECTED].DeviceName,				style: texts.add_device.title,			}),
 		]}),	]}));
 
 // the button to click to go back to search_device screen
@@ -110,7 +107,7 @@ let BackTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "< BACK",
-			style: darkGraySmallText,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
+			style: texts.add_device.topbutton,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -132,7 +129,7 @@ let SaveTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "SAVE",
-			style: darkGraySmallText,		})
+			style: texts.add_device.topbutton,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {

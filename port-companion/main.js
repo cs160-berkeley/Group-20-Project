@@ -11,11 +11,10 @@ import {
 	TMP_SCREEN,
 	img_logo,
 	skins,
-	titleText,
+	texts,
 	welcome_img_padding,
 	welcome_img_size,
 	welcome_button_height,
-	buttonText,
 	DeviceSimulator,
 	deviceURL,
 	load_data,
@@ -47,7 +46,7 @@ DATA = load_data();
 let enterButtonTemplate = Button.template($ => ({
     top: 0, width: 200, right: 0, height: welcome_button_height,
     contents: [
-        Label($, {left: 0, right: 0, height: welcome_button_height, string: $.textForLabel, style: buttonText})
+        Label($, {left: 0, right: 0, height: welcome_button_height, string: $.textForLabel, style: texts.welcome.button})
     ],
     Behavior: class extends ButtonBehavior {
         onTap(button){      
@@ -76,7 +75,7 @@ var WelcomePageTemplate = Container.template($ => ({
 				}),
 				new Label({
 					string: $.title,
-					style: titleText
+					style: texts.welcome.title
 				}),
 				new enterButtonTemplate({textForLabel: "ENTER YOUR HOME"}),
 				
