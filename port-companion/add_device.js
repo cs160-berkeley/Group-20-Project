@@ -65,6 +65,7 @@ export var AddDeviceContent;
 export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
     	new AddDeviceTopBar(),
     	new Line( {
+    		top: 20,
     		contents: [
     			new Column( {
     				width: 200,
@@ -77,8 +78,10 @@ export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 
     			}),
     			new Column ({
     				width: 100,
+    				right: 30,
     				contents: [
-    					new Picture({							url: newDeviceData[SELECTED].img,						}),
+    					new Picture({
+    						height: 100,							url: newDeviceData[SELECTED].img,						}),
     				]
     			})
     		]
@@ -93,9 +96,12 @@ export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 
 		*/    ]}));
 
 // the top bar of add_device screen
-var AddDeviceTopBar = Container.template($ => ({	// top-bar	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,	contents: [
-		new Column( { contents: [
-			new Line( { contents: [
+var AddDeviceTopBar = Container.template($ => ({	// top-bar/*	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,  skin: skins.foreground.deviceTitle,*/
+	top: 0, left: 0, right: 0, bottom: 0,	height: device_list_topbar_height+15,  skin: skins.foreground.deviceTitle,	contents: [
+		new Column({  contents: [
+			new Line( { 
+			top: device_list_item_padding, 
+			contents: [
 				new BackTemplate(),
 				new Blank(),
 				new SaveTemplate()

@@ -84,7 +84,7 @@ export var DeviceScreenTemplate = Container.template($ => ({
 
 // the template: device content, a parameter of device screen's template, contains the main contents
 export var DeviceContentTemplate = Column.template($ => ({
-    top: 0, left: 0, right: 0, 
+    top: 0, left: 25, right: 0, 
     contents: [
     	new DeviceTopBar({idx: $.idx}),
         new Line ( {
@@ -104,8 +104,7 @@ export var DeviceContentTemplate = Column.template($ => ({
 		new Divide({height: 1, length: 200}),
     ]
 }));
-
-// get the annotation string that appears on screen for each option (such as "On/Off" for "TYPE")
+ // get the annotation string that appears on screen for each option (such as "On/Off" for "TYPE")
 // called by the template: SettingOptions only
 function getStr(idx, option) {
 	if (option == "TYPE") {
@@ -215,6 +214,7 @@ let BackTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({
+			top: 25,
 			string: "< BACK",
 			style: texts.device.topbutton,
 		})
