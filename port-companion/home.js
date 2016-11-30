@@ -51,8 +51,7 @@ import {
 	texts,
 	home_list_topbar_height,
 	home_list_item_height,
-	home_list_item_padding_w,
-	home_list_item_padding_h,
+	home_list_item_padding,
 	home_list_tag_width,
 	bottom_bar_padding,
 	bottom_bar_img_size,
@@ -86,7 +85,7 @@ export var HomeContent;
 export var HomeScreen;
 
 // home screen template, used to implement HomeScreenexport var HomeScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
-    skin: skins.background.home,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),           //      TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
+    skin: skins.background.home,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
         // top bar // not needed for now
         /*        new Container({             top: 0, height: BAR_HEIGHT_TOP, left: 0, right: 0, skin: darkGraySkin,            style: titleStyle,             contents: [                new Label({ string: "HoM" }),            ]        }),
         */
@@ -105,7 +104,7 @@ var iconTemplate = Column.template($ => ({
 		new iconButtonTemplate({
 			name: $.hint, 
 			url: $.activate? $.icon_img.activated: $.icon_img.idel,
-			padding: $.padding, size: 25,
+			padding: $.padding, size: $.size,
 		}),
 		
 		new Label({
@@ -128,7 +127,7 @@ let iconButtonTemplate = Container.template($ => ({ // the icons in the bottom n
 }));
 
 // home content template, used to implement HomeContent
-export let HomeContentTemplate = Column.template($ => ({     top: 10, left: 0, right: 0,    contents: [
+export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, right: 0,    contents: [
     	new HomeTopBar(),	// the top bar
     	// device list would be added latter by the function LoadHomeContent
     	// those devices are implemented by DeviceItemTemplate    ],}));
@@ -151,7 +150,7 @@ export function LoadHomeContent(homeContent) {
 // the "top" navigate bar of home screen (not really stick to the top, it goes up and down with the scroller
 var HomeTopBar = Container.template($ => ({
 	// top-bar
-	top: home_list_item_padding_h, left: home_list_item_padding_w, right: home_list_item_padding_w, bottom: home_list_item_padding_h,
+	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding,
 	height: home_list_topbar_height,
 	contents: [
 		new Label({
@@ -171,7 +170,7 @@ var HomeTopBar = Container.template($ => ({
 let AddDeviceTemplate = Container.template($ => ({
 	active: true,
 	contents: [
-		new Picture({			url: img_plus,			top: 0, left: 260, right: home_list_item_padding_w, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
+		new Picture({			url: img_plus,			top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -208,13 +207,13 @@ function getStatusURL(type, value) {
 }
 // device item template, used to implement an item in the device list
 export var DeviceItemTemplate = Line.template($ => ({
-	top: home_list_item_padding_h, left: home_list_item_padding_w, right: home_list_item_padding_w, bottom: home_list_item_padding_h, 
+	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 	height: home_list_item_height,
 	skin: skins.foreground.home,
 	idx: $.idx,
 	contents: [
 		new Column ({
-			left: home_list_item_padding_w,
+			left: home_list_item_padding,
 			width: home_list_tag_width,
 			contents: [
 				// when you click this part you'll enter a device's page
@@ -223,7 +222,7 @@ export var DeviceItemTemplate = Line.template($ => ({
 		}),
 		
 		new Column ({
-			top: home_list_item_padding_h, left: home_list_item_padding_w, right: home_list_item_padding_w, bottom: home_list_item_padding_h, 
+			top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
 			contents: [
 				new OnOffTemplate( { img_url: getStatusURL($.type, $.value), id: $.id, idx: $.idx } ),
 			],
@@ -241,7 +240,6 @@ let DeviceEntryTemplate = Container.template($ => ({
 	// on: false,
 	contents: [
 		new Column ( {
-			
 			contents: [
 				new Label({
 					string: $.DeviceName,
@@ -267,14 +265,11 @@ let DeviceEntryTemplate = Container.template($ => ({
 
 // the switcher template, used for every devices, a part of DeviceItemTemplate
 let OnOffTemplate = Container.template($ => ({
-	active: true, 
+	active: true,
 	// on: false,
 	contents: [
-		new Picture({
-			top: 18,
-			right: 18,			url: $.img_url,
-			name: "img",
-			height: 25,		})
+		new Picture({			url: $.img_url,
+			name: "img",		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
