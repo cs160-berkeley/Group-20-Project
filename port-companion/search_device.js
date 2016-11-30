@@ -35,8 +35,6 @@ import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,   
 	save_data,
 	DATA,	TMP_SCREEN,
 	skins,	texts,	device_list_item_padding,	device_list_topbar_height,
-	device_list_item_padding_h,
-	device_list_item_padding_w,
 	newDevicesFile} from "global_settings";
 
 import {
@@ -111,8 +109,8 @@ function updateSkins(container, idx) {
 
 // new device's list item template
 var NewDeviceTemplate= Container.template($ => ({
-	top: device_list_item_padding_h, left: device_list_item_padding_w, 
-	right: device_list_item_padding_w, bottom: device_list_item_padding_h, 
+	top: device_list_item_padding, left: device_list_item_padding, 
+	right: device_list_item_padding, bottom: device_list_item_padding, 
 	height: device_list_topbar_height,
 	skin: skins.foreground.search_device,
 	idx: $.idx,
@@ -137,8 +135,7 @@ var NewDeviceTemplate= Container.template($ => ({
 				new CancelTemplate(),
 				new Blank(),
 				new AddTemplate()
-			] }),			new Label({
-				top: device_list_item_padding*3,				string: "SELECT DEVICE TO ADD",				style: texts.search_device.title,			}),
+			] }),			new Label({				string: "SELECT DEVICE TO ADD",				style: texts.search_device.title,			}),
 		]}),		/*		new Line({						contents: [				//				new AddSearchTemplate({}),			]		}),		*/	]}));
 
 // cancel button on top left of the screen
