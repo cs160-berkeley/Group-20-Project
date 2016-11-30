@@ -10,20 +10,23 @@
 // temporary screen
 export var TMP_SCREEN;
 // parameters
-export var welcome_img_padding = 45;
-export var welcome_img_size = 90;
+export var welcome_img_padding = 50;
+export var welcome_img_size = 270;
 export var welcome_button_height = 36;
-export var home_list_item_height = 60;
-export var home_list_item_padding = 10;
+export var home_list_item_height = 70;
+export var home_list_item_padding_h = 5;
+export var home_list_item_padding_w = 20;
 export var home_list_tag_width = 200;
 export var home_list_topbar_height = 60;
-export var home_list_topbar_img_size = 20;
-export var device_list_item_padding = 10;
-export var device_list_topbar_height = 60;
+export var home_list_topbar_img_size = 25;
+export var device_list_item_padding = 5;
+export var device_list_item_padding_h = 5;
+export var device_list_item_padding_w = 20;
+export var device_list_topbar_height = 70;
 export var device_list_topbar_width = 250;
 export var device_list_setting_height = 20;
 export var device_image_size = 100;
-export var bottom_bar_padding = 3;
+export var bottom_bar_padding = 5;
 export var bottom_bar_img_size = 30;//20;//36;
 export var BAR_HEIGHT_TOP = 0; // 25;
 export var BAR_HEIGHT_BOTTOM = 45;
@@ -31,29 +34,29 @@ export var BAR_HEIGHT_BOTTOM = 45;
 var img_dir = "./assets/";
 export var img_SwitchBGD = img_dir + "switchBackground.png";
 export var img_SwitchFGD = img_dir + "switchForeground.png";
-export var img_logo = img_dir + "Group.png";
-export var img_plus = img_dir + "add.png";
-export var img_off = img_dir +  "button_off.png";
-export var img_on = img_dir +  "button_on.png";
-export var img_lock = img_dir +  "button_lock.png";
-export var img_unlock = img_dir +  "button_unlock.png";
+export var img_logo = img_dir + "logo.png";
+export var img_plus = img_dir + "plus.png";
+export var img_off = img_dir +  "buttonOff.png";
+export var img_on = img_dir +  "buttonOn.png";
+export var img_lock = img_dir +  "lockOn.png";
+export var img_unlock = img_dir +  "lockOff.png";
 var file_dir = "./files/";
 export var file_init = file_dir + "init_data.json";
 export var img_home = {
-	activated: img_dir + "home.png",
-	idel: img_dir + "idel_home.png"
+	activated: img_dir + "home-on.png",
+	idel: img_dir + "home-off.png"
 };
 export var img_fave = {
-	activated: img_dir + "favorites.png",
-	idel: img_dir + "idel_favorites.png"
+	activated: img_dir + "favorites-on.png",
+	idel: img_dir + "favorites-off.png"
 };
 export var img_note = {
-	activated: img_dir + "notifications.png",
-	idel: img_dir + "idel_notifications.png"
+	activated: img_dir + "notifs-on.png",
+	idel: img_dir + "notifs-off.png"
 };
 export var img_sett = {
-	activated: img_dir + "settings.png",
-	idel: img_dir + "idel_settings.png"
+	activated: img_dir + "settings-on.png",
+	idel: img_dir + "settings-off.png"
 };
 // uri
 export var on_uri = mergeURI(application.url, img_on);
@@ -65,48 +68,62 @@ export var DeviceSimulator = "portdevice.project.kinoma.marvell.com";
 export var deviceURL = "";
 
 // colors
-var lightGray = "#F2F2F2";
+//var lightGray = "#F2F2F2";
+var lightGray = "#F5F8FA";
 var lightGray2 = "#BDBDBD";
 var darkGray2 = "#4F4F4F";
 var darkGray = "#202020";
 var midGray = "#E0E0E0";
+var red = "#F16373";
+var blue = "#0CBBF7";
+var white = "#ffffff";
+var whiteTrans = "#ccffffff";
+var green = "#92E1E0";
+
 // skins
 var whiteSkin = new Skin({ fill: "white" });
+var redSkin = new Skin({ fill: red });
+var blueSkin = new Skin({ fill: blue });
+var greenSkin = new Skin({ fill: green });
 var lightGraySkin = new Skin({ fill: lightGray });
 var darkGraySkin = new Skin({ fill: darkGray });
 var midGraySkin = new Skin({ fill: midGray });
 // skins exported
 export var skins = {
-	navbar: lightGraySkin,
+	//navbar: lightGraySkin,
+	navbar: whiteSkin,
 	background: {
-		welcome: whiteSkin,
-		home: whiteSkin,
+		welcome: lightGraySkin,
+		home: lightGraySkin,
 		search_device: lightGraySkin,
-		add_device: whiteSkin,
-		device: whiteSkin,
+		add_device: lightGraySkin,
+		device: lightGraySkin,
 		timing: whiteSkin,
 	},
 	foreground: {
 		welcome: whiteSkin,
-		home: lightGraySkin,
+		home: whiteSkin,
 		search_device: whiteSkin,
 		device: lightGraySkin,
+		deviceTitle: blueSkin,
 	},
 	highlight: {
-		search_device: midGraySkin,
+		search_device: blueSkin,
 	}
 };
 // text styles
-var titleText = new Style({ font: "bold 18px", color: darkGray });
-var buttonText = new Style({ font: "bold 18px", color: "#DDDDDD" });
-var hintText = new Style({ font: "10px", color: darkGray });
-var midText = new Style({ font: "bold 20px", color: darkGray });
-var smallText = new Style({ font: "15px", color: "black" });
-var largeText = new Style({ font: "bold 30px", color: darkGray });
-var lightGraySmallText = new Style({ font: "bold 15px", color: lightGray2 });
-var darkGraySmallText = new Style({ font: "bold 15px", color: darkGray2 });
-var darkGrayMidText = new Style({ font: "bold 20px", color: darkGray2 });
-var darkGrayMidText_thin = new Style({ font: "18px", color: darkGray2 });
+var titleText = new Style({ font: "bold 18px Roboto", color: darkGray });
+var buttonText = new Style({ font: "bold 18px Roboto", color: white });
+var hintText = new Style({ font: "10px Roboto", color: darkGray });
+var midText = new Style({ font: "bold 20px Roboto", color: darkGray, horizontal: "left" });
+var smallText = new Style({ font: "15px Roboto", color: "black", horizontal: "left" });
+var largeText = new Style({ font: "bold 30px Roboto", color: darkGray });
+var largeWhiteText = new Style({ font: "bold 30px Roboto", color: white });
+var lightGraySmallText = new Style({ font: "bold 15px Roboto", color: lightGray2 });
+var darkGraySmallText = new Style({ font: "bold 15px Roboto", color: darkGray2 });
+var transSmallText = new Style({ font: "bold 15px Roboto", color: whiteTrans });
+var darkGrayMidText = new Style({ font: "bold 20px Roboto", color: darkGray2, horizontal: "left" });
+var darkGrayMidText_thin = new Style({ font: "18px Roboto", color: darkGray2,horizontal: "left" });
 // exported text styles
 export var texts = {
 	welcome: {
@@ -126,8 +143,8 @@ export var texts = {
 		darkGraySmallText,
 	},
 	add_device: {
-		title: largeText,
-		topbutton: darkGraySmallText,
+		title: largeWhiteText,
+		topbutton: transSmallText,
 		content: darkGrayMidText_thin,
 	},
 	device: {
