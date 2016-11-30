@@ -44,7 +44,7 @@ DATA = load_data();
 
 // the button to enter the home page
 let enterButtonTemplate = Button.template($ => ({
-    top: 0, width: 200, right: 0, height: welcome_button_height,
+    top: 0, width: 200, /*right: 0,*/ height: welcome_button_height,
     contents: [
         Label($, {left: 0, right: 0, height: welcome_button_height, string: $.textForLabel, style: texts.welcome.button})
     ],
@@ -73,10 +73,10 @@ var WelcomePageTemplate = Container.template($ => ({
 					url: $.img_url,
 					top: padding, left: padding, right: padding, width: size, height: size,
 				}),
-				new Label({
+				/*new Label({
 					string: $.title,
 					style: texts.welcome.title
-				}),
+				}),*/
 				new enterButtonTemplate({textForLabel: "ENTER YOUR HOME"}),
 				
 			]
