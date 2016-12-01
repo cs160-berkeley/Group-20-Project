@@ -104,7 +104,7 @@ export var skins = {
 		favorites: lightGraySkin,
 		search_device: lightGraySkin,
 		add_device: lightGraySkin,
-		device: lightGraySkin,
+		device: whiteSkin, //lightGraySkin,
 		timing: whiteSkin,
 	},
 	foreground: {

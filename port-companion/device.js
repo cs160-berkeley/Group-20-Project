@@ -88,7 +88,7 @@ export var DeviceScreenTemplate = Container.template($ => ({
 
 // the template: device content, a parameter of device screen's template, contains the main contents
 export var DeviceContentTemplate = Column.template($ => ({
-    top: 0, left: 25, right: 0, 
+    top: 0, left: 20, right: 20, 
     contents: [
     	new DeviceTopBar({idx: $.idx}),
     	new Line({height: 10}),
@@ -201,7 +201,7 @@ var FavoriteOnOff = Line.template($ => ({
 			style: texts.device.content,
 			width: 100,
 		}),
-		new Blank({length: 36}),
+		new Blank({length: 40}),
 		new Picture({			top: 0,			right: 20,			url: getOnOff($.idx),			name: "img",			height: 20,		})
 	],
 	behavior: Behavior({
