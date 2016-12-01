@@ -34,6 +34,10 @@ import {
 } from 'lib/scroller';
 
 import {
+	img_off,
+	img_on,
+	on_uri,
+	off_uri,
 	DATA,
 	save_data,
 	TMP_SCREEN,
@@ -97,6 +101,8 @@ export var DeviceContentTemplate = Column.template($ => ({
 			]
 		}),
 		new Line({height: 20}),
+		new FavoriteOnOff({label: "FAVORITE", idx: $.idx}),
+		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "TYPE", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "TIMING", idx: $.idx}),
@@ -184,6 +190,49 @@ export var SettingOptions = Line.template($ => ({
 	})
 	
 }));
+// Basically the same but a little bit different
+var FavoriteOnOff = Line.template($ => ({
+	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,
+	height: device_list_setting_height,
+	active: true,
+	contents: [
+		new Label({
+			string: $.label,
+			style: texts.device.content,
+			width: 100,
+		}),
+		new Blank({length: 36}),
+		new Picture({			top: 0,			right: 20,			url: getOnOff($.idx),			name: "img",			height: 20,		})
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			// update on / off
+			if (container.img.url == on_uri) {
+				// turn off
+				container.img.url = img_off;
+				// update favorite status
+				DATA.init[$.idx].favorite = 0;
+			}
+			else if (container.img.url == off_uri) {
+				// turn on
+				container.img.url = img_on;
+				// update favorite status
+				DATA.init[$.idx].favorite = 1;
+			}
+			else {
+			}
+        	save_data(DATA); // update data file
+			// synch_data(); // update the hardware simulator
+		}
+	})
+	
+}));
+
+function getOnOff(idx) {
+	if (DATA.init[idx].favorite)
+		return img_on;
+	return img_off;
+}
 
 // the title part of the device screen, contains brief discription & back button
 var DeviceTopBar = Container.template($ => ({
