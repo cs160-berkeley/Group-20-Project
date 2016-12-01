@@ -45,4 +45,4 @@ Updates:
 
 ## Stage 2: Improvement
 
-> Note: You might be running into problem when trying to run our *companion-app* code the **SECOND** time. If that happens, go to your corresponding application preference folder. You could examine its exact location by printing out application.url in Kinoma Code. Plus, if you are a Mac user, it is under a hidden folder by default. If you want to make the hidden folders visible in finder, just copy & paste & run 'defaults write com.apple.finder AppleShowAllFiles -boolean true ; killall Finder' in your terminal.
+> Note: You might be running into problem when trying to run our *companion-app* code the **SECOND** time. If that happens, go to your corresponding application preference folder. You could examine its exact location by printing out application.url in Kinoma Code. Plus, if you are a Mac user, it is under a hidden folder by default. If you want to make the hidden folders visible in finder, just copy & paste & run `defaults write com.apple.finder AppleShowAllFiles -boolean true ; killall Finder` in your terminal.
