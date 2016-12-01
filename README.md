@@ -41,3 +41,8 @@ Updates:
 ![second_design_implement_halfway](img/HoM_v2_design_implement_phase_1_2.png "Second Design Half-Way Implemented")
 3. Jacqueline's part is done and device simulator side's screen is updated, Jonya made the final video ([YouTube](https://youtu.be/eGW4OmLUgos))
 ![second_design_implemented](img/HoM_v2_design_implement_phase_3.png "Second Design Implemented")
+
+
+## Stage 2: Improvement
+
+> Note: You might be running into problem when trying to run our *companion-app* code the **SECOND** time. If that happens, go to your corresponding application preference folder. You could examine its exact location by printing out application.url in Kinoma Code. Plus, if you are a Mac user, it is under a hidden folder by default. If you want to make the hidden folders visible in finder, just copy & paste & run 'defaults write com.apple.finder AppleShowAllFiles -boolean true ; killall Finder' in your terminal.
