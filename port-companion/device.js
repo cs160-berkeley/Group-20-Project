@@ -38,6 +38,10 @@ import {
 	img_on,
 	on_uri,
 	off_uri,
+	img_liked,
+	img_disliked,
+	liked_uri,
+	disliked_uri,
 	DATA,
 	save_data,
 	TMP_SCREEN,
@@ -101,6 +105,8 @@ export var DeviceContentTemplate = Column.template($ => ({
 			]
 		}),
 		new Line({height: 20}),
+		// new DeviceOptions({idx: $.idx}),
+		
 		new FavoriteOnOff({label: "FAVORITE", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "TYPE", idx: $.idx}),
@@ -109,9 +115,11 @@ export var DeviceContentTemplate = Column.template($ => ({
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "ALERT", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
+		
     ]
 }));
- // get the annotation string that appears on screen for each option (such as "On/Off" for "TYPE")
+
+// get the annotation string that appears on screen for each option (such as "On/Off" for "TYPE")
 // called by the template: SettingOptions only
 function getStr(idx, option) {
 	if (option == "TYPE") {

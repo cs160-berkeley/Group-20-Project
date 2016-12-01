@@ -44,6 +44,8 @@ export var img_logo = img_dir + "logo.png";
 export var img_plus = img_dir + "plus.png";
 export var img_off = img_dir +  "buttonOff.png";
 export var img_on = img_dir +  "buttonOn.png";
+export var img_liked = img_dir + "favorites-on.png";
+export var img_disliked = img_dir + "favorites-off.png";
 export var img_lock = img_dir +  "lockOn.png";
 export var img_unlock = img_dir +  "lockOff.png";
 var file_dir = "./files/";
@@ -67,6 +69,8 @@ export var img_sett = {
 // uri
 export var on_uri = mergeURI(application.url, img_on);
 export var off_uri = mergeURI(application.url, img_off);
+export var liked_uri = mergeURI(application.url, img_liked);
+export var disliked_uri = mergeURI(application.url, img_disliked);
 export var lock_uri = mergeURI(application.url, img_lock);
 export var unlock_uri = mergeURI(application.url, img_unlock);
 // connection settings
