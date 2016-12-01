@@ -87,6 +87,7 @@ export var DeviceContentTemplate = Column.template($ => ({
     top: 0, left: 25, right: 0, 
     contents: [
     	new DeviceTopBar({idx: $.idx}),
+    	new Line({height: 10}),
         new Line ( {
 			contents: [
 				new Picture({

@@ -7,10 +7,11 @@
     	"value": 0, 
     	"img": "./assets/device_img.png",
     	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
+    	"time_start": -1,
+    	"time_end": -1,
     	"alert": 0,
-    	"alert_time": 0
+    	"alert_time": -1,
+    	"favorite": 0,
     },
     { 
     	"DeviceName":"Back Door", 
@@ -20,10 +21,11 @@
     	"value": 0, 
     	"img": "./assets/device_img.png",
     	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
+    	"time_start": -1,
+    	"time_end": -1,
     	"alert": 0,
-    	"alert_time": 0
+    	"alert_time": -1,
+    	"favorite": 0,
     },
     { 	
     	"DeviceName":"Television", 
@@ -33,9 +35,10 @@
     	"value": 0, 
     	"img": "./assets/device_img.png",
     	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
+    	"time_start": -1,
+    	"time_end": -1,
     	"alert": 0,
-    	"alert_time": 0
+    	"alert_time": -1,
+    	"favorite": 0,
     }
 ]}

@@ -19,6 +19,12 @@ export var home_list_item_padding_w = 20;
 export var home_list_tag_width = 200;
 export var home_list_topbar_height = 60;
 export var home_list_topbar_img_size = 25;
+export var favorites_list_item_height = 70;
+export var favorites_list_item_padding_h = 5;
+export var favorites_list_item_padding_w = 20;
+export var favorites_list_tag_width = 200;
+export var favorites_list_topbar_height = 60;
+export var favorites_list_topbar_img_size = 25;
 export var device_list_item_padding = 5;
 export var device_list_item_padding_h = 5;
 export var device_list_item_padding_w = 20;
@@ -95,6 +101,7 @@ export var skins = {
 	background: {
 		welcome: lightGraySkin,
 		home: lightGraySkin,
+		favorites: lightGraySkin,
 		search_device: lightGraySkin,
 		add_device: lightGraySkin,
 		device: lightGraySkin,
@@ -103,6 +110,7 @@ export var skins = {
 	foreground: {
 		welcome: whiteSkin,
 		home: whiteSkin,
+		favorites: whiteSkin,
 		search_device: whiteSkin,
 		device: lightGraySkin,
 		deviceTitle: blueSkin,
@@ -131,6 +139,12 @@ export var texts = {
 		button: buttonText,
 	},
 	home: {
+		title: largeText,
+		navhint: hintText,
+		content: midText,
+		small: smallText,
+	},
+	favorites: {
 		title: largeText,
 		navhint: hintText,
 		content: midText,

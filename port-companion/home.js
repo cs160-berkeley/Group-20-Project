@@ -81,6 +81,13 @@ import {
 	SELECTED
 } from "search_device";
 
+import {
+	FavoritesContent,	FavoritesScreen,
+	FavoritesContentTemplate,
+	FavoritesScreenTemplate,
+	LoadFavoritesContent
+} from "favorites";
+
 // the Content and Screen (screen = content with scroll bar) variables
 export var HomeContent;
 export var HomeScreen;
@@ -116,6 +123,29 @@ var iconTemplate = Column.template($ => ({
 	behavior: Behavior({
 		onTouchEnded: function(container) {
 			save_data(DATA);
+			if ($.hint == "home") {
+				trace("staying on home page\n");
+				/*application.remove(TMP_SCREEN);
+				HomeContent = HomeContentTemplate({});
+        		LoadHomeContent(HomeContent);
+        		HomeScreen = new HomeScreenTemplate({ HomeContent });
+        		TMP_SCREEN = HomeScreen;
+        		application.add(TMP_SCREEN);
+        		*/
+			}
+			else if ($.hint == "favorites") {
+				trace("going to favorites page\n");
+				FavoritesContent = FavoritesContentTemplate({});
+        		LoadFavoritesContent(FavoritesContent);
+        		FavoritesScreen = new FavoritesScreenTemplate({ FavoritesContent });
+        		TMP_SCREEN = FavoritesScreen;
+        		application.add(TMP_SCREEN);
+			}
+			/*
+			SearchContent = SearchContentTemplate({});
+			loadNewDevicesJSON(SearchContent);
+        	SearchScreen = new SearchScreenTemplate({ SearchContent });
+        	TMP_SCREEN = SearchScreen;*/
 			trace("going to page " + $.hint + "\n");
 		}
 	})

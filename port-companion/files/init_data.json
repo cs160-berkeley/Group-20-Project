@@ -10,7 +10,8 @@
     	"time_start": -1,
     	"time_end": -1,
     	"alert": 0,
-    	"alert_time": -1
+    	"alert_time": -1,
+    	"favorite": 0,
     },
     { 
     	"DeviceName":"Front Door", 
@@ -23,7 +24,8 @@
     	"time_start": -1,
     	"time_end": -1,
     	"alert": 0,
-    	"alert_time": -1
+    	"alert_time": -1,
+    	"favorite": 0,
     },
     { 	
     	"DeviceName":"Oven", 
@@ -36,6 +38,7 @@
     	"time_start": -1,
     	"time_end": -1,
     	"alert": 0,
-    	"alert_time": -1
+    	"alert_time": -1,
+    	"favorite": 0,
     }
 ]}
