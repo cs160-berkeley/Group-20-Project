@@ -5,12 +5,13 @@
     	"id": "night_light", 
     	"type": "binary", 
     	"value": 0, 
-    	"img": "./assets/img_device_00.png",
+    	"img": "./assets/device_img.png",
     	"timing": 0,
     	"time_start": -1,
     	"time_end": -1,
     	"alert": 0,
-    	"alert_time": -1
+    	"alert_time": -1,
+    	"favorite": 0,
     },
     { 
     	"DeviceName":"Front Door", 
@@ -18,12 +19,13 @@
     	"id": "front_door", 
     	"type": "lock", 
     	"value": 0, 
-    	"img": "./assets/img_device_00.png",
+    	"img": "./assets/device_img.png",
     	"timing": 0,
     	"time_start": -1,
     	"time_end": -1,
     	"alert": 0,
-    	"alert_time": -1
+    	"alert_time": -1,
+    	"favorite": 0,
     },
     { 	
     	"DeviceName":"Oven", 
@@ -31,11 +33,12 @@
     	"id": "oven", 
     	"type": "binary", 
     	"value": 0, 
-    	"img": "./assets/img_device_00.png",
+    	"img": "./assets/device_img.png",
     	"timing": 0,
     	"time_start": -1,
     	"time_end": -1,
     	"alert": 0,
-    	"alert_time": -1
+    	"alert_time": -1,
+    	"favorite": 0,
     }
 ]}
