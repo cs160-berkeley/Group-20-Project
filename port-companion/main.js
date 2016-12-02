@@ -46,7 +46,7 @@ DATA = load_data();
 let enterButtonTemplate = Button.template($ => ({
     top: 0, width: 200, /*right: 0,*/ height: welcome_button_height,
     contents: [
-        Label($, {left: 0, right: 0, height: welcome_button_height, string: $.textForLabel, style: texts.welcome.button})
+        Label($, {left: 0, right: 0, top: 2, height: welcome_button_height, string: $.textForLabel, style: texts.welcome.button})
     ],
     Behavior: class extends ButtonBehavior {
         onTap(button){      

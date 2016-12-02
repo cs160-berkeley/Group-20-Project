@@ -13,11 +13,11 @@
     	"alert_time": -1,
     	"favorite": 0,
     },
-    { 
-    	"DeviceName":"Back Door", 
-    	"DeviceGroup":"Home", 
-    	"id": "back_door", 
-    	"type": "lock", 
+    { 	
+    	"DeviceName":"Oven", 
+    	"DeviceGroup":"Kitchen", 
+    	"id": "oven", 
+    	"type": "binary", 
     	"value": 0, 
     	"img": "./assets/device_img.png",
     	"timing": 0,

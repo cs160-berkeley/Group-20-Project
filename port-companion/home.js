@@ -88,6 +88,14 @@ import {
 	LoadFavoritesContent
 } from "favorites";
 
+import {
+	SetContentTemplate,
+	SetScreenTemplate,
+	SetContent,
+	SetScreen,
+	LoadSetContent,
+} from "set";
+
 // the Content and Screen (screen = content with scroll bar) variables
 export var HomeContent;
 export var HomeScreen;
@@ -141,12 +149,24 @@ var iconTemplate = Column.template($ => ({
         		TMP_SCREEN = FavoritesScreen;
         		application.add(TMP_SCREEN);
 			}
+			else if ($.hint == "notifications") {
+				trace("going to notifications page\n");
+			}
+			else if ($.hint == "settings") {
+				trace("going to settings page\n");
+				application.remove(TMP_SCREEN);
+				SetContent = SetContentTemplate({});
+        		LoadSetContent(SetContent);
+        		SetScreen = new SetScreenTemplate({ SetContent });
+        		TMP_SCREEN = SetScreen;
+        		application.add(TMP_SCREEN);
+			}
 			/*
 			SearchContent = SearchContentTemplate({});
 			loadNewDevicesJSON(SearchContent);
         	SearchScreen = new SearchScreenTemplate({ SearchContent });
         	TMP_SCREEN = SearchScreen;*/
-			trace("going to page " + $.hint + "\n");
+			// trace("going to page " + $.hint + "\n");
 		}
 	})
 }));
