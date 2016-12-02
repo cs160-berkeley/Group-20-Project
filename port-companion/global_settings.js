@@ -34,7 +34,7 @@ export var settings_list_tag_width = 200;
 export var settings_list_topbar_height = 60;
 export var settings_list_topbar_img_size = 25;
 export var settings_button_height = 32;
-export var notifications_list_item_height = 70;
+export var notifications_list_item_height = 100;
 export var notifications_list_item_padding_h = 5;
 export var notifications_list_item_padding_w = 20;
 export var notifications_list_tag_width = 200;
@@ -80,6 +80,15 @@ export var img_note = {
 export var img_sett = {
 	activated: img_dir + "settings-on.png",
 	idel: img_dir + "settings-off.png"
+};
+// for notification page
+export var img_cross = {
+	activated: img_dir + "x-yes.png",
+	idel: img_dir + "x-no.png"
+};
+export var img_check = {
+	activated: img_dir + "check-yes.png",
+	idel: img_dir + "check-no.png"
 };
 // uri
 export var on_uri = mergeURI(application.url, img_on);
@@ -148,6 +157,8 @@ var buttonText = new Style({ font: "bold 18px Roboto", color: white });
 var hintText = new Style({ font: "10px Roboto", color: darkGray });
 var midText = new Style({ font: "bold 20px Roboto", color: darkGray, horizontal: "left" });
 var smallText = new Style({ font: "15px Roboto", color: "black", horizontal: "left" });
+var smallText_bold = new Style({ font: "bold 15px Roboto", color: "black", horizontal: "left" });
+var smallText_blue = new Style({ font: "bold 15px Roboto", color: blue, horizontal: "left" });
 var largeText = new Style({ font: "bold 30px Roboto", color: darkGray });
 var largeWhiteText = new Style({ font: "bold 30px Roboto", color: white });
 var lightGraySmallText = new Style({ font: "bold 15px Roboto", color: lightGray2 });
@@ -185,8 +196,8 @@ export var texts = {
 	notifications: {
 		title: largeText,
 		navhint: hintText,
-		content: midText,
-		small: smallText,
+		content: smallText_bold,
+		emph: smallText_blue,
 	},
 	search_device: {
 		name: midText,

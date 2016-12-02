@@ -1,4 +1,6 @@
-/*  * this is the part where notifications screen is implemented; includes: * 	Variables: *		NotificationsContent	- an instance of NotificationsContentTemplate, notifications page's content *		NotificationsScreen	- an instance of NotificationsScreenTemplate, the whole notifications page's screen *	Functions: *		LoadNotificationsContent - take in NotificationsContent as its parameter, add the device data to the NotificationsContent *		getStatusURL - 	an assistant function of template OnOffTemplate,  *						used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status *						device type is taken into consideration * 	Templates: *		NotificationsScreenTemplate - the template of the whole notifications screen * 			NotificationsContentTemplate - serves as a parameter of the whole screen's template, contains the main contents *				NotificationsTopBar - the title of notifications screen, scrolling with content, located on the top * 				DeviceItemTemplate - for each of the listed items (that is, devices) in the data file *					DeviceEntryTemplate - 	appearance is the label telling users the device's name / location  *											functionality is to click it and enter the "device" page *					OnOffTemplate 	- 	appearance is the on / off, or lock / unlock button on the right *										functionality is to update DATA and to change the appearance of itself by calling getStatusURL *			iconTemplate - serves as layout elements stick to the bottom of the screen *				iconButtonTemplate - 	the image used as icon is loaded here *										implemented this way so that we might be able to adapt the icons more easily * 				 */import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';// parameters & frequently-used functionsimport {	TMP_SCREEN,	img_home,	img_fave,	img_note,	img_sett,	img_plus,	img_off,	img_on,	img_lock,	img_unlock,	on_uri,	off_uri,	lock_uri,	unlock_uri,	BAR_HEIGHT_TOP,	BAR_HEIGHT_BOTTOM,	skins,	texts,	notifications_list_topbar_height,	notifications_list_item_height,	notifications_list_item_padding_w,	notifications_list_item_padding_h,	notifications_list_tag_width,	notifications_list_topbar_img_size,	bottom_bar_padding,	bottom_bar_img_size,	// load_data,	save_data,	DATA,	deviceURL,	synch_data} from "global_settings"import {	DeviceScreenTemplate,	DeviceContentTemplate,	DeviceScreen,	DeviceContent} from "device";import {	HomeContentTemplate,	HomeScreenTemplate,	HomeContent,	HomeScreen,	LoadHomeContent,} from "home";import {	SetContentTemplate,	SetScreenTemplate,	SetContent,	SetScreen,	LoadSetContent,} from "set";
+/*  * this is the part where notifications screen is implemented; includes: * 	Variables: *		NotificationsContent	- an instance of NotificationsContentTemplate, notifications page's content *		NotificationsScreen	- an instance of NotificationsScreenTemplate, the whole notifications page's screen *	Functions: *		LoadNotificationsContent - take in NotificationsContent as its parameter, add the device data to the NotificationsContent *		getStatusURL - 	an assistant function of template OnOffTemplate,  *						used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status *						device type is taken into consideration * 	Templates: *		NotificationsScreenTemplate - the template of the whole notifications screen * 			NotificationsContentTemplate - serves as a parameter of the whole screen's template, contains the main contents *				NotificationsTopBar - the title of notifications screen, scrolling with content, located on the top * 				DeviceItemTemplate - for each of the listed items (that is, devices) in the data file *					DeviceEntryTemplate - 	appearance is the label telling users the device's name / location  *											functionality is to click it and enter the "device" page *					OnOffTemplate 	- 	appearance is the on / off, or lock / unlock button on the right *										functionality is to update DATA and to change the appearance of itself by calling getStatusURL *			iconTemplate - serves as layout elements stick to the bottom of the screen *				iconButtonTemplate - 	the image used as icon is loaded here *										implemented this way so that we might be able to adapt the icons more easily * 				 */import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';// parameters & frequently-used functionsimport {
+	img_cross,
+	img_check,	TMP_SCREEN,	img_home,	img_fave,	img_note,	img_sett,	img_plus,	img_off,	img_on,	img_lock,	img_unlock,	on_uri,	off_uri,	lock_uri,	unlock_uri,	BAR_HEIGHT_TOP,	BAR_HEIGHT_BOTTOM,	skins,	texts,	notifications_list_topbar_height,	notifications_list_item_height,	notifications_list_item_padding_w,	notifications_list_item_padding_h,	notifications_list_tag_width,	notifications_list_topbar_img_size,	bottom_bar_padding,	bottom_bar_img_size,	// load_data,	save_data,	DATA,	deviceURL,	synch_data} from "global_settings"import {	DeviceScreenTemplate,	DeviceContentTemplate,	DeviceScreen,	DeviceContent} from "device";import {	HomeContentTemplate,	HomeScreenTemplate,	HomeContent,	HomeScreen,	LoadHomeContent,} from "home";import {	SetContentTemplate,	SetScreenTemplate,	SetContent,	SetScreen,	LoadSetContent,} from "set";
 
 import {
 	FavoritesContent,	FavoritesScreen,
@@ -13,6 +15,132 @@ import {
         		NotificationsScreen = new NotificationsScreenTemplate({ NotificationsContent });
         		TMP_SCREEN = NotificationsScreen;
         		application.add(TMP_SCREEN);
-				*/			}			else if ($.hint == "settings") {				trace("going to settings page\n");				application.remove(TMP_SCREEN);				SetContent = SetContentTemplate({});        		LoadSetContent(SetContent);        		SetScreen = new SetScreenTemplate({ SetContent });        		TMP_SCREEN = SetScreen;        		application.add(TMP_SCREEN);			}		}	})}));let iconButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar	contents: [		new Picture({			name: $.name,			url: $.url,			top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],}));// notifications content template, used to implement NotificationsContentexport let NotificationsContentTemplate = Column.template($ => ({     top: 10, left: 0, right: 0,    contents: [    	new NotificationsTopBar(),	// the top bar    	// device list would be added latter by the function LoadNotificationsContent    	// those devices are implemented by DeviceItemTemplate    ],}));// functions used to load device data contents to notifications page, from the device data stored in a fileexport function LoadNotificationsContent(notificationsContent) {	var len = DATA.init.length;
-	/*	for (var i = 0; i < len; i++) {		var data_elem = DATA.init[i];		// trace(data_elem.favorite + "\n");		if (!data_elem.favorite) continue;		var item = new DeviceItemTemplate({ 			DeviceName: data_elem.DeviceName, 			DeviceGroup: data_elem.DeviceGroup, 			id: data_elem.id, 			type: data_elem.type,			value: data_elem.value,			idx: i,		});		notificationsContent.add(item);	}
+				*/			}			else if ($.hint == "settings") {				trace("going to settings page\n");				application.remove(TMP_SCREEN);				SetContent = SetContentTemplate({});        		LoadSetContent(SetContent);        		SetScreen = new SetScreenTemplate({ SetContent });        		TMP_SCREEN = SetScreen;        		application.add(TMP_SCREEN);			}		}	})}));let iconButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar	contents: [		new Picture({			name: $.name,			url: $.url,			top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],}));
+
+let crossButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar	contents: [		new Picture({			// name: $.name,			url: img_cross.activated,			top: $.padding * 3, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],}));
+
+let checkButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar	contents: [		new Picture({			// name: $.name,			url: img_check.activated,			top: $.padding * 3, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],}));
+
+function getReqState(state) {
+	if (state) return "required";
+	return "requires";
+}
+
+function str(num) {
+	return num.toString();
+}
+
+export var doorUnlockMessageTemplate = Column.template($ => ({
+    top: notifications_list_item_padding_h, bottom: notifications_list_item_padding_h,
+    left: notifications_list_item_padding_w, right: notifications_list_item_padding_w,
+    height: notifications_list_item_height,
+    skin: skins.foreground.notifications,
+    contents: [
+    	// the notification content
+    	new Line ( {
+    		top: notifications_list_item_padding_h,
+	    	contents: [
+		    	new Label({
+		    		string: $.kid_name,
+					style: texts.notifications.content,
+					name: "kid_name",
+		    	}),
+		    	new Label({
+		    		string: " ",
+					style: texts.notifications.content,
+		    	}),
+		    	new Label({
+		    		string: getReqState($.state),
+					style: texts.notifications.content,
+					name: "state"
+		    	}),
+		    	new Label({
+		    		string: " to ",
+					style: texts.notifications.content,
+		    	}),
+		    	new Label({
+		    		string: "unlock",
+					style: texts.notifications.emph,
+		    	}),
+		    	new Label({
+		    		string: " ",
+					style: texts.notifications.content,
+		    	}),
+		    	new Label({
+		    		string: $.door_name,
+					style: texts.notifications.content,
+					name: "door_name"
+		    	}),
+	    	]
+    	}),
+    	// the buttons
+    	new Line ({
+    		contents: [
+    			new crossButtonTemplate({padding: 6, size: 50}),
+    			new Column({width: 50}),
+    			new checkButtonTemplate({padding: 6, size: 50})
+    		]
+    	})
+    			
+    ],
+    name: str($.idx)
+}));// notifications content template, used to implement NotificationsContentexport let NotificationsContentTemplate = Column.template($ => ({     top: 10, left: 0, right: 0,    contents: [    	new NotificationsTopBar(),	// the top bar    	// device list would be added latter by the function LoadNotificationsContent    	// those devices are implemented by DeviceItemTemplate
+    	/// hard-code draft
+    	new doorUnlockMessageTemplate({idx: 0, kid_name: "David", state: 0, door_name: "front door"}),
+    	new doorUnlockMessageTemplate({idx: 1, kid_name: "Susan", state: 0, door_name: "back door"}),
+    	/*
+    	new Column ({
+    		top: notifications_list_item_padding_h, bottom: notifications_list_item_padding_h,
+    		left: notifications_list_item_padding_w, right: notifications_list_item_padding_w,
+    		height: notifications_list_item_height,
+    		skin: skins.foreground.notifications,
+    		contents: [
+    			// the notification content
+    			new Line ( {
+    				top: notifications_list_item_padding_h,
+	    			contents: [
+		    			new Label({
+		    				string: "David",
+							style: texts.notifications.content,
+		    			}),
+		    			new Label({
+		    				string: " ",
+							style: texts.notifications.content,
+		    			}),
+		    			new Label({
+		    				string: "requested",
+							style: texts.notifications.content,
+		    			}),
+		    			new Label({
+		    				string: " to ",
+							style: texts.notifications.content,
+		    			}),
+		    			new Label({
+		    				string: "unlock",
+							style: texts.notifications.emph,
+		    			}),
+		    			new Label({
+		    				string: " ",
+							style: texts.notifications.content,
+		    			}),
+		    			new Label({
+		    				string: "front door",
+							style: texts.notifications.content,
+		    			}),
+	    			]
+    			}),
+    			// the buttons
+    			new Line ({
+    				contents: [
+    					new crossButtonTemplate({padding: 6, size: 50}),
+    					new Column({width: 50}),
+    					new checkButtonTemplate({padding: 6, size: 50})
+    				]
+    			})
+    			
+    		]
+    	}),
+    	*/
+    	///    ],}));// functions used to load device data contents to notifications page, from the device data stored in a fileexport function LoadNotificationsContent(notificationsContent) {
+	/*	var len = DATA.init.length;	for (var i = 0; i < len; i++) {		var data_elem = DATA.init[i];		// trace(data_elem.favorite + "\n");		if (!data_elem.favorite) continue;		var item = new DeviceItemTemplate({ 			DeviceName: data_elem.DeviceName, 			DeviceGroup: data_elem.DeviceGroup, 			id: data_elem.id, 			type: data_elem.type,			value: data_elem.value,			idx: i,		});		notificationsContent.add(item);	}
 	*/}// the "top" navigate bar of notifications screen (not really stick to the top, it goes up and down with the scrollervar NotificationsTopBar = Container.template($ => ({	// top-bar	top: notifications_list_item_padding_h, left: notifications_list_item_padding_w, right: notifications_list_item_padding_w, bottom: notifications_list_item_padding_h,	height: notifications_list_topbar_height,	contents: [		new Label({			string: "Notifications",			style: texts.notifications.title,		}),		/*		new Line({						contents: [				new AddDeviceTemplate({}),			]		}),*/	]}));
