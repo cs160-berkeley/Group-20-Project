@@ -96,6 +96,13 @@ import {
 	LoadSetContent,
 } from "set";
 
+import {
+	NotificationsContent,	NotificationsScreen,
+	NotificationsContentTemplate,
+	NotificationsScreenTemplate,
+	LoadNotificationsContent
+} from "notifications";
+
 // the Content and Screen (screen = content with scroll bar) variables
 export var HomeContent;
 export var HomeScreen;
@@ -133,7 +140,8 @@ var iconTemplate = Column.template($ => ({
 			save_data(DATA);
 			if ($.hint == "home") {
 				trace("staying on home page\n");
-				/*application.remove(TMP_SCREEN);
+				/*
+				application.remove(TMP_SCREEN);
 				HomeContent = HomeContentTemplate({});
         		LoadHomeContent(HomeContent);
         		HomeScreen = new HomeScreenTemplate({ HomeContent });
@@ -143,6 +151,7 @@ var iconTemplate = Column.template($ => ({
 			}
 			else if ($.hint == "favorites") {
 				trace("going to favorites page\n");
+				application.remove(TMP_SCREEN);
 				FavoritesContent = FavoritesContentTemplate({});
         		LoadFavoritesContent(FavoritesContent);
         		FavoritesScreen = new FavoritesScreenTemplate({ FavoritesContent });
@@ -151,6 +160,12 @@ var iconTemplate = Column.template($ => ({
 			}
 			else if ($.hint == "notifications") {
 				trace("going to notifications page\n");
+				application.remove(TMP_SCREEN);
+				NotificationsContent = NotificationsContentTemplate({});
+        		LoadNotificationsContent(NotificationsContent);
+        		NotificationsScreen = new NotificationsScreenTemplate({ NotificationsContent });
+        		TMP_SCREEN = NotificationsScreen;
+        		application.add(TMP_SCREEN);
 			}
 			else if ($.hint == "settings") {
 				trace("going to settings page\n");

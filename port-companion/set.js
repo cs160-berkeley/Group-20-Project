@@ -29,7 +29,14 @@ import {
 	FavoritesContentTemplate,
 	FavoritesScreenTemplate,
 	LoadFavoritesContent
-} from "favorites";// the Content and Screen (screen = content with scroll bar) variablesexport var SetContent;export var SetScreen;// settings screen template, used to implement SetScreenexport var SetScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: skins.background.settings,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.SetContent,                VerticalScrollbar(),           //      TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),        // bottom bar // the navigation bar for now        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: skins.navbar,             contents: [                new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: false}),                new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),                new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: false}),                new iconTemplate({icon_img: img_sett, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "settings", activate: true}),            ]        }),    ]}));// the bottom navigate bar's elements' template // not implemented for nowvar iconTemplate = Column.template($ => ({ 	top: 0, left: 0, right: 0,	active:true,	contents: [				new iconButtonTemplate({			name: $.hint, 			url: $.activate? $.icon_img.activated: $.icon_img.idel,			padding: $.padding, size: 25,		}),				new Label({			string: $.hint,			style: texts.settings.navhint,		}),	],	behavior: Behavior({		onTouchEnded: function(container) {			save_data(DATA);			// trace("going to page " + $.hint + "\n");
+} from "favorites";
+
+import {
+	NotificationsContent,	NotificationsScreen,
+	NotificationsContentTemplate,
+	NotificationsScreenTemplate,
+	LoadNotificationsContent
+} from "notifications";// the Content and Screen (screen = content with scroll bar) variablesexport var SetContent;export var SetScreen;// settings screen template, used to implement SetScreenexport var SetScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: skins.background.settings,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.SetContent,                VerticalScrollbar(),           //      TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),        // bottom bar // the navigation bar for now        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: skins.navbar,             contents: [                new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: false}),                new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),                new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: false}),                new iconTemplate({icon_img: img_sett, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "settings", activate: true}),            ]        }),    ]}));// the bottom navigate bar's elements' template // not implemented for nowvar iconTemplate = Column.template($ => ({ 	top: 0, left: 0, right: 0,	active:true,	contents: [				new iconButtonTemplate({			name: $.hint, 			url: $.activate? $.icon_img.activated: $.icon_img.idel,			padding: $.padding, size: 25,		}),				new Label({			string: $.hint,			style: texts.settings.navhint,		}),	],	behavior: Behavior({		onTouchEnded: function(container) {			save_data(DATA);			// trace("going to page " + $.hint + "\n");
 			if ($.hint == "home") {
 				trace("going to home page\n");
 				application.remove(TMP_SCREEN);
@@ -51,6 +58,12 @@ import {
 			}
 			else if ($.hint == "notifications") {
 				trace("going to notifications page\n");
+				application.remove(TMP_SCREEN);
+				NotificationsContent = NotificationsContentTemplate({});
+        		LoadNotificationsContent(NotificationsContent);
+        		NotificationsScreen = new NotificationsScreenTemplate({ NotificationsContent });
+        		TMP_SCREEN = NotificationsScreen;
+        		application.add(TMP_SCREEN);
 			}
 			else if ($.hint == "settings") {
 				trace("staying on settings page\n");
