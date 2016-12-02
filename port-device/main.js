@@ -1,3 +1,5 @@
+import Pins from "pins";
+
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow} from 'lib/scroller';
 
 import {
@@ -10,7 +12,8 @@ import {
 	padding,
 	height,
 	height_label,
-	width_label
+	width_label,
+	localPins
 } from "global_settings";
 
 let darkGraySkin = new Skin({ fill: "#202020" });let titleStyle = new Style({ font: "20px", color: "white" });
@@ -153,7 +156,31 @@ Handler.bind("/update", Behavior({    onInvoke: function(handler, message){   
         message.status = 200;	    }}));
 
 class ApplicationBehavior extends Behavior {    onLaunch(application) {
-    	trace("device simulator sharing\n");        application.shared = true;    }    onQuit(application) {
+    	// share the json data
+    	trace("device simulator sharing\n");        application.shared = true;
+        // Pins configuration
+        trace("Pins configuring\n");
+        Pins.configure({            David_frontdoor: {                require: "Digital", // use built-in digital BLL                pins: {
+                    power: { pin: 51, voltage: 3.3, type: "Power" },
+                    ground: { pin: 52, type: "Ground" },
+                    digital: { pin: 53, type: "Digital", direction: "input" },                }            }, 
+            David_backdoor: {                require: "Digital", // use built-in digital BLL                pins: {
+                    power: { pin: 54, voltage: 3.3, type: "Power" },
+                    ground: { pin: 55, type: "Ground" },
+                    digital: { pin: 56, type: "Digital", direction: "input" },                }            },
+            /*
+            Susan_frontdoor: {                require: "Digital", // use built-in digital BLL                pins: {
+                    power: { pin: 57, voltage: 3.3, type: "Power" },
+                    ground: { pin: 58, type: "Ground" },
+                    digital: { pin: 59, type: "Digital", direction: "input" },                }            }, 
+            Susan_backdoor: {                require: "Digital", // use built-in digital BLL                pins: {
+                    power: { pin: 60, voltage: 3.3, type: "Power" },
+                    ground: { pin: 61, type: "Ground" },
+                    digital: { pin: 62, type: "Digital", direction: "input" },                }            }, 
+            */          },  success => {            if (success) {                Pins.share("ws", {zeroconf: true, name: "pins-share-HoM"});                trace("Pins configuration: device side ready\n");            } else {                trace("Pins configuration: device side ERROR!!!\n");            };        });
+        // connect to local Pins
+        let discoveryInstance = Pins.discover(            connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Device side: connecting to local pins\n");                    localPins = Pins.connect(connectionDesc);                }            },             connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Device side: disconnected from local pins\n");                    localPins = undefined;                }            }        );
+            }    onQuit(application) {
     	trace("device simulator stopped sharing\n");        application.shared = false;    }}
 
 let mainContent = new contentTemplate();

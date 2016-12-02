@@ -85,9 +85,13 @@ export var doorUnlockMessageTemplate = Column.template($ => ({
     ],
     name: str($.idx)
 }));// notifications content template, used to implement NotificationsContentexport let NotificationsContentTemplate = Column.template($ => ({     top: 10, left: 0, right: 0,    contents: [    	new NotificationsTopBar(),	// the top bar    	// device list would be added latter by the function LoadNotificationsContent    	// those devices are implemented by DeviceItemTemplate
-    	/// hard-code draft
+    	/// auto-load pre-test
+    	/*
     	new doorUnlockMessageTemplate({idx: 0, kid_name: "David", state: 0, door_name: "front door"}),
     	new doorUnlockMessageTemplate({idx: 1, kid_name: "Susan", state: 0, door_name: "back door"}),
+    	*/
+    	///
+    	/// hard-code draft
     	/*
     	new Column ({
     		top: notifications_list_item_padding_h, bottom: notifications_list_item_padding_h,
@@ -142,5 +146,20 @@ export var doorUnlockMessageTemplate = Column.template($ => ({
     	}),
     	*/
     	///    ],}));// functions used to load device data contents to notifications page, from the device data stored in a fileexport function LoadNotificationsContent(notificationsContent) {
+	var item;
+	item = new doorUnlockMessageTemplate({
+		idx: 0, 
+		kid_name: "David", 
+		state: 0, 
+		door_name: "front door"
+	});
+	notificationsContent.add(item);
+    item = new doorUnlockMessageTemplate({
+    	idx: 1, 
+    	kid_name: "Susan", 
+    	state: 0, 
+    	door_name: "back door"
+    });
+    notificationsContent.add(item);
 	/*	var len = DATA.init.length;	for (var i = 0; i < len; i++) {		var data_elem = DATA.init[i];		// trace(data_elem.favorite + "\n");		if (!data_elem.favorite) continue;		var item = new DeviceItemTemplate({ 			DeviceName: data_elem.DeviceName, 			DeviceGroup: data_elem.DeviceGroup, 			id: data_elem.id, 			type: data_elem.type,			value: data_elem.value,			idx: i,		});		notificationsContent.add(item);	}
 	*/}// the "top" navigate bar of notifications screen (not really stick to the top, it goes up and down with the scrollervar NotificationsTopBar = Container.template($ => ({	// top-bar	top: notifications_list_item_padding_h, left: notifications_list_item_padding_w, right: notifications_list_item_padding_w, bottom: notifications_list_item_padding_h,	height: notifications_list_topbar_height,	contents: [		new Label({			string: "Notifications",			style: texts.notifications.title,		}),		/*		new Line({						contents: [				new AddDeviceTemplate({}),			]		}),*/	]}));

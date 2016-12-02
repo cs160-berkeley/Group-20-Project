@@ -6,6 +6,10 @@
  *	ApplicationBehavior - the application's behavior of connecting to devices
  *
  */
+ 
+ 
+
+import Pins from "pins";
 
 import {
 	TMP_SCREEN,
@@ -19,6 +23,7 @@ import {
 	deviceURL,
 	load_data,
 	DATA,
+	remotePins,
 } from "global_settings";
 
 import { 
@@ -100,11 +105,14 @@ Handler.bind("/forget", Behavior({
 }));
 // will be used to communicate between device and the companion application
 var ApplicationBehavior = Behavior.template({
-    onDisplayed: function(application) {	
+    onDisplayed: function(application) {
+    	// json	
         application.discover(DeviceSimulator);
-        // application.add(new HomeScreen({ onOff:"on" }));
+        // Pins
+        let discoveryInstance = Pins.discover(            connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Application side: connecting to remote pins\n");                    remotePins = Pins.connect(connectionDesc);                }            },             connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Application side: disconnected from remote pins\n");                    remotePins = undefined;                }            }        );
     },
     onQuit: function(application) {
+    	// json
         application.forget(DeviceSimulator);
     },
 });

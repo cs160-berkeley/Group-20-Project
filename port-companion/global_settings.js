@@ -6,7 +6,8 @@
  * are saved here
  */
 
-
+// remote Pins
+export var remotePins;
 // temporary screen
 export var TMP_SCREEN;
 // parameters
