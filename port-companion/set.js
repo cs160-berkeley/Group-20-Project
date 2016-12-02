@@ -5,11 +5,16 @@ import {
     ButtonBehavior,
     RadioGroup, 
     RadioGroupBehavior
-} from 'lib/buttons';// parameters & frequently-used functionsimport {	TMP_SCREEN,	img_home,	img_fave,	img_note,	img_sett,	img_plus,	img_off,	img_on,	img_lock,	img_unlock,	on_uri,	off_uri,	lock_uri,	unlock_uri,	BAR_HEIGHT_TOP,	BAR_HEIGHT_BOTTOM,	skins,	texts,	settings_list_topbar_height,	settings_list_item_height,	settings_list_item_padding_w,	settings_list_item_padding_h,	settings_list_tag_width,
+} from 'lib/buttons';// parameters & frequently-used functionsimport {	TMP_SCREEN,
+	img_logo,	img_home,	img_fave,	img_note,	img_sett,	img_plus,	img_off,	img_on,	img_lock,	img_unlock,	on_uri,	off_uri,	lock_uri,	unlock_uri,	BAR_HEIGHT_TOP,	BAR_HEIGHT_BOTTOM,	skins,	texts,	settings_list_topbar_height,	settings_list_item_height,	settings_list_item_padding_w,	settings_list_item_padding_h,	settings_list_tag_width,
 	settings_list_topbar_img_size,
 	settings_list_item_padding,
 	settings_list_setting_height,
-	settings_button_height,	bottom_bar_padding,	bottom_bar_img_size,	// load_data,	save_data,	DATA,	deviceURL,	synch_data} from "global_settings"import {	DeviceScreenTemplate,	DeviceContentTemplate,	DeviceScreen,	DeviceContent} from "device";/*import {	SearchScreenTemplate,	SearchContentTemplate,	SearchScreen,	SearchContent,	loadNewDevicesJSON,	SELECTED} from "search_device";
+	settings_button_height,	bottom_bar_padding,	bottom_bar_img_size,	// load_data,	save_data,	DATA,	deviceURL,	synch_data} from "global_settings"
+
+import {
+	WelcomePageTemplate,
+} from "main";import {	DeviceScreenTemplate,	DeviceContentTemplate,	DeviceScreen,	DeviceContent} from "device";/*import {	SearchScreenTemplate,	SearchContentTemplate,	SearchScreen,	SearchContent,	loadNewDevicesJSON,	SELECTED} from "search_device";
 */
 import {
 	HomeContentTemplate,
@@ -86,7 +91,9 @@ export var Divide = Line.template($ => ({
 		}),
     	///
     	    ],}));
-// the button to enter the home pagelet logoutButtonTemplate = Button.template($ => ({    top: 0, width: 200, /*right: 0,*/ height: settings_button_height,    contents: [        Label($, {top: 2,left: 0, right: 0, height: settings_button_height, string: $.textForLabel, style: texts.settings.button})    ],    Behavior: class extends ButtonBehavior {        onTap(button){              	application.remove(TMP_SCREEN);        	HomeContent = HomeContentTemplate({});        	LoadHomeContent(HomeContent);        	HomeScreen = new HomeScreenTemplate({ HomeContent });        	TMP_SCREEN = HomeScreen;        	application.add(TMP_SCREEN);        }       }}));// functions used to load device data contents to settings page, from the device data stored in a fileexport function LoadSetContent(settingsContent) {
+// the button to enter the home pagelet logoutButtonTemplate = Button.template($ => ({    top: 0, width: 200, /*right: 0,*/ height: settings_button_height,    contents: [        Label($, {top: 2,left: 0, right: 0, height: settings_button_height, string: $.textForLabel, style: texts.settings.button})    ],    Behavior: class extends ButtonBehavior {        onTap(button){              	application.remove(TMP_SCREEN);
+        	TMP_SCREEN = new WelcomePageTemplate({ skin: skins.background.welcome, img_url: img_logo, title: "HoM"});
+			application.add(TMP_SCREEN);        }       }}));// functions used to load device data contents to settings page, from the device data stored in a fileexport function LoadSetContent(settingsContent) {
 	// just in case if we want to implement switch user, etc.
 	/*	var len = DATA.init.length;	for (var i = 0; i < len; i++) {		var data_elem = DATA.init[i];
 		trace(data_elem.favorite + "\n");

@@ -62,7 +62,7 @@ let enterButtonTemplate = Button.template($ => ({
 }));
 
 // the welcome page main content
-var WelcomePageTemplate = Container.template($ => ({ 
+export var WelcomePageTemplate = Container.template($ => ({ 
     left: 0, right: 0, top: 0, bottom: 0,
     skin: $.skin,
     contents: [
