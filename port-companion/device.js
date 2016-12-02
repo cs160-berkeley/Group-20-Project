@@ -34,19 +34,23 @@ import {
 } from 'lib/scroller';
 
 import {
+	img_off,
+	img_on,
+	on_uri,
+	off_uri,
+	img_liked,
+	img_disliked,
+	liked_uri,
+	disliked_uri,
 	DATA,
 	save_data,
 	TMP_SCREEN,
-	largeText,
-	darkGrayMidText,
-	darkGrayMidText_thin,
-	whiteSkin,
-	lightGraySkin,
+	texts,
+	skins,
 	device_list_item_padding,
 	device_list_topbar_height,
 	device_list_topbar_width,
 	device_list_setting_height,
-	darkGraySmallText,
 	device_image_size
 } from "global_settings";
 
@@ -72,7 +76,7 @@ export var DeviceContent;
 // the template: device screen, contains main contents & scroller (without top / bottom navbar on this page)
 export var DeviceScreenTemplate = Container.template($ => ({
     left: 0, right: 0, top: 0, bottom: 0,
-    skin: whiteSkin,
+    skin: skins.background.device,
     contents: [
         VerticalScroller($, { 
             active: true, top: 0, bottom: 0,
@@ -88,9 +92,10 @@ export var DeviceScreenTemplate = Container.template($ => ({
 
 // the template: device content, a parameter of device screen's template, contains the main contents
 export var DeviceContentTemplate = Column.template($ => ({
-    top: 0, left: 0, right: 0, 
+    top: 0, left: 20, right: 20, 
     contents: [
     	new DeviceTopBar({idx: $.idx}),
+    	new Line({height: 10}),
         new Line ( {
 			contents: [
 				new Picture({
@@ -100,12 +105,17 @@ export var DeviceContentTemplate = Column.template($ => ({
 			]
 		}),
 		new Line({height: 20}),
+		// new DeviceOptions({idx: $.idx}),
+		
+		new FavoriteOnOff({label: "FAVORITE", idx: $.idx}),
+		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "TYPE", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "TIMING", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "ALERT", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
+		
     ]
 }));
 
@@ -144,7 +154,7 @@ function getStr(idx, option) {
 // only layout purpose, no functionality
 export var Divide = Line.template($ => ({
 	top: 0, left: device_list_item_padding, right: device_list_item_padding, bottom: 0,
-	height: $.height, width: $.length, skin: lightGraySkin,
+	height: $.height, width: $.length, skin: skins.foreground.device,
 }));
 
 // the setting-options bar
@@ -158,18 +168,18 @@ export var SettingOptions = Line.template($ => ({
 	contents: [
 		new Label({
 			string: $.label,
-			style: darkGrayMidText_thin,
+			style: texts.device.content,
 			width: 100,
 		}),
 		new Blank({length: 100}),
 		new Label({
 			string: getStr($.idx, $.label),
-			style: darkGrayMidText_thin,
+			style: texts.device.content,
 			width: 60,
 		}),
 		new Label({
 			string: ">",
-			style: darkGrayMidText_thin,
+			style: texts.device.content,
 		}),
 	],
 	behavior: Behavior({
@@ -188,6 +198,49 @@ export var SettingOptions = Line.template($ => ({
 	})
 	
 }));
+// Basically the same but a little bit different
+var FavoriteOnOff = Line.template($ => ({
+	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,
+	height: device_list_setting_height,
+	active: true,
+	contents: [
+		new Label({
+			string: $.label,
+			style: texts.device.content,
+			width: 100,
+		}),
+		new Blank({length: 40}),
+		new Picture({			top: 0,			right: 20,			url: getOnOff($.idx),			name: "img",			height: 20,		})
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			// update on / off
+			if (container.img.url == on_uri) {
+				// turn off
+				container.img.url = img_off;
+				// update favorite status
+				DATA.init[$.idx].favorite = 0;
+			}
+			else if (container.img.url == off_uri) {
+				// turn on
+				container.img.url = img_on;
+				// update favorite status
+				DATA.init[$.idx].favorite = 1;
+			}
+			else {
+			}
+        	save_data(DATA); // update data file
+			// synch_data(); // update the hardware simulator
+		}
+	})
+	
+}));
+
+function getOnOff(idx) {
+	if (DATA.init[idx].favorite)
+		return img_on;
+	return img_off;
+}
 
 // the title part of the device screen, contains brief discription & back button
 var DeviceTopBar = Container.template($ => ({
@@ -202,11 +255,11 @@ var DeviceTopBar = Container.template($ => ({
 			
 			new Label({
 				string: DATA.init[$.idx].DeviceName,
-				style: largeText,
+				style: texts.device.title,
 			}),
 			new Label({
 				string: DATA.init[$.idx].DeviceGroup,
-				style: darkGrayMidText,
+				style: texts.device.subtitle,
 			}),
 		
 		]}),
@@ -219,8 +272,9 @@ let BackTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({
+			top: 25,
 			string: "< BACK",
-			style: darkGraySmallText,
+			style: texts.device.topbutton,
 		})
 	],
 	behavior: Behavior({

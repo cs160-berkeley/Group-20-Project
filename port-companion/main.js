@@ -10,12 +10,11 @@
 import {
 	TMP_SCREEN,
 	img_logo,
-	whiteSkin,
-	titleText,
+	skins,
+	texts,
 	welcome_img_padding,
 	welcome_img_size,
 	welcome_button_height,
-	buttonText,
 	DeviceSimulator,
 	deviceURL,
 	load_data,
@@ -45,9 +44,9 @@ DATA = load_data();
 
 // the button to enter the home page
 let enterButtonTemplate = Button.template($ => ({
-    top: 0, width: 200, right: 0, height: welcome_button_height,
+    top: 0, width: 200, /*right: 0,*/ height: welcome_button_height,
     contents: [
-        Label($, {left: 0, right: 0, height: welcome_button_height, string: $.textForLabel, style: buttonText})
+        Label($, {left: 0, right: 0, top: 2, height: welcome_button_height, string: $.textForLabel, style: texts.welcome.button})
     ],
     Behavior: class extends ButtonBehavior {
         onTap(button){      
@@ -63,7 +62,7 @@ let enterButtonTemplate = Button.template($ => ({
 }));
 
 // the welcome page main content
-var WelcomePageTemplate = Container.template($ => ({ 
+export var WelcomePageTemplate = Container.template($ => ({ 
     left: 0, right: 0, top: 0, bottom: 0,
     skin: $.skin,
     contents: [
@@ -74,10 +73,10 @@ var WelcomePageTemplate = Container.template($ => ({
 					url: $.img_url,
 					top: padding, left: padding, right: padding, width: size, height: size,
 				}),
-				new Label({
+				/*new Label({
 					string: $.title,
-					style: titleText
-				}),
+					style: texts.welcome.title
+				}),*/
 				new enterButtonTemplate({textForLabel: "ENTER YOUR HOME"}),
 				
 			]
@@ -111,7 +110,7 @@ var ApplicationBehavior = Behavior.template({
 });
 
 // initialize the welcome screen
-TMP_SCREEN = new WelcomePageTemplate({ skin: whiteSkin, img_url: img_logo, title: "HoM"});
+TMP_SCREEN = new WelcomePageTemplate({ skin: skins.background.welcome, img_url: img_logo, title: "HoM"});
 application.behavior = new ApplicationBehavior(); 
 application.add(TMP_SCREEN);
 

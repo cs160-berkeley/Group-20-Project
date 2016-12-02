@@ -9,6 +9,7 @@ export var width_label = 100;
 
 // style
 export var labelStyle = new Style( { font: "bold 20px", color: "black" } );
+export var midStyle = new Style( { font: "bold 15px", color: "black" } );
 
 // skin
 export var whiteSkin = new Skin({ fill: "white" });

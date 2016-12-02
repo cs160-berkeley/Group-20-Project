@@ -1,3 +1,22 @@
+/* 
+ * this is the part where add device screen is implemented; includes:
+ * 	Variables:
+ *		AddDeviceContent	- an instance of AddDeviceContentTemplate, search page's content
+ *		AddDeviceScreen		- an instance of AddDeviceScreenTemplate, the whole search page's screen
+ * 	Templates:
+ *		AddDeviceScreenTemplate - the template of the whole add device screen
+ * 			AddDeviceContentTemplate - serves as a parameter of the whole add_device screen's template, contains the main contents
+ *				AddDeviceTopBar - the title part of the add_device screen, contains brief discription & back button
+ *					BackTemplate - 	a part of the "top bar", the back button on top left of the screen
+ *									by clicking it, jumping back to "search_device"
+ *					Blank - just for indentation
+ *					SaveTemplate - 	the button to click to save device data to the device list
+ *					
+ *				
+ * 				
+ */
+
+
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,
     HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';
 
@@ -6,13 +25,10 @@ import {
 	save_data,
 	synch_data,
 	TMP_SCREEN,
-	largeText,
-	whiteSkin,
+	texts,
+	skins,
 	device_list_item_padding,
 	device_list_topbar_height,
-	// lightGraySmallText,
-	darkGraySmallText,
-	darkGrayMidText_thin
 } from "global_settings";
 
 import {
@@ -39,26 +55,33 @@ import {
 	newDeviceData
 } from "search_device";
 
+// instances of templates of screen & contents
 export var AddDeviceScreen;
-export var AddDeviceContent;export var AddDeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.AddDeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+export var AddDeviceContent;
 
+// the template of the whole add device screenexport var AddDeviceScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: skins.background.add_device,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.AddDeviceContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+
+// the template of main contents on the screen "add_device"
 export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
     	new AddDeviceTopBar(),
     	new Line( {
+    		top: 20,
     		contents: [
     			new Column( {
     				width: 200,
     				contents: [
-    					new Label({							string: newDeviceData[SELECTED].DeviceName,							style: darkGrayMidText_thin,						}),
+    					new Label({							string: newDeviceData[SELECTED].DeviceName,							style: texts.add_device.content,						}),
 						new Divide({height: 1, length: 200}),
-						new Label({							string: newDeviceData[SELECTED].DeviceGroup,							style: darkGrayMidText_thin,						}),
+						new Label({							string: newDeviceData[SELECTED].DeviceGroup,							style: texts.add_device.content,						}),
 						new Divide({height: 1, length: 200}),
     				]
     			}),
     			new Column ({
     				width: 100,
+    				right: 30,
     				contents: [
-    					new Picture({							url: newDeviceData[SELECTED].img,						}),
+    					new Picture({
+    						height: 100,							url: newDeviceData[SELECTED].img,						}),
     				]
     			})
     		]
@@ -72,20 +95,25 @@ export var AddDeviceContentTemplate = Column.template($ => ({    top: 0, left: 
 		new Divide({height: 1, length: 200}),
 		*/    ]}));
 
-var AddDeviceTopBar = Container.template($ => ({	// top-bar	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,	contents: [
-		new Column( { contents: [
-			new Line( { contents: [
+// the top bar of add_device screen
+var AddDeviceTopBar = Container.template($ => ({	// top-bar/*	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,	height: device_list_topbar_height,  skin: skins.foreground.deviceTitle,*/
+	top: 0, left: 0, right: 0, bottom: 0,	height: device_list_topbar_height+15,  skin: skins.foreground.deviceTitle,	contents: [
+		new Column({  contents: [
+			new Line( { 
+			top: device_list_item_padding, 
+			contents: [
 				new BackTemplate(),
 				new Blank(),
 				new SaveTemplate()
-			] }),			new Label({				string: newDeviceData[SELECTED].DeviceName,				style: largeText,			}),
+			] }),			new Label({				string: newDeviceData[SELECTED].DeviceName,				style: texts.add_device.title,			}),
 		]}),	]}));
 
+// the button to click to go back to search_device screen
 let BackTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "< BACK",
-			style: darkGraySmallText,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
+			style: texts.add_device.topbutton,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -102,11 +130,12 @@ let BackTemplate = Container.template($ => ({
 	})
 }));
 
+// the button to click to save device data to the device list
 let SaveTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "SAVE",
-			style: darkGraySmallText,		})
+			style: texts.add_device.topbutton,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -123,6 +152,7 @@ let SaveTemplate = Container.template($ => ({
 	})
 }));
 
+// just for indentation
 let Blank = Container.template($ => ({
 	width: 200
 }));

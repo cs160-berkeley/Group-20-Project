@@ -1,41 +1,52 @@
-{"init":[
-    { 
-    	"DeviceName":"Night Light", 
-    	"DeviceGroup":"David's Room", 
-    	"id": "night_light", 
-    	"type": "binary", 
-    	"value": 0, 
-    	"img": "./assets/img_device_00.png",
-    	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
-    	"alert": 0,
-    	"alert_time": 0
-    },
-    { 
-    	"DeviceName":"Front Door", 
-    	"DeviceGroup":"Home", 
-    	"id": "front_door", 
-    	"type": "lock", 
-    	"value": 0, 
-    	"img": "./assets/img_device_00.png",
-    	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
-    	"alert": 0,
-    	"alert_time": 0
-    },
-    { 	
-    	"DeviceName":"Oven", 
-    	"DeviceGroup":"Kitchen", 
-    	"id": "oven", 
-    	"type": "binary", 
-    	"value": 0, 
-    	"img": "./assets/img_device_00.png",
-    	"timing": 0,
-    	"time_start": 0,
-    	"time_end": 0,
-    	"alert": 0,
-    	"alert_time": 0
-    }
-]}
+{
+	"init": [
+	    { 
+	    	"DeviceName":"Night Light", 
+	    	"DeviceGroup":"David's Room", 
+	    	"id": "night_light", 
+	    	"type": "binary", 
+	    	"value": 0, 
+	    	"img": "./assets/device_img.png",
+	    	"timing": 0,
+	    	"time_start": -1,
+	    	"time_end": -1,
+	    	"alert": 0,
+	    	"alert_time": -1,
+	    	"favorite": 0,
+	    },
+	    { 
+	    	"DeviceName":"Front Door", 
+	    	"DeviceGroup":"Home", 
+	    	"id": "front_door", 
+	    	"type": "lock", 
+	    	"value": 0, 
+	    	"img": "./assets/device_img.png",
+	    	"timing": 0,
+	    	"time_start": -1,
+	    	"time_end": -1,
+	    	"alert": 0,
+	    	"alert_time": -1,
+	    	"favorite": 0,
+	    },
+	    { 
+	    	"DeviceName":"Back Door", 
+	    	"DeviceGroup":"Home", 
+	    	"id": "back_door", 
+	    	"type": "lock", 
+	    	"value": 0, 
+	    	"img": "./assets/device_img.png",
+	    	"timing": 0,
+	    	"time_start": -1,
+	    	"time_end": -1,
+	    	"alert": 0,
+	    	"alert_time": -1,
+	    	"favorite": 0,
+	    },
+	],
+	"users": [
+		{
+			"img": "./assets/device_img.png",
+			"name": "Sarah",
+		},
+	]
+}
