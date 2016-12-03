@@ -1,4 +1,5 @@
 /*  * this is the part where notifications screen is implemented; includes: * 	Variables: *		NotificationsContent	- an instance of NotificationsContentTemplate, notifications page's content *		NotificationsScreen	- an instance of NotificationsScreenTemplate, the whole notifications page's screen *	Functions: *		LoadNotificationsContent - take in NotificationsContent as its parameter, add the device data to the NotificationsContent *		getStatusURL - 	an assistant function of template OnOffTemplate,  *						used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status *						device type is taken into consideration * 	Templates: *		NotificationsScreenTemplate - the template of the whole notifications screen * 			NotificationsContentTemplate - serves as a parameter of the whole screen's template, contains the main contents *				NotificationsTopBar - the title of notifications screen, scrolling with content, located on the top * 				DeviceItemTemplate - for each of the listed items (that is, devices) in the data file *					DeviceEntryTemplate - 	appearance is the label telling users the device's name / location  *											functionality is to click it and enter the "device" page *					OnOffTemplate 	- 	appearance is the on / off, or lock / unlock button on the right *										functionality is to update DATA and to change the appearance of itself by calling getStatusURL *			iconTemplate - serves as layout elements stick to the bottom of the screen *				iconButtonTemplate - 	the image used as icon is loaded here *										implemented this way so that we might be able to adapt the icons more easily * 				 */import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';// parameters & frequently-used functionsimport {
+	NOTIFICATIONS,
 	img_cross,
 	img_check,	TMP_SCREEN,	img_home,	img_fave,	img_note,	img_sett,	img_plus,	img_off,	img_on,	img_lock,	img_unlock,	on_uri,	off_uri,	lock_uri,	unlock_uri,	BAR_HEIGHT_TOP,	BAR_HEIGHT_BOTTOM,	skins,	texts,	notifications_list_topbar_height,	notifications_list_item_height,	notifications_list_item_padding_w,	notifications_list_item_padding_h,	notifications_list_tag_width,	notifications_list_topbar_img_size,	bottom_bar_padding,	bottom_bar_img_size,	// load_data,	save_data,	DATA,	deviceURL,	synch_data} from "global_settings"import {	DeviceScreenTemplate,	DeviceContentTemplate,	DeviceScreen,	DeviceContent} from "device";import {	HomeContentTemplate,	HomeScreenTemplate,	HomeContent,	HomeScreen,	LoadHomeContent,} from "home";import {	SetContentTemplate,	SetScreenTemplate,	SetContent,	SetScreen,	LoadSetContent,} from "set";
 
@@ -7,7 +8,7 @@ import {
 	FavoritesContentTemplate,
 	FavoritesScreenTemplate,
 	LoadFavoritesContent
-} from "favorites";// the Content and Screen (screen = content with scroll bar) variablesexport var NotificationsContent;export var NotificationsScreen;// notifications screen template, used to implement NotificationsScreenexport var NotificationsScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: skins.background.notifications,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.NotificationsContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),        // bottom bar // the navigation bar for now        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: skins.navbar,             contents: [                new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: false}),                new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),                new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: true}),                new iconTemplate({icon_img: img_sett, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "settings", activate: false}),            ]        }),    ]}));// the bottom navigate bar's elements' template // not implemented for nowvar iconTemplate = Column.template($ => ({ 	top: 0, left: 0, right: 0,	active:true,	contents: [				new iconButtonTemplate({			name: $.hint, 			url: $.activate? $.icon_img.activated: $.icon_img.idel,			padding: $.padding, size: 25,		}),				new Label({			string: $.hint,			style: texts.notifications.navhint,		}),	],	behavior: Behavior({		onTouchEnded: function(container) {			save_data(DATA);			// trace("going to page " + $.hint + "\n");			if ($.hint == "home") {				trace("going to home page\n");				application.remove(TMP_SCREEN);				HomeContent = HomeContentTemplate({});        		LoadHomeContent(HomeContent);        		HomeScreen = new HomeScreenTemplate({ HomeContent });        		TMP_SCREEN = HomeScreen;        		application.add(TMP_SCREEN);			}			else if ($.hint == "favorites") {				trace("staying on favorites page\n");				application.remove(TMP_SCREEN)				FavoritesContent = FavoritesContentTemplate({});        		LoadFavoritesContent(FavoritesContent);        		FavoritesScreen = new FavoritesScreenTemplate({ FavoritesContent });        		TMP_SCREEN = FavoritesScreen;        		application.add(TMP_SCREEN);        					}			else if ($.hint == "notifications") {				trace("staying on notifications page\n");
+} from "favorites";// the Content and Screen (screen = content with scroll bar) variablesexport var NotificationsContent = undefined;export var NotificationsScreen;// notifications screen template, used to implement NotificationsScreenexport var NotificationsScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: skins.background.notifications,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.NotificationsContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),        // bottom bar // the navigation bar for now        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: skins.navbar,             contents: [                new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: false}),                new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),                new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: true}),                new iconTemplate({icon_img: img_sett, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "settings", activate: false}),            ]        }),    ]}));// the bottom navigate bar's elements' template // not implemented for nowvar iconTemplate = Column.template($ => ({ 	top: 0, left: 0, right: 0,	active:true,	contents: [				new iconButtonTemplate({			name: $.hint, 			url: $.activate? $.icon_img.activated: $.icon_img.idel,			padding: $.padding, size: 25,		}),				new Label({			string: $.hint,			style: texts.notifications.navhint,		}),	],	behavior: Behavior({		onTouchEnded: function(container) {			save_data(DATA);			// trace("going to page " + $.hint + "\n");			if ($.hint == "home") {				trace("going to home page\n");				application.remove(TMP_SCREEN);				HomeContent = HomeContentTemplate({});        		LoadHomeContent(HomeContent);        		HomeScreen = new HomeScreenTemplate({ HomeContent });        		TMP_SCREEN = HomeScreen;        		application.add(TMP_SCREEN);			}			else if ($.hint == "favorites") {				trace("staying on favorites page\n");				application.remove(TMP_SCREEN)				FavoritesContent = FavoritesContentTemplate({});        		LoadFavoritesContent(FavoritesContent);        		FavoritesScreen = new FavoritesScreenTemplate({ FavoritesContent });        		TMP_SCREEN = FavoritesScreen;        		application.add(TMP_SCREEN);        					}			else if ($.hint == "notifications") {				trace("staying on notifications page\n");
 				/*
 				application.remove(TMP_SCREEN)
 				NotificationsContent = NotificationsContentTemplate({});
@@ -28,6 +29,11 @@ function getReqState(state) {
 
 function str(num) {
 	return num.toString();
+}
+
+function getReqAction(action) {
+	if (action) return "unlock";
+	return "lock";
 }
 
 export var doorUnlockMessageTemplate = Column.template($ => ({
@@ -59,8 +65,9 @@ export var doorUnlockMessageTemplate = Column.template($ => ({
 					style: texts.notifications.content,
 		    	}),
 		    	new Label({
-		    		string: "unlock",
+		    		string: getReqAction($.action),
 					style: texts.notifications.emph,
+					name: "action"
 		    	}),
 		    	new Label({
 		    		string: " ",
@@ -145,21 +152,29 @@ export var doorUnlockMessageTemplate = Column.template($ => ({
     		]
     	}),
     	*/
-    	///    ],}));// functions used to load device data contents to notifications page, from the device data stored in a fileexport function LoadNotificationsContent(notificationsContent) {
-	var item;
-	item = new doorUnlockMessageTemplate({
-		idx: 0, 
-		kid_name: "David", 
-		state: 0, 
-		door_name: "front door"
-	});
-	notificationsContent.add(item);
-    item = new doorUnlockMessageTemplate({
-    	idx: 1, 
-    	kid_name: "Susan", 
-    	state: 0, 
-    	door_name: "back door"
-    });
-    notificationsContent.add(item);
-	/*	var len = DATA.init.length;	for (var i = 0; i < len; i++) {		var data_elem = DATA.init[i];		// trace(data_elem.favorite + "\n");		if (!data_elem.favorite) continue;		var item = new DeviceItemTemplate({ 			DeviceName: data_elem.DeviceName, 			DeviceGroup: data_elem.DeviceGroup, 			id: data_elem.id, 			type: data_elem.type,			value: data_elem.value,			idx: i,		});		notificationsContent.add(item);	}
-	*/}// the "top" navigate bar of notifications screen (not really stick to the top, it goes up and down with the scrollervar NotificationsTopBar = Container.template($ => ({	// top-bar	top: notifications_list_item_padding_h, left: notifications_list_item_padding_w, right: notifications_list_item_padding_w, bottom: notifications_list_item_padding_h,	height: notifications_list_topbar_height,	contents: [		new Label({			string: "Notifications",			style: texts.notifications.title,		}),		/*		new Line({						contents: [				new AddDeviceTemplate({}),			]		}),*/	]}));
+    	///    ],}));
+
+// update
+function empty(container) {
+	var content = container;
+	var len = container.length;
+	for (var i = 1; i < len; i++) {
+		container.remove(container[1]);
+	} 
+}
+export function UpdateNotificationsContent(notificationsContent) {
+	empty(notificationsContent);	var len = NOTIFICATIONS.length;	for (var i = 0; i < len; i++) {		var data_elem = NOTIFICATIONS[i];		var item = new doorUnlockMessageTemplate({
+	    	idx: i, 
+	    	kid_name: data_elem.kid_name, 
+	    	state: data_elem.state, 
+	    	action: data_elem.action,
+	    	door_name: data_elem.door_name
+	    });		notificationsContent.add(item);	}	}
+// functions used to load device data contents to notifications page, from the device data stored in a fileexport function LoadNotificationsContent(notificationsContent) {		var len = NOTIFICATIONS.length;	for (var i = 0; i < len; i++) {		var data_elem = NOTIFICATIONS[i];		var item = new doorUnlockMessageTemplate({
+	    	idx: i, 
+	    	kid_name: data_elem.kid_name, 
+	    	state: data_elem.state, 
+	    	action: data_elem.action,
+	    	door_name: data_elem.door_name
+	    });		notificationsContent.add(item);	}
+	}// the "top" navigate bar of notifications screen (not really stick to the top, it goes up and down with the scrollervar NotificationsTopBar = Container.template($ => ({	// top-bar	top: notifications_list_item_padding_h, left: notifications_list_item_padding_w, right: notifications_list_item_padding_w, bottom: notifications_list_item_padding_h,	height: notifications_list_topbar_height,	contents: [		new Label({			string: "Notifications",			style: texts.notifications.title,		}),		/*		new Line({						contents: [				new AddDeviceTemplate({}),			]		}),*/	]}));

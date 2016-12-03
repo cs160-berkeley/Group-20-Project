@@ -8,6 +8,11 @@
 
 // remote Pins
 export var remotePins;
+// Pins-related values
+export var David_frontdoor = 0;
+export var David_backdoor = 0;
+export var Susan_frontdoor = 0;
+export var Susan_backdoor = 0;
 // temporary screen
 export var TMP_SCREEN;
 // parameters
@@ -266,3 +271,6 @@ export function synch_data() {
 export var DATA;
 var file_new = file_dir + "devices.json";
 export var newDevicesFile = mergeURI(application.url, file_new);
+
+// notification data
+export var NOTIFICATIONS = [];

@@ -168,7 +168,7 @@ class ApplicationBehavior extends Behavior {    onLaunch(application) {
                     power: { pin: 54, voltage: 3.3, type: "Power" },
                     ground: { pin: 55, type: "Ground" },
                     digital: { pin: 56, type: "Digital", direction: "input" },                }            },
-            /*
+            
             Susan_frontdoor: {                require: "Digital", // use built-in digital BLL                pins: {
                     power: { pin: 57, voltage: 3.3, type: "Power" },
                     ground: { pin: 58, type: "Ground" },
@@ -177,9 +177,17 @@ class ApplicationBehavior extends Behavior {    onLaunch(application) {
                     power: { pin: 60, voltage: 3.3, type: "Power" },
                     ground: { pin: 61, type: "Ground" },
                     digital: { pin: 62, type: "Digital", direction: "input" },                }            }, 
-            */          },  success => {            if (success) {                Pins.share("ws", {zeroconf: true, name: "pins-share-HoM"});                trace("Pins configuration: device side ready\n");            } else {                trace("Pins configuration: device side ERROR!!!\n");            };        });
+                     },  success => {            if (success) {                Pins.share("ws", {zeroconf: true, name: "pins-share-HoM"});                trace("Pins configuration: device side ready\n");            } else {                trace("Pins configuration: device side ERROR!!!\n");            };        });
+        /*
         // connect to local Pins
-        let discoveryInstance = Pins.discover(            connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Device side: connecting to local pins\n");                    localPins = Pins.connect(connectionDesc);                }            },             connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Device side: disconnected from local pins\n");                    localPins = undefined;                }            }        );
+        let discoveryInstance = Pins.discover(            connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Device side: connecting to local pins\n");                    localPins = Pins.connect(connectionDesc);
+                    // localPins.invoke("/David_backdoor/write", 0);
+                    localPins.repeat("/David_backdoor/read", 1000, result => {
+                    // localPins.invoke("/David_backdoor/read", result => {			            // do something with result
+			            trace("test " + result + "\n");			        });                }            },             connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Device side: disconnected from local pins\n");                    localPins = undefined;
+                    // remotePins.invoke("/David_frontdoor/write", 0);                }            }
+                    );
+        */
             }    onQuit(application) {
     	trace("device simulator stopped sharing\n");        application.shared = false;    }}
 

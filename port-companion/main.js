@@ -24,6 +24,11 @@ import {
 	load_data,
 	DATA,
 	remotePins,
+	NOTIFICATIONS,
+	David_frontdoor,
+	David_backdoor,
+	Susan_frontdoor,
+	Susan_backdoor,
 } from "global_settings";
 
 import { 
@@ -40,6 +45,14 @@ import {
 	HomeScreen,
 	LoadHomeContent,
 } from "home";
+
+import {
+	NotificationsContent,	NotificationsScreen,
+	NotificationsContentTemplate,
+	NotificationsScreenTemplate,
+	LoadNotificationsContent,
+	UpdateNotificationsContent,
+} from "notifications";
 
 var padding = welcome_img_padding;
 var size = welcome_img_size;
@@ -61,6 +74,9 @@ let enterButtonTemplate = Button.template($ => ({
         	HomeScreen = new HomeScreenTemplate({ HomeContent });
         	TMP_SCREEN = HomeScreen;
         	application.add(TMP_SCREEN);
+        	// Pins
+        	// invoke
+        	application.distribute("onReceiveNotifications");
         }
         
     }
@@ -109,12 +125,95 @@ var ApplicationBehavior = Behavior.template({
     	// json	
         application.discover(DeviceSimulator);
         // Pins
-        let discoveryInstance = Pins.discover(            connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Application side: connecting to remote pins\n");                    remotePins = Pins.connect(connectionDesc);                }            },             connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Application side: disconnected from remote pins\n");                    remotePins = undefined;                }            }        );
+        let discoveryInstance = Pins.discover(            connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Application side: connecting to remote pins\n");                    remotePins = Pins.connect(connectionDesc);
+                    remotePins.invoke("/David_frontdoor/read", result => {
+                    	David_frontdoor = result;
+                    });
+                    remotePins.invoke("/David_backdoor/read", result => {
+                    	David_backdoor = result;
+                    });
+                    remotePins.invoke("/Susan_frontdoor/read", result => {
+                    	Susan_frontdoor = result;
+                    });
+                    remotePins.invoke("/Susan_backdoor/read", result => {
+                    	Susan_backdoor = result;
+                    });                }            },             connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Application side: disconnected from remote pins\n");                    remotePins = undefined;                }            }        );
+        // invoke
+        // application.distribute("onReceiveNotifications");
     },
     onQuit: function(application) {
     	// json
         application.forget(DeviceSimulator);
     },
+    // Pins
+    onReceiveNotifications: function(application) {
+    	// remember to change the mode on simulator side manually before start!
+    	if (remotePins) {
+	    	remotePins.repeat("/David_frontdoor/read", 100, result => 
+	    		{
+	    			// trace(result + "==(?)" + David_frontdoor + "\n");
+	    			// DATA.init[DATA.init.length] = newDeviceData[SELECTED];
+	    			if (result != David_frontdoor) { // onChange
+	    				/*
+		    			var len = NOTIFICATIONS.length;
+		    			NOTIFICATIONS[len] = {
+		    				kid_name: "David",
+		    				state: 0,
+		    			};
+		    			*/
+		    			NOTIFICATIONS.unshift({
+		    				kid_name: "David", 							state: 0, 							action: result,							door_name: "front door"
+		    			});
+		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
+		    			David_frontdoor = result;
+		    			if (NotificationsContent) {
+		    				UpdateNotificationsContent(NotificationsContent);
+		    			}		
+	    			}
+	    			// trace("kid name" + NOTIFICATIONS[len].kid_name + "\n");
+	    		}
+	    	);
+	    	remotePins.repeat("/David_backdoor/read", 100, result => 
+	    		{
+	    			if (result != David_backdoor) { // onChange
+		    			NOTIFICATIONS.unshift({
+		    				kid_name: "David", 							state: 0, 							action: result,							door_name: "back door"
+		    			});
+		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
+		    			David_backdoor = result;		
+	    			}
+	    		}
+	    	);
+	    	// Susan
+	    	remotePins.repeat("/Susan_frontdoor/read", 100, result => 
+	    		{
+	    			if (result != Susan_frontdoor) { // onChange
+		    			NOTIFICATIONS.unshift({
+		    				kid_name: "Susan", 							state: 0, 							action: result,							door_name: "front door"
+		    			});
+		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
+		    			Susan_frontdoor = result;		
+	    			}
+	    			// trace("kid name" + NOTIFICATIONS[len].kid_name + "\n");
+	    		}
+	    	);
+	    	remotePins.repeat("/Susan_backdoor/read", 100, result => 
+	    		{
+	    			if (result != Susan_backdoor) { // onChange
+		    			NOTIFICATIONS.unshift({
+		    				kid_name: "Susan", 							state: 0, 							action: result,							door_name: "back door"
+		    			});
+		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
+		    			Susan_backdoor = result;		
+	    			}
+	    		}
+	    	);
+	    
+    	}
+    	else {
+    		trace("warning: can't receive remote Pins\n");
+    	}
+    }
 });
 
 // initialize the welcome screen
