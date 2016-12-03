@@ -75,3 +75,5 @@ Updates:
 ![Favorites Page](img/HoM_v3.0_favorites.png "Favorites Page Half-Way Implemented")
 ![Notifications Page](img/HoM_v3.0_notifications.png "Notifications Page Half-Way Implemented")
 ![Settings Page](img/HoM_v3.0_settings.png "Settings Page Half-Way Implemented")
+2. Image Corrected
+![Notifications Page](img/HoM_v3.0_image_corrected.png "The corrected image icons without White Boundaries")
