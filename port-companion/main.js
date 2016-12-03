@@ -162,7 +162,8 @@ var ApplicationBehavior = Behavior.template({
 		    			};
 		    			*/
 		    			NOTIFICATIONS.unshift({
-		    				kid_name: "David", 							state: 0, 							action: result,							door_name: "front door"
+		    				kid_name: "David", 							// state: 0, 							action: result,							door_name: "front door",
+							done: false
 		    			});
 		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
 		    			David_frontdoor = result;
@@ -177,7 +178,8 @@ var ApplicationBehavior = Behavior.template({
 	    		{
 	    			if (result != David_backdoor) { // onChange
 		    			NOTIFICATIONS.unshift({
-		    				kid_name: "David", 							state: 0, 							action: result,							door_name: "back door"
+		    				kid_name: "David", 							// state: 0, 							action: result,							door_name: "back door",
+							done: false
 		    			});
 		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
 		    			David_backdoor = result;
@@ -192,7 +194,8 @@ var ApplicationBehavior = Behavior.template({
 	    		{
 	    			if (result != Susan_frontdoor) { // onChange
 		    			NOTIFICATIONS.unshift({
-		    				kid_name: "Susan", 							state: 0, 							action: result,							door_name: "front door"
+		    				kid_name: "Susan", 							// state: 0, 							action: result,							door_name: "front door",
+							done: false
 		    			});
 		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
 		    			Susan_frontdoor = result;
@@ -207,7 +210,8 @@ var ApplicationBehavior = Behavior.template({
 	    		{
 	    			if (result != Susan_backdoor) { // onChange
 		    			NOTIFICATIONS.unshift({
-		    				kid_name: "Susan", 							state: 0, 							action: result,							door_name: "back door"
+		    				kid_name: "Susan", 							// state: 0, 							action: result,							door_name: "back door",
+							done: false
 		    			});
 		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
 		    			Susan_backdoor = result;

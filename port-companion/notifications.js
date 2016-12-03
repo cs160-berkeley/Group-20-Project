@@ -1,5 +1,7 @@
 /*  * this is the part where notifications screen is implemented; includes: * 	Variables: *		NotificationsContent	- an instance of NotificationsContentTemplate, notifications page's content *		NotificationsScreen	- an instance of NotificationsScreenTemplate, the whole notifications page's screen *	Functions: *		LoadNotificationsContent - take in NotificationsContent as its parameter, add the device data to the NotificationsContent *		getStatusURL - 	an assistant function of template OnOffTemplate,  *						used to modify the "on / off" / "lock / unlock" image used to symbolize each device's status *						device type is taken into consideration * 	Templates: *		NotificationsScreenTemplate - the template of the whole notifications screen * 			NotificationsContentTemplate - serves as a parameter of the whole screen's template, contains the main contents *				NotificationsTopBar - the title of notifications screen, scrolling with content, located on the top * 				DeviceItemTemplate - for each of the listed items (that is, devices) in the data file *					DeviceEntryTemplate - 	appearance is the label telling users the device's name / location  *											functionality is to click it and enter the "device" page *					OnOffTemplate 	- 	appearance is the on / off, or lock / unlock button on the right *										functionality is to update DATA and to change the appearance of itself by calling getStatusURL *			iconTemplate - serves as layout elements stick to the bottom of the screen *				iconButtonTemplate - 	the image used as icon is loaded here *										implemented this way so that we might be able to adapt the icons more easily * 				 */import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';// parameters & frequently-used functionsimport {
 	NOTIFICATIONS,
+	front_door_idx,
+	back_door_idx,
 	img_cross,
 	img_check,	TMP_SCREEN,	img_home,	img_fave,	img_note,	img_sett,	img_plus,	img_off,	img_on,	img_lock,	img_unlock,	on_uri,	off_uri,	lock_uri,	unlock_uri,	BAR_HEIGHT_TOP,	BAR_HEIGHT_BOTTOM,	skins,	texts,	notifications_list_topbar_height,	notifications_list_item_height,	notifications_list_item_padding_w,	notifications_list_item_padding_h,	notifications_list_tag_width,	notifications_list_topbar_img_size,	bottom_bar_padding,	bottom_bar_img_size,	// load_data,	save_data,	DATA,	deviceURL,	synch_data} from "global_settings"import {	DeviceScreenTemplate,	DeviceContentTemplate,	DeviceScreen,	DeviceContent} from "device";import {	HomeContentTemplate,	HomeScreenTemplate,	HomeContent,	HomeScreen,	LoadHomeContent,} from "home";import {	SetContentTemplate,	SetScreenTemplate,	SetContent,	SetScreen,	LoadSetContent,} from "set";
 
@@ -19,7 +21,7 @@ import {
 				*/			}			else if ($.hint == "settings") {				trace("going to settings page\n");				application.remove(TMP_SCREEN);				SetContent = SetContentTemplate({});        		LoadSetContent(SetContent);        		SetScreen = new SetScreenTemplate({ SetContent });        		TMP_SCREEN = SetScreen;        		application.add(TMP_SCREEN);			}		}	})}));let iconButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar	contents: [		new Picture({			name: $.name,			url: $.url,			top: $.padding, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],}));
 
 let crossButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar
-	active: true,	contents: [		new Picture({			name: "cross_img",			url: img_cross.activated,			top: $.padding * 3, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],
+	active: getActive($.done),//true,	contents: [		new Picture({			name: "cross_img",			url: getImageURL(img_cross, $.done), //img_cross.activated,			top: $.padding * 3, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],
 	// idx: $.idx, 
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -33,16 +35,68 @@ let crossButtonTemplate = Container.template($ => ({ // the icons in the bottom 
 			item.text.state_string.string = "required";
 			// trace(item.text.state_string.string + "\n");
 			item.skin = skins.highlight.notifications;
+			NOTIFICATIONS[$.idx].done = true;
 		}
 	}),
 	name: "cross"}));
 
-let checkButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar
-	active: true,	contents: [		new Picture({			name: "check_img",			url: img_check.activated,			top: $.padding * 3, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],
-	name: "check"}));
+function getActive(done) {
+	if (done) return false;
+	return true;
+}
 
-function getReqState(state) {
-	if (state) return "required";
+function getImageURL(image, done) {
+	if (done) return image.idel;
+	return image.activated;
+}
+
+let checkButtonTemplate = Container.template($ => ({ // the icons in the bottom navigation bar
+	active: getActive($.done),	contents: [		new Picture({			name: "check_img",			url: getImageURL(img_check, $.done), // img_check.activated,			top: $.padding * 3, left: $.padding, right: $.padding, width: $.size, height: $.size,		}),	],
+	name: "check",
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			var item_index = $.idx + 1;
+			var item = NotificationsContent[item_index];
+			item.image.cross.cross_img.url = img_cross.idel;
+			item.image.cross.active = false;
+			item.image.check.check_img.url = img_check.idel;
+			item.image.check.active = false;
+			item.text.state_string.string = "required";
+			item.skin = getMessageSkin(true);
+			NOTIFICATIONS[$.idx].done = true;
+			// unlocking / locking
+			var request;
+			// unlocking: 1, locking: 0
+			if (item.text.action.string == "unlock") {
+				request = 1;
+			}
+			else if (item.text.action.string == "lock") {
+				request = 0;
+			}
+			trace("request " + request + "\n");
+			if (item.text.door_name.string == "front door") {
+				var temp_front_door = DATA.init[front_door_idx].value;
+				trace("temp front " + temp_front_door + "\n");
+				if (temp_front_door == request)
+					trace("front door already " + item.text.action.string + "ed\n");
+				else
+					DATA.init[front_door_idx].value = request;
+			}
+			else if (item.text.door_name.string == "back door") {
+				var temp_back_door = DATA.init[back_door_idx].value;
+				trace("temp back " + temp_back_door + "\n");
+				if (temp_back_door == request)
+					trace("back door already " + item.text.action.string + "ed\n");
+				else
+					DATA.init[back_door_idx].value = request;
+			}
+			save_data(DATA);
+			synch_data();
+		}
+	}),}));
+
+function getReqState(done) {
+	if (done) return "required";
 	return "requires";
 }
 
@@ -55,11 +109,16 @@ function getReqAction(action) {
 	return "lock";
 }
 
+function getMessageSkin(done) {
+	if (done) return skins.highlight.notifications;
+	return skins.foreground.notifications;
+}
+
 var doorMessageTemplate = Column.template($ => ({
     top: notifications_list_item_padding_h, bottom: notifications_list_item_padding_h,
     left: notifications_list_item_padding_w, right: notifications_list_item_padding_w,
     height: notifications_list_item_height,
-    skin: skins.foreground.notifications,
+    skin: getMessageSkin($.done),
     contents: [
     	// the notification content
     	new Line ( {
@@ -75,7 +134,7 @@ var doorMessageTemplate = Column.template($ => ({
 					style: texts.notifications.content,
 		    	}),
 		    	new Label({
-		    		string: getReqState($.state),
+		    		string: getReqState($.done),
 					style: texts.notifications.content,
 					name: "state_string"
 		    	}),
@@ -103,9 +162,9 @@ var doorMessageTemplate = Column.template($ => ({
     	// the buttons
     	new Line ({
     		contents: [
-    			new crossButtonTemplate({idx: $.idx, padding: 6, size: 50}),
+    			new crossButtonTemplate({idx: $.idx, padding: 6, size: 50, done: $.done}),
     			new Column({width: 50}),
-    			new checkButtonTemplate({idx: $.idx, padding: 6, size: 50})
+    			new checkButtonTemplate({idx: $.idx, padding: 6, size: 50, done: $.done})
     		],
     		name: "image"
     	})
@@ -187,15 +246,17 @@ export function UpdateNotificationsContent(notificationsContent) {
 	empty(notificationsContent);	var len = NOTIFICATIONS.length;	for (var i = 0; i < len; i++) {		var data_elem = NOTIFICATIONS[i];		var item = new doorMessageTemplate({
 	    	idx: i, 
 	    	kid_name: data_elem.kid_name, 
-	    	state: data_elem.state, 
+	    	// state: data_elem.state, 
 	    	action: data_elem.action,
-	    	door_name: data_elem.door_name
+	    	door_name: data_elem.door_name,
+	    	done: data_elem.done
 	    });		notificationsContent.add(item);	}	}
 // functions used to load device data contents to notifications page, from the device data stored in a fileexport function LoadNotificationsContent(notificationsContent) {		var len = NOTIFICATIONS.length;	for (var i = 0; i < len; i++) {		var data_elem = NOTIFICATIONS[i];		var item = new doorMessageTemplate({
 	    	idx: i, 
 	    	kid_name: data_elem.kid_name, 
 	    	state: data_elem.state, 
 	    	action: data_elem.action,
-	    	door_name: data_elem.door_name
+	    	door_name: data_elem.door_name,
+	    	done: data_elem.done
 	    });		notificationsContent.add(item);	}
 	}// the "top" navigate bar of notifications screen (not really stick to the top, it goes up and down with the scrollervar NotificationsTopBar = Container.template($ => ({	// top-bar	top: notifications_list_item_padding_h, left: notifications_list_item_padding_w, right: notifications_list_item_padding_w, bottom: notifications_list_item_padding_h,	height: notifications_list_topbar_height,	contents: [		new Label({			string: "Notifications",			style: texts.notifications.title,		}),		/*		new Line({						contents: [				new AddDeviceTemplate({}),			]		}),*/	]}));

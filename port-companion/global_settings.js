@@ -13,6 +13,8 @@ export var David_frontdoor = 0;
 export var David_backdoor = 0;
 export var Susan_frontdoor = 0;
 export var Susan_backdoor = 0;
+export var front_door_idx = 1;
+export var back_door_idx = 2;
 // temporary screen
 export var TMP_SCREEN;
 // parameters
