@@ -71,7 +71,7 @@ var UndoButtonTemplate = Column.template($ => ({
 			else if ($.device_action == "Locked") {
 				value = 1;
 			}
-			trace(index + "," + value + "\n");
+			// trace(index + "," + value + "\n");
 			DATA.init[index].value = value;
 			save_data(DATA);
 			synch_data();
