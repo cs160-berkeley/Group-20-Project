@@ -66,8 +66,12 @@ References:
 4. [Digital Tutorial](http://kinoma.com/develop/documentation/tutorials/digital/)
 5. [Container Basis](http://kinoma.com/develop/documentation/javascript/)
 
-Other Materials:
+Updates:
 
-* Videos:
-
-1. [Half-Way Narrated](https://youtu.be/HTvIWxtB3ic)
+1. Basic Implementation ([Half-Way Narrated Video](https://youtu.be/HTvIWxtB3ic))
+> ![Welcome Page](img/HoM_v3.0_welcome.png "Welcome Page Half-Way Updated")
+> ![Home Page](img/HoM_v3.0_home.png "Home Page Half-Way Updated")
+> ![Device Page](img/HoM_v3.0_device.png "Device Page Half-Way Updated")
+> ![Favorites Page](img/HoM_v3.0_favorites.png "Favorites Page Half-Way Implemented")
+> ![Notifications Page](img/HoM_v3.0_notifications.png "Notifications Page Half-Way Implemented")
+> ![Settings Page](img/HoM_v3.0_settings.png "Settings Page Half-Way Implemented")
