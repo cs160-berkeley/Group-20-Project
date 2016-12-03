@@ -209,6 +209,9 @@ export var texts = {
 		navhint: hintText,
 		content: smallText_bold,
 		emph: smallText_blue,
+		poptext: smallText,
+		poptext_emph: smallText_bold,
+		poptext_undo: smallText_blue,
 	},
 	search_device: {
 		name: midText,
