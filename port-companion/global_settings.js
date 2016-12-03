@@ -119,6 +119,7 @@ var blue = "#0CBBF7";
 var white = "#ffffff";
 var whiteTrans = "#ccffffff";
 var green = "#92E1E0";
+var grayBlue = "#DEE1E3";
 
 // skins
 var whiteSkin = new Skin({ fill: "white" });
@@ -128,6 +129,7 @@ var greenSkin = new Skin({ fill: green });
 var lightGraySkin = new Skin({ fill: lightGray });
 var darkGraySkin = new Skin({ fill: darkGray });
 var midGraySkin = new Skin({ fill: midGray });
+var grayBlueSkin = new Skin({ fill: grayBlue});
 // skins exported
 export var skins = {
 	//navbar: lightGraySkin,
@@ -155,6 +157,7 @@ export var skins = {
 	},
 	highlight: {
 		search_device: blueSkin,
+		notifications: grayBlueSkin
 	}
 };
 // text styles

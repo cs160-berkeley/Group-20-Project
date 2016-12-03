@@ -180,7 +180,10 @@ var ApplicationBehavior = Behavior.template({
 		    				kid_name: "David", 							state: 0, 							action: result,							door_name: "back door"
 		    			});
 		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
-		    			David_backdoor = result;		
+		    			David_backdoor = result;
+		    			if (NotificationsContent) {
+		    				UpdateNotificationsContent(NotificationsContent);
+		    			}		
 	    			}
 	    		}
 	    	);
@@ -192,7 +195,10 @@ var ApplicationBehavior = Behavior.template({
 		    				kid_name: "Susan", 							state: 0, 							action: result,							door_name: "front door"
 		    			});
 		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
-		    			Susan_frontdoor = result;		
+		    			Susan_frontdoor = result;
+		    			if (NotificationsContent) {
+		    				UpdateNotificationsContent(NotificationsContent);
+		    			}		
 	    			}
 	    			// trace("kid name" + NOTIFICATIONS[len].kid_name + "\n");
 	    		}
@@ -204,14 +210,17 @@ var ApplicationBehavior = Behavior.template({
 		    				kid_name: "Susan", 							state: 0, 							action: result,							door_name: "back door"
 		    			});
 		    			// trace(NOTIFICATIONS[0].kid_name + " " + NOTIFICATIONS[0].door_name + "\n"); // debug
-		    			Susan_backdoor = result;		
+		    			Susan_backdoor = result;
+		    			if (NotificationsContent) {
+		    				UpdateNotificationsContent(NotificationsContent);
+		    			}		
 	    			}
 	    		}
 	    	);
 	    
     	}
     	else {
-    		trace("warning: can't receive remote Pins\n");
+    		trace("warning: can't receive remote Pins, please check your connection\n");
     	}
     }
 });
