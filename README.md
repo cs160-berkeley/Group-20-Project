@@ -46,3 +46,28 @@ Updates:
 ## Stage 2: Improvement
 
 > Note: You might be running into problem when trying to run our *companion-app* code the **SECOND** time. If that happens, go to your corresponding application preference folder. You could examine its exact location by printing out application.url in Kinoma Code. Plus, if you are a Mac user, it is under a hidden folder by default. If you want to make the hidden folders visible in finder, just copy & paste & run `defaults write com.apple.finder AppleShowAllFiles -boolean true ; killall Finder` in your terminal.
+
+References:
+
+* About the array: 
+
+1. ![push_front](http://stackoverflow.com/questions/8159524/javascript-pushing-element-at-the-beginning-of-an-array)
+
+* About format:
+
+1. ![toString](http://www.w3schools.com/jsref/jsref_tostring_number.asp)
+2. ![Date](http://www.w3schools.com/js/js_date_methods.asp)
+
+* Kinoma Reference:
+
+1. ![Cross-Device Basis](http://kinoma.com/develop/documentation/kinomajs-tutorials/cross-device-communication/)
+2. ![Pins Documentation](http://kinoma.com/develop/documentation/pins/)
+3. ![Pins Tutorial](http://kinoma.com/develop/documentation/getting-started-with-hardware/)
+4. ![Digital Tutorial](http://kinoma.com/develop/documentation/tutorials/digital/)
+5. ![Container Basis](http://kinoma.com/develop/documentation/javascript/)
+
+Other Materials:
+
+* Videos:
+
+1. ![Half-Way Narrated](https://youtu.be/HTvIWxtB3ic)
