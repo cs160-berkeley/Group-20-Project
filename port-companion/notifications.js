@@ -30,6 +30,8 @@ let crossButtonTemplate = Container.template($ => ({ // the icons in the bottom 
 			item.image.cross.active = false;
 			item.image.check.check_img.url = img_check.idel;
 			item.image.check.active = false;
+			item.text.state_string.string = "required";
+			// trace(item.text.state_string.string + "\n");
 			item.skin = skins.highlight.notifications;
 		}
 	}),
@@ -75,7 +77,7 @@ var doorMessageTemplate = Column.template($ => ({
 		    	new Label({
 		    		string: getReqState($.state),
 					style: texts.notifications.content,
-					name: "state"
+					name: "state_string"
 		    	}),
 		    	new Label({
 		    		string: " to ",
