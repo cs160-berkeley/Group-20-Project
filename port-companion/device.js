@@ -34,6 +34,7 @@ import {
 } from 'lib/scroller';
 
 import {
+	button_fave,
 	img_off,
 	img_on,
 	on_uri,
@@ -90,6 +91,32 @@ export var DeviceScreenTemplate = Container.template($ => ({
     ]
 }));
 
+function getFaveImg(index) {
+	var state = DATA.init[index].favorite;
+	if (state) return button_fave.on;
+	else return button_fave.off;
+}
+
+var HeartOnOff = Container.template($ => ({
+	height: 30, left: 0, right: 0,
+	active: true,
+	contents: [
+		new Picture({			top: 10,			right: 20,
+			left: 20,			url: getFaveImg($.idx), //"./assets/favorites-on.png", //"./assets/favorites-off.png",			name: "img",			height: 30,		}),
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			// update on / off
+			// trace("do something\n");
+			// trace("container.img.url = " + container.img.url + "\n");
+			DATA.init[$.idx].favorite = 1 - DATA.init[$.idx].favorite;
+			container.img.url = getFaveImg($.idx);
+        	save_data(DATA); // update data file
+			// synch_data(); // update the hardware simulator
+		}
+	})
+}));
+
 // the template: device content, a parameter of device screen's template, contains the main contents
 export var DeviceContentTemplate = Column.template($ => ({
     top: 0, left: 20, right: 20, 
@@ -104,10 +131,11 @@ export var DeviceContentTemplate = Column.template($ => ({
 				}),
 			]
 		}),
+		new HeartOnOff({idx: $.idx}),
 		new Line({height: 20}),
 		// new DeviceOptions({idx: $.idx}),
 		
-		new FavoriteOnOff({label: "FAVORITE", idx: $.idx}),
+		// new FavoriteOnOff({label: "FAVORITE", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "TYPE", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
@@ -269,7 +297,7 @@ var DeviceTopBar = Container.template($ => ({
 // the template of the back button on top left of the screen
 // by clicking it users would go back to "home" page
 let BackTemplate = Container.template($ => ({
-	active: true,
+	active: true, //width: device_list_topbar_width,
 	contents: [
 		new Label({
 			top: 25,

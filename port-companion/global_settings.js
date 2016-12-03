@@ -89,6 +89,10 @@ export var img_sett = {
 	activated: img_dir + "settings-on.png",
 	idel: img_dir + "settings-off.png"
 };
+export var button_fave = {
+	on: img_dir + "favorites-on.png",
+	off: img_dir + "favorites-off.png"
+};
 // for notification page
 export var img_cross = {
 	activated: img_dir + "x-yes.png",
