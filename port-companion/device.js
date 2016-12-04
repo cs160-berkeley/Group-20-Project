@@ -210,7 +210,13 @@ var FavoriteOnOff = Line.template($ => ({
 			width: 100,
 		}),
 		new Blank({length: 40}),
-		new Picture({			top: 0,			right: 20,			url: getOnOff($.idx),			name: "img",			height: 20,		})
+		new Picture({
+			top: 0,
+			right: 20,
+			url: getOnOff($.idx),
+			name: "img",
+			height: 20,
+		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
