@@ -82,7 +82,7 @@ var UndoButtonTemplate = Column.template($ => ({
 			item.image.cross.active = true;
 			item.image.check.check_img.url = getImageURL(img_check, false); //img_check.idel;
 			item.image.check.active = true;
-			item.text.state_string.string = getReqState(false); //"required";
+			item.text.state_string.string = getReqState(false); //"requested";
 			item.skin = getMessageSkin(false);
 			NOTIFICATIONS[$.message_idx].done = false;
 			// remove it
@@ -109,7 +109,7 @@ let crossButtonTemplate = Container.template($ => ({ // the icons in the bottom 
 			item.image.cross.active = false;
 			item.image.check.check_img.url = getImageURL(img_check, true); //img_check.idel;
 			item.image.check.active = false;
-			item.text.state_string.string = getReqState(true);// "required";
+			item.text.state_string.string = getReqState(true);// "requested";
 			// trace(item.text.state_string.string + "\n");
 			item.skin = skins.highlight.notifications;
 			NOTIFICATIONS[$.idx].done = true;
@@ -138,7 +138,7 @@ let checkButtonTemplate = Container.template($ => ({ // the icons in the bottom 
 			item.image.cross.active = false;
 			item.image.check.check_img.url = getImageURL(img_check, true); //img_check.idel;
 			item.image.check.active = false;
-			item.text.state_string.string = getReqState(true); //"required";
+			item.text.state_string.string = getReqState(true); //"requested";
 			item.skin = getMessageSkin(true);
 			NOTIFICATIONS[$.idx].done = true;
 			// unlocking / locking
@@ -184,8 +184,8 @@ let checkButtonTemplate = Container.template($ => ({ // the icons in the bottom 
 	}),}));
 
 function getReqState(done) {
-	if (done) return "required";
-	return "requires";
+	if (done) return "requested";
+	return "requests";
 }
 
 function str(num) {
