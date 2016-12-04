@@ -1,4 +1,5 @@
-
+// for Pins
+export var localPins;
 
 // value
 var lightGray = "#F2F2F2";

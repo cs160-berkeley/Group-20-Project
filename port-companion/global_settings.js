@@ -6,7 +6,15 @@
  * are saved here
  */
 
-
+// remote Pins
+export var remotePins;
+// Pins-related values
+export var David_frontdoor = 0;
+export var David_backdoor = 0;
+export var Susan_frontdoor = 0;
+export var Susan_backdoor = 0;
+export var front_door_idx = 1;
+export var back_door_idx = 2;
 // temporary screen
 export var TMP_SCREEN;
 // parameters
@@ -81,6 +89,10 @@ export var img_sett = {
 	activated: img_dir + "settings-on.png",
 	idel: img_dir + "settings-off.png"
 };
+export var button_fave = {
+	on: img_dir + "favorites-on.png",
+	off: img_dir + "favorites-off.png"
+};
 // for notification page
 export var img_cross = {
 	activated: img_dir + "x-yes.png",
@@ -113,6 +125,7 @@ var blue = "#0CBBF7";
 var white = "#ffffff";
 var whiteTrans = "#ccffffff";
 var green = "#92E1E0";
+var grayBlue = "#DEE1E3";
 
 // skins
 var whiteSkin = new Skin({ fill: "white" });
@@ -122,6 +135,7 @@ var greenSkin = new Skin({ fill: green });
 var lightGraySkin = new Skin({ fill: lightGray });
 var darkGraySkin = new Skin({ fill: darkGray });
 var midGraySkin = new Skin({ fill: midGray });
+var grayBlueSkin = new Skin({ fill: grayBlue});
 // skins exported
 export var skins = {
 	//navbar: lightGraySkin,
@@ -149,6 +163,7 @@ export var skins = {
 	},
 	highlight: {
 		search_device: blueSkin,
+		notifications: grayBlueSkin
 	}
 };
 // text styles
@@ -198,6 +213,9 @@ export var texts = {
 		navhint: hintText,
 		content: smallText_bold,
 		emph: smallText_blue,
+		poptext: smallText,
+		poptext_emph: smallText_bold,
+		poptext_undo: smallText_blue,
 	},
 	search_device: {
 		name: midText,
@@ -265,3 +283,6 @@ export function synch_data() {
 export var DATA;
 var file_new = file_dir + "devices.json";
 export var newDevicesFile = mergeURI(application.url, file_new);
+
+// notification data
+export var NOTIFICATIONS = [];
