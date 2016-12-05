@@ -101,8 +101,14 @@ var HeartOnOff = Container.template($ => ({
 	height: 30, left: 0, right: 0,
 	active: true,
 	contents: [
-		new Picture({			top: 10,			right: 20,
-			left: 20,			url: getFaveImg($.idx), //"./assets/favorites-on.png", //"./assets/favorites-off.png",			name: "img",			height: 30,		}),
+		new Picture({
+			top: 10,
+			right: 20,
+			left: 20,
+			url: getFaveImg($.idx), //"./assets/favorites-on.png", //"./assets/favorites-off.png",
+			name: "img",
+			height: 30,
+		}),
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -141,9 +147,6 @@ export var DeviceContentTemplate = Column.template($ => ({
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "TIMING", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
-		new SettingOptions({label: "ALERT", idx: $.idx}),
-		new Divide({height: 1, length: 200}),
-		
     ]
 }));
 
@@ -164,14 +167,6 @@ function getStr(idx, option) {
 		if (timing) {
 			return "Set";
 			//return DATA.init[idx].time_start + " to " + DATA.init[idx].time_end;
-		}
-		return "None";
-	}
-	else if (option == "ALERT") {
-		// return "24:00" // probably showing this way (a proposal)
-		var alert = DATA.init[idx].alert;
-		if (alert) {
-			return DATA.init[idx].alert_time;
 		}
 		return "None";
 	}
