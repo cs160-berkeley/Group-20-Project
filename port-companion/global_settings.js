@@ -77,6 +77,7 @@ export var img_light_neutral = img_dir +  "light-neutral.png";
 export var img_light_select = img_dir +  "light-select.png";
 export var img_temp_neutral = img_dir +  "temperature-neutral.png";
 export var img_temp_select = img_dir +  "temperature-select.png";
+export var img_fingerprint = img_dir +  "fingerprint.png";
 var file_dir = "./files/";
 export var file_init = file_dir + "init_data.json";
 export var img_home = {

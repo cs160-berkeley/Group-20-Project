@@ -14,6 +14,7 @@ import Pins from "pins";
 import {
 	TMP_SCREEN,
 	img_logo,
+	img_fingerprint,
 	skins,
 	texts,
 	welcome_img_padding,
@@ -67,7 +68,7 @@ let enterButtonTemplate = Button.template($ => ({
         new Picture({
         			height:50,
         			width: 50,
-					url: "fingerprint2.png"
+					url: img_fingerprint
 				}),
     ],
     Behavior: class extends ButtonBehavior {
@@ -103,7 +104,7 @@ export var WelcomePageTemplate = Container.template($ => ({
 					style: texts.welcome.title
 				}),*/
 				new enterButtonTemplate({textForLabel: "ENTER YOUR HOME"}),
-				
+				new Text({ left: 0, right: 0, top: 0, bottom: 0, string: "Scan fingerprint to enter" }),				
 			]
 		}),
     ]
