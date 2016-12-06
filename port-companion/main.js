@@ -104,7 +104,7 @@ export var WelcomePageTemplate = Container.template($ => ({
 					style: texts.welcome.title
 				}),*/
 				new enterButtonTemplate({textForLabel: "ENTER YOUR HOME"}),
-				new Text({ left: 0, right: 0, top: 0, bottom: 0, string: "Scan fingerprint to enter" }),				
+				new Text({ left: 0, right: 0, top: 7, bottom: 0, string: "Scan fingerprint to enter" }),				
 			]
 		}),
     ]
