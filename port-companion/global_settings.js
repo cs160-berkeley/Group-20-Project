@@ -71,6 +71,12 @@ export var img_liked = img_dir + "favorites-on.png";
 export var img_disliked = img_dir + "favorites-off.png";
 export var img_lock = img_dir +  "lockOn.png";
 export var img_unlock = img_dir +  "lockOff.png";
+export var img_lock_neutral = img_dir +  "lock-neutral.png";
+export var img_lock_select = img_dir +  "lock-select.png";
+export var img_light_neutral = img_dir +  "light-neutral.png";
+export var img_light_select = img_dir +  "light-select.png";
+export var img_temp_neutral = img_dir +  "temperature-neutral.png";
+export var img_temp_select = img_dir +  "temperature-select.png";
 var file_dir = "./files/";
 export var file_init = file_dir + "init_data.json";
 export var img_home = {
@@ -102,6 +108,19 @@ export var img_check = {
 	activated: img_dir + "check-yes.png",
 	idel: img_dir + "check-no.png"
 };
+export var button_lock = {
+	on: img_dir + "lock-neutral.png",
+	off: img_dir + "lock-select.png"
+};
+export var button_light = {
+	on: img_dir + "on-neutral.png",
+	off: img_dir + "on-select.png"
+};
+
+export var button_temperature = {
+	on: img_dir + "temperature-neutral.png",
+	off: img_dir + "temperature-select.png"
+};
 // uri
 export var on_uri = mergeURI(application.url, img_on);
 export var off_uri = mergeURI(application.url, img_off);
@@ -109,6 +128,15 @@ export var liked_uri = mergeURI(application.url, img_liked);
 export var disliked_uri = mergeURI(application.url, img_disliked);
 export var lock_uri = mergeURI(application.url, img_lock);
 export var unlock_uri = mergeURI(application.url, img_unlock);
+
+export var lock_neutral = mergeURI(application.url, img_lock_neutral);
+export var lock_select = mergeURI(application.url, img_lock_select);
+
+export var light_neutral = mergeURI(application.url, img_light_neutral);
+export var light_select = mergeURI(application.url, img_light_select);
+
+export var temperature_neutral = mergeURI(application.url, img_temp_neutral);
+export var temperature_select = mergeURI(application.url, img_temp_select);
 // connection settings
 export var DeviceSimulator = "portdevice.project.kinoma.marvell.com";
 export var deviceURL = "";

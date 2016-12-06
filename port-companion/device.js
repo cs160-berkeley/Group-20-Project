@@ -35,6 +35,21 @@ import {
 
 import {
 	button_fave,
+	button_lock,
+	button_light,
+	button_temperature,
+	lock_neutral,
+	lock_select,
+	light_neutral,
+	light_select,
+	temperature_neutral,
+	temperature_select,
+	img_lock_neutral,
+	img_lock_select,
+	img_light_neutral,
+	img_light_select,
+	img_temp_neutral,
+	img_temp_select,
 	img_off,
 	img_on,
 	on_uri,
@@ -123,6 +138,105 @@ var HeartOnOff = Container.template($ => ({
 	})
 }));
 
+function getLockImg(index) {
+	var state = DATA.init[index].lock;
+	if (state) return button_lock.on;
+	else return button_lock.off;
+}
+
+var LockOnOff = Container.template($ => ({
+	height: 30, left: 0, right: 0,
+	active: true,
+	contents: [
+		new Picture({
+			url: getLockImg($.idx),
+			name: "img",
+			height: 30,
+		}),
+		new Label({			string: "Lock",
+			left: 0,		}),
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			// update on / off
+			// trace("do something\n");
+			// trace("container.img.url = " + container.img.url + "\n");
+			DATA.init[$.idx].lock = 1 - DATA.init[$.idx].lock;
+			container.img.url = getLockImg($.idx);
+        	save_data(DATA); // update data file
+			// synch_data(); // update the hardware simulator
+		}
+	})
+}));
+
+var darkGray2 = "#4F4F4F";
+var darkGray = "#202020";
+
+var darkGrayMidText = new Style({ font: "bold 20px Roboto", color: darkGray2, horizontal: "left" });
+var darkGrayMidText_thin = new Style({ font: "18px Roboto", color: darkGray2,horizontal: "left" });
+
+function getLightImg(index) {
+	var state = DATA.init[index].light;
+	if (state) return button_light.on;
+	else return button_light.off;
+}
+
+var LightOnOff = Container.template($ => ({
+	height: 30, left: 0, right: 0,
+	active: true,
+	contents: [
+		new Picture({
+			url: getLightImg($.idx),
+			name: "img",
+			height: 30,
+		}),
+		new Label({			string: "Light",
+			left: 0,		}),
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			// update on / off
+			// trace("do something\n");
+			// trace("container.img.url = " + container.img.url + "\n");
+			DATA.init[$.idx].light = 1 - DATA.init[$.idx].light;
+			container.img.url = getLightImg($.idx);
+        	save_data(DATA); // update data file
+			// synch_data(); // update the hardware simulator
+		}
+	})
+}));
+
+function getTempImg(index) {
+	var state = DATA.init[index].temperature;
+	if (state) return button_temperature.on;
+	else return button_temperature.off;
+}
+
+var TemperatureOnOff = Container.template($ => ({
+	height: 30, left: 0, right: 0,
+	active: true,
+	contents: [
+		new Picture({
+			url: getTempImg($.idx),
+			name: "img",
+			height: 30,
+		}),
+		new Label({			string: "Temperature",
+			left: 0,		}),
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			// update on / off
+			// trace("do something\n");
+			// trace("container.img.url = " + container.img.url + "\n");
+			DATA.init[$.idx].temperature = 1 - DATA.init[$.idx].temperature;
+			container.img.url = getTempImg($.idx);
+        	save_data(DATA); // update data file
+			// synch_data(); // update the hardware simulator
+		}
+	})
+}));
+
 // the template: device content, a parameter of device screen's template, contains the main contents
 export var DeviceContentTemplate = Column.template($ => ({
     top: 0, left: 20, right: 20, 
@@ -143,7 +257,7 @@ export var DeviceContentTemplate = Column.template($ => ({
 		
 		// new FavoriteOnOff({label: "FAVORITE", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
-		new SettingOptions({label: "TYPE", idx: $.idx}),
+		new TypeSettingOptions({label: "TYPE", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
 		new SettingOptions({label: "TIMING", idx: $.idx}),
 		new Divide({height: 1, length: 200}),
@@ -221,6 +335,38 @@ export var SettingOptions = Line.template($ => ({
 	})
 	
 }));
+
+export var TypeSettingOptions = Line.template($ => ({
+	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,
+	height: device_list_setting_height,
+	active: true,
+	contents: [
+		new Label({
+			string: $.label,
+			style: darkGrayMidText_thin,
+			width: 100,
+		}),
+		//new Blank({length: 10}),
+		new LockOnOff({idx: $.idx}),
+		new LightOnOff({idx: $.idx}),		new TemperatureOnOff({idx: $.idx}),
+	],
+	behavior: Behavior({
+		onTouchEnded: function(container) {
+			trace("selecting " + $.label + "\n")
+			var command = $.label;
+			if (command == "TIMING") {
+				application.remove(TMP_SCREEN);
+				TimingContent = TimingContentTemplate({idx: $.idx});
+	        	TimingScreen = new TimingScreenTemplate({ TimingContent });
+	        	TMP_SCREEN = TimingScreen;
+	        	application.add(TMP_SCREEN);
+			} 
+        	
+		}
+	})
+	
+}));
+
 // Basically the same but a little bit different
 var FavoriteOnOff = Line.template($ => ({
 	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,
@@ -271,24 +417,30 @@ function getOnOff(idx) {
 	return img_off;
 }
 
+var lightBlueSkin = new Skin({fill: "#add8e6"})
 // the title part of the device screen, contains brief discription & back button
+
 var DeviceTopBar = Container.template($ => ({
-	top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,
-	height: device_list_topbar_height,
+	//top: device_list_item_padding, left: device_list_item_padding, right: device_list_item_padding, bottom: device_list_item_padding,
+	height: device_list_topbar_height + 10,
+	skin: lightBlueSkin,
 	contents: [
 		new Column( { contents: [
 			new Line( { contents: [
 				new BackTemplate(),
 				new Blank({length: device_list_topbar_width}),
 			] }),
-			
 			new Label({
-				string: DATA.init[$.idx].DeviceName,
-				style: texts.device.title,
+				string: "",
+				style: darkGrayMidText,
 			}),
 			new Label({
-				string: DATA.init[$.idx].DeviceGroup,
-				style: texts.device.subtitle,
+				string: DATA.init[$.idx].DeviceGroup + " - " + DATA.init[$.idx].DeviceName,
+				style: darkGrayMidText,
+			}),
+			new Label({
+				string: "",
+				style: darkGrayMidText,
 			}),
 		
 		]}),
