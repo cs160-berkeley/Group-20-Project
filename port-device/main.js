@@ -1,3 +1,5 @@
+import Pins from "pins";
+
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow} from 'lib/scroller';
 
 import {
@@ -6,10 +8,12 @@ import {
 	whiteSkin,
 	lightGraySkin,
 	labelStyle,
+	midStyle,
 	padding,
 	height,
 	height_label,
-	width_label
+	width_label,
+	localPins
 } from "global_settings";
 
 let darkGraySkin = new Skin({ fill: "#202020" });let titleStyle = new Style({ font: "20px", color: "white" });
@@ -20,6 +24,7 @@ var LEN;let MainContainer = Container.template($ => ({    left: 0, right: 0, 
 let contentTemplate = Column.template($ => ({    top: 0, left: 0, right: 0,     contents: [
     	// wait to be filled automatically at runtime    ]}));
 
+/*
 let deviceItemTemplate = Line.template($ => ({
 	top: padding, bottom: padding, left: padding, right: padding,
 	height: height,
@@ -43,6 +48,42 @@ let deviceItemTemplate = Line.template($ => ({
 		}),
 	]
 }));
+*/
+let deviceItemTemplate = Line.template($ => ({
+	top: padding, bottom: padding, left: padding, right: padding,
+	height: height,
+	skin: lightGraySkin,
+	contents: [
+		new Label({
+			left:	0, right:	0, 
+			height:	height_label, 
+			width: 	width_label,
+			string:	$.label, 
+			style: 	labelStyle,
+			name:	"label",
+		}),
+		new Column({
+			contents: [
+				new Label({
+					left:0, right:0, 
+					//height:	height_label, 
+					width: 	width_label,
+					string:	$.value, 
+					style: 	labelStyle,
+					name:	"value"
+				}),
+				new Label({
+					left:0, right:0, 
+					//height:	height_label, 
+					width: 	width_label,
+					string:	"Timing " + $.timing, 
+					style: 	midStyle,
+					name:	"timing"
+				}),
+			]
+		}),
+	]
+}));
 
 function getLabel(label, type) {
 	return label;
@@ -56,6 +97,13 @@ function getValue(value, type) {
 		return value? "unlocked": "locked";
 	}
 	return value;
+}
+
+function getTime(flag) {
+	if (flag) {
+		return "Set";
+	}
+	return "None";
 }
 
 // empty a container
@@ -77,12 +125,15 @@ function updateData(container) {
 		var item_label = item_data.DeviceName;
 		var item_value = item_data.value;
 		var item_type = item_data.type;
+		var item_timing = item_data.timing;
 		var str_label = getLabel(item_label, item_type);
 		var str_value = getValue(item_value, item_type);
+		var str_timing = getTime(item_timing);
 		var item = new deviceItemTemplate(
 			{
 				label: str_label, 
 				value: str_value,
+				timing: str_timing,
 			}
 		);
 		container.add(item);
@@ -105,7 +156,39 @@ Handler.bind("/update", Behavior({    onInvoke: function(handler, message){   
         message.status = 200;	    }}));
 
 class ApplicationBehavior extends Behavior {    onLaunch(application) {
-    	trace("device simulator sharing\n");        application.shared = true;    }    onQuit(application) {
+    	// share the json data
+    	trace("device simulator sharing\n");        application.shared = true;
+        // Pins configuration
+        trace("Pins configuring\n");
+        Pins.configure({            David_frontdoor: {                require: "Digital", // use built-in digital BLL                pins: {
+                    power: { pin: 51, voltage: 3.3, type: "Power" },
+                    ground: { pin: 52, type: "Ground" },
+                    digital: { pin: 53, type: "Digital", direction: "input" },                }            }, 
+            David_backdoor: {                require: "Digital", // use built-in digital BLL                pins: {
+                    power: { pin: 54, voltage: 3.3, type: "Power" },
+                    ground: { pin: 55, type: "Ground" },
+                    digital: { pin: 56, type: "Digital", direction: "input" },                }            },
+            
+            Susan_frontdoor: {                require: "Digital", // use built-in digital BLL                pins: {
+                    power: { pin: 57, voltage: 3.3, type: "Power" },
+                    ground: { pin: 58, type: "Ground" },
+                    digital: { pin: 59, type: "Digital", direction: "input" },                }            }, 
+            Susan_backdoor: {                require: "Digital", // use built-in digital BLL                pins: {
+                    power: { pin: 60, voltage: 3.3, type: "Power" },
+                    ground: { pin: 61, type: "Ground" },
+                    digital: { pin: 62, type: "Digital", direction: "input" },                }            }, 
+                     },  success => {            if (success) {                Pins.share("ws", {zeroconf: true, name: "pins-share-HoM"});                trace("Pins configuration: device side ready\n");            } else {                trace("Pins configuration: device side ERROR!!!\n");            };        });
+        /*
+        // connect to local Pins
+        let discoveryInstance = Pins.discover(            connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Device side: connecting to local pins\n");                    localPins = Pins.connect(connectionDesc);
+                    // localPins.invoke("/David_backdoor/write", 0);
+                    localPins.repeat("/David_backdoor/read", 1000, result => {
+                    // localPins.invoke("/David_backdoor/read", result => {			            // do something with result
+			            trace("test " + result + "\n");			        });                }            },             connectionDesc => {                if (connectionDesc.name == "pins-share-HoM") {                    trace("Device side: disconnected from local pins\n");                    localPins = undefined;
+                    // remotePins.invoke("/David_frontdoor/write", 0);                }            }
+                    );
+        */
+            }    onQuit(application) {
     	trace("device simulator stopped sharing\n");        application.shared = false;    }}
 
 let mainContent = new contentTemplate();

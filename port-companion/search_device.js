@@ -3,6 +3,9 @@
  * 	Variables:
  *		SearchContent	- an instance of SearchContentTemplate, search page's content
  *		SearchScreen	- an instance of SearchScreenTemplate, the whole search page's screen
+ *		NUM_NEW 		- number of the new devices
+ *		SELECTED		- the selected index of the device
+ *		newDeviceData	- the new device's data list
  *	Functions:
  *		loadNewDevicesJSON - add local new device data automatically (instead of hard-coded, loading from local files)
  *		updateSkins - 	update the skin colors of the new device data,
@@ -13,7 +16,7 @@
  * 	Templates:
  *		SearchScreenTemplate - the template of the whole search screen
  * 			SearchContentTemplate - serves as a parameter of the whole search screen's template, contains the main contents
- *				SearchTopBar - the title part of the timing screen, contains brief discription & back button
+ *				SearchTopBar - the title part of the search_device screen, contains brief discription & back button
  *					CancelTemplate - a part of the "top bar", the cancel button on top left of the screen
  *					Blank - just for indentation
  *					AddTemplate - 	a part of the "top bar", the add button on top right
@@ -30,11 +33,10 @@
 import {    VerticalScroller,    VerticalScrollbar,    TopScrollerShadow,    BottomScrollerShadow,    HorizontalScroller,    HorizontalScrollbar,    LeftScrollerShadow,    RightScrollerShadow} from 'lib/scroller';import {
 	load_json,
 	save_data,
-	DATA,	TMP_SCREEN,	midText,	whiteSkin,
-	midGraySkin,
-	lightGraySkin,
-	lightGraySmallText,
-	darkGraySmallText,	device_list_item_padding,	device_list_topbar_height,
+	DATA,	TMP_SCREEN,
+	skins,	texts,	device_list_item_padding,	device_list_topbar_height,
+	device_list_item_padding_h,
+	device_list_item_padding_w,
 	newDevicesFile} from "global_settings";
 
 import {
@@ -58,7 +60,7 @@ var NUM_NEW = 0;
 export var SELECTED = -1;
 export var newDeviceData;
 
-// the screen's whole templateexport var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: lightGraySkin, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
+// the screen's whole templateexport var SearchScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,    skin: skins.background.search_device, //whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: 0, bottom: 0,            contents: [                $.SearchContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),    ]}));
 
 // load new device information from the JSON file
 export function loadNewDevicesJSON(container) {
@@ -97,10 +99,10 @@ function updateSkins(container, idx) {
 	for (var i = 0; i < NUM_NEW; i++) {
 		if (SELECTED == i)
 			//container["newdevice_" + i].skin = midGraySkin;
-			container[i + 1].skin = midGraySkin;
+			container[i + 1].skin = skins.highlight.search_device;
 		else
 			//container["newdevice_" + i].skin = whiteSkin;
-			container[i + 1].skin = whiteSkin;
+			container[i + 1].skin = skins.foreground.search_device;
 	}
 }
 
@@ -109,16 +111,16 @@ function updateSkins(container, idx) {
 
 // new device's list item template
 var NewDeviceTemplate= Container.template($ => ({
-	top: device_list_item_padding, left: device_list_item_padding, 
-	right: device_list_item_padding, bottom: device_list_item_padding, 
+	top: device_list_item_padding_h, left: device_list_item_padding_w, 
+	right: device_list_item_padding_w, bottom: device_list_item_padding_h, 
 	height: device_list_topbar_height,
-	skin: whiteSkin,
+	skin: skins.foreground.search_device,
 	idx: $.idx,
 	active: true, // active the behavior
 	contents: [
 		new Label({
 			string: $.data.DeviceName,
-			style: midText,
+			style: texts.search_device.name,
 		}),
 	],
 	name: "newdevice_" + "0",//$.idx,
@@ -135,7 +137,8 @@ var NewDeviceTemplate= Container.template($ => ({
 				new CancelTemplate(),
 				new Blank(),
 				new AddTemplate()
-			] }),			new Label({				string: "SELECT DEVICE TO ADD",				style: midText,			}),
+			] }),			new Label({
+				top: device_list_item_padding*3,				string: "SELECT DEVICE TO ADD",				style: texts.search_device.title,			}),
 		]}),		/*		new Line({						contents: [				//				new AddSearchTemplate({}),			]		}),		*/	]}));
 
 // cancel button on top left of the screen
@@ -143,7 +146,7 @@ let CancelTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "CANCEL",
-			style: lightGraySmallText,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
+			style: texts.search_device.topbutton,			// top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -162,7 +165,7 @@ let AddTemplate = Container.template($ => ({
 	active: true,
 	contents: [
 		new Label({			string: "ADD",
-			style: darkGraySmallText,		})
+			style: texts.search_device.topbutton,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {

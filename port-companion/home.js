@@ -45,18 +45,14 @@ import {
 	off_uri,
 	lock_uri,
 	unlock_uri,
-	hintText,
-	midText,
-	smallText,
-	largeText,
 	BAR_HEIGHT_TOP,
 	BAR_HEIGHT_BOTTOM,
-	whiteSkin,
-	lightGraySkin,
-	darkGraySkin,
+	skins,
+	texts,
 	home_list_topbar_height,
 	home_list_item_height,
-	home_list_item_padding,
+	home_list_item_padding_w,
+	home_list_item_padding_h,
 	home_list_tag_width,
 	bottom_bar_padding,
 	bottom_bar_img_size,
@@ -85,17 +81,39 @@ import {
 	SELECTED
 } from "search_device";
 
+import {
+	FavoritesContent,	FavoritesScreen,
+	FavoritesContentTemplate,
+	FavoritesScreenTemplate,
+	LoadFavoritesContent
+} from "favorites";
+
+import {
+	SetContentTemplate,
+	SetScreenTemplate,
+	SetContent,
+	SetScreen,
+	LoadSetContent,
+} from "set";
+
+import {
+	NotificationsContent,	NotificationsScreen,
+	NotificationsContentTemplate,
+	NotificationsScreenTemplate,
+	LoadNotificationsContent
+} from "notifications";
+
 // the Content and Screen (screen = content with scroll bar) variables
 export var HomeContent;
 export var HomeScreen;
 
 // home screen template, used to implement HomeScreenexport var HomeScreenTemplate = Container.template($ => ({    left: 0, right: 0, top: 0, bottom: 0,
-    skin: whiteSkin,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),                 TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
+    skin: skins.background.home,    contents: [        VerticalScroller($, {             active: true, top: BAR_HEIGHT_TOP, bottom: BAR_HEIGHT_BOTTOM,            contents: [                $.HomeContent,                VerticalScrollbar(),           //      TopScrollerShadow(),                 BottomScrollerShadow(),                ]                             }),
         // top bar // not needed for now
         /*        new Container({             top: 0, height: BAR_HEIGHT_TOP, left: 0, right: 0, skin: darkGraySkin,            style: titleStyle,             contents: [                new Label({ string: "HoM" }),            ]        }),
         */
         // bottom bar // the navigation bar for now
-        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: lightGraySkin,             contents: [
+        new Line({             bottom: 0, height: BAR_HEIGHT_BOTTOM, left: 0, right: 0, skin: skins.navbar,             contents: [
                 new iconTemplate({icon_img: img_home, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "home", activate: true}),
                 new iconTemplate({icon_img: img_fave, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "favorites", activate: false}),
                 new iconTemplate({icon_img: img_note, padding: bottom_bar_padding, size: bottom_bar_img_size, hint: "notifications", activate: false}),
@@ -109,18 +127,61 @@ var iconTemplate = Column.template($ => ({
 		new iconButtonTemplate({
 			name: $.hint, 
 			url: $.activate? $.icon_img.activated: $.icon_img.idel,
-			padding: $.padding, size: $.size,
+			padding: $.padding, size: 25,
 		}),
 		
 		new Label({
 			string: $.hint,
-			style: hintText,
+			style: texts.home.navhint,
 		}),
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
 			save_data(DATA);
-			trace("going to page " + $.hint + "\n");
+			if ($.hint == "home") {
+				trace("staying on home page\n");
+				/*
+				application.remove(TMP_SCREEN);
+				HomeContent = HomeContentTemplate({});
+        		LoadHomeContent(HomeContent);
+        		HomeScreen = new HomeScreenTemplate({ HomeContent });
+        		TMP_SCREEN = HomeScreen;
+        		application.add(TMP_SCREEN);
+        		*/
+			}
+			else if ($.hint == "favorites") {
+				trace("going to favorites page\n");
+				application.remove(TMP_SCREEN);
+				FavoritesContent = FavoritesContentTemplate({});
+        		LoadFavoritesContent(FavoritesContent);
+        		FavoritesScreen = new FavoritesScreenTemplate({ FavoritesContent });
+        		TMP_SCREEN = FavoritesScreen;
+        		application.add(TMP_SCREEN);
+			}
+			else if ($.hint == "notifications") {
+				trace("going to notifications page\n");
+				application.remove(TMP_SCREEN);
+				NotificationsContent = NotificationsContentTemplate({});
+        		LoadNotificationsContent(NotificationsContent);
+        		NotificationsScreen = new NotificationsScreenTemplate({ NotificationsContent });
+        		TMP_SCREEN = NotificationsScreen;
+        		application.add(TMP_SCREEN);
+			}
+			else if ($.hint == "settings") {
+				trace("going to settings page\n");
+				application.remove(TMP_SCREEN);
+				SetContent = SetContentTemplate({});
+        		LoadSetContent(SetContent);
+        		SetScreen = new SetScreenTemplate({ SetContent });
+        		TMP_SCREEN = SetScreen;
+        		application.add(TMP_SCREEN);
+			}
+			/*
+			SearchContent = SearchContentTemplate({});
+			loadNewDevicesJSON(SearchContent);
+        	SearchScreen = new SearchScreenTemplate({ SearchContent });
+        	TMP_SCREEN = SearchScreen;*/
+			// trace("going to page " + $.hint + "\n");
 		}
 	})
 }));
@@ -132,7 +193,7 @@ let iconButtonTemplate = Container.template($ => ({ // the icons in the bottom n
 }));
 
 // home content template, used to implement HomeContent
-export let HomeContentTemplate = Column.template($ => ({     top: 0, left: 0, right: 0,    contents: [
+export let HomeContentTemplate = Column.template($ => ({     top: 10, left: 0, right: 0,    contents: [
     	new HomeTopBar(),	// the top bar
     	// device list would be added latter by the function LoadHomeContent
     	// those devices are implemented by DeviceItemTemplate    ],}));
@@ -155,12 +216,12 @@ export function LoadHomeContent(homeContent) {
 // the "top" navigate bar of home screen (not really stick to the top, it goes up and down with the scroller
 var HomeTopBar = Container.template($ => ({
 	// top-bar
-	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding,
+	top: home_list_item_padding_h, left: home_list_item_padding_w, right: home_list_item_padding_w, bottom: home_list_item_padding_h,
 	height: home_list_topbar_height,
 	contents: [
 		new Label({
 			string: "My Home",
-			style: largeText,
+			style: texts.home.title,
 		}),
 		new Line({			
 			contents: [
@@ -175,7 +236,7 @@ var HomeTopBar = Container.template($ => ({
 let AddDeviceTemplate = Container.template($ => ({
 	active: true,
 	contents: [
-		new Picture({			url: img_plus,			top: 50, left: 240, right: home_list_item_padding, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
+		new Picture({			url: img_plus,			top: 0, left: 260, right: home_list_item_padding_w, width: home_list_topbar_img_size, height: home_list_topbar_img_size,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
@@ -212,13 +273,13 @@ function getStatusURL(type, value) {
 }
 // device item template, used to implement an item in the device list
 export var DeviceItemTemplate = Line.template($ => ({
-	top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
+	top: home_list_item_padding_h, left: home_list_item_padding_w, right: home_list_item_padding_w, bottom: home_list_item_padding_h, 
 	height: home_list_item_height,
-	skin: lightGraySkin,
+	skin: skins.foreground.home,
 	idx: $.idx,
 	contents: [
 		new Column ({
-			left: home_list_item_padding,
+			left: home_list_item_padding_w,
 			width: home_list_tag_width,
 			contents: [
 				// when you click this part you'll enter a device's page
@@ -227,7 +288,7 @@ export var DeviceItemTemplate = Line.template($ => ({
 		}),
 		
 		new Column ({
-			top: home_list_item_padding, left: home_list_item_padding, right: home_list_item_padding, bottom: home_list_item_padding, 
+			top: home_list_item_padding_h, left: home_list_item_padding_w, right: home_list_item_padding_w, bottom: home_list_item_padding_h, 
 			contents: [
 				new OnOffTemplate( { img_url: getStatusURL($.type, $.value), id: $.id, idx: $.idx } ),
 			],
@@ -245,14 +306,15 @@ let DeviceEntryTemplate = Container.template($ => ({
 	// on: false,
 	contents: [
 		new Column ( {
+			
 			contents: [
 				new Label({
 					string: $.DeviceName,
-					style: midText,
+					style: texts.home.content,
 				}),
 				new Label({
 					string: $.DeviceGroup,
-					style: smallText,
+					style: texts.home.small,
 				}),
 			]
 		}),
@@ -270,11 +332,14 @@ let DeviceEntryTemplate = Container.template($ => ({
 
 // the switcher template, used for every devices, a part of DeviceItemTemplate
 let OnOffTemplate = Container.template($ => ({
-	active: true,
+	active: true, 
 	// on: false,
 	contents: [
-		new Picture({			url: $.img_url,
-			name: "img",		})
+		new Picture({
+			top: 18,
+			right: 18,			url: $.img_url,
+			name: "img",
+			height: 25,		})
 	],
 	behavior: Behavior({
 		onTouchEnded: function(container) {
