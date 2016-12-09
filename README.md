@@ -83,4 +83,4 @@ Updates:
 ![Main Screens](img/HoM_v4.0_00_screens.png "the Main Screens of the Different Modules")
 ![Home Screen: Interact with Hardware Simulator (1)](img/HoM_v4.0_01_home_03.png "the Home Screen: Interact with Hardware Simulator (1)")
 ![Home Screen: Interact with Hardware Simulator (2)](img/HoM_v4.0_01_home_04.png "the Home Screen: Interact with Hardware Simulator (2)")
-![Favorites Screen: Interaction Process of Adding New Favorite Device](Himg/oM_v4.0_02_favorites.png "Favorites Screen: Interaction Process of Adding New Favorite Device")
+![Favorites Screen: Interaction Process of Adding New Favorite Device](Himg/HoM_v4.0_02_favorites.png "Favorites Screen: Interaction Process of Adding New Favorite Device")
