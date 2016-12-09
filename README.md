@@ -77,3 +77,11 @@ Updates:
 ![Settings Page](img/HoM_v3.0_settings.png "Settings Page Half-Way Implemented")
 2. Image Corrected
 ![Notifications Page](img/HoM_v3.0_image_corrected.png "The corrected image icons without White Boundaries")
+3. Final Design
+> We used Application sharing and discovery for communications about the devices' status, and used Pins sharing for communication.
+![Welcome Page](img/HoM_v4.0_00_welcome.png "the Welcome Page")
+![Initialized Home Screen](img/HoM_v4.0_01_home_00.png "the Initialized Home Screen")
+![Home Screen: Turn Light On](img/HoM_v4.0_01_home_01.png "the Home Screen: Turn Light On")
+![Home Screen: Turn Light Open](img/HoM_v4.0_01_home_02.png "tHome Screen: Turn Light Open")
+![Home Screen: Interact with Hardware Simulator (1)](img/HoM_v4.0_01_home_03.png "the Home Screen: Interact with Hardware Simulator (1)")
+![Home Screen: Interact with Hardware Simulator (2)](img/HoM_v4.0_01_home_04.png "the Home Screen: Interact with Hardware Simulator (2)")
