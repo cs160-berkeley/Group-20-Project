@@ -92,6 +92,6 @@ Updates:
 ![Adding Device Process](img/HoM_v4.0_05_assistant_0.png "Adding Device Process")
 ![Setting Device Process](img/HoM_v4.0_05_assistant_1.png "Setting Device Process")
 
-> Filmed the [final video](https://youtu.be/TOnuw4eL4YA)
+4. Filmed the [final video](https://youtu.be/TOnuw4eL4YA)
 
-> Finished the [final report](https://medium.com/@jessicakwon/hom-your-household-monitor-6d515590e752#.llkxgew6i) together, typesetting and putting onto [medium](https://medium.com/) by [Jessica](https://medium.com/@jessicakwon)
+5. Finished the [final report](https://medium.com/@jessicakwon/hom-your-household-monitor-6d515590e752#.llkxgew6i) together, typesetting and putting onto [medium](https://medium.com/) by [Jessica](https://medium.com/@jessicakwon)
