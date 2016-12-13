@@ -78,7 +78,6 @@ Updates:
 2. Image Corrected
 ![Notifications Page](img/HoM_v3.0_image_corrected.png "The corrected image icons without White Boundaries")
 3. Final Design
-
 > We used Application sharing and discovery for communications about the devices' status, and used Pins sharing for communication.
 ![Main Screens](img/HoM_v4.0_00_screens.png "the Main Screens of the Different Modules")
 ![Home Screen: Interact with Hardware Simulator (1)](img/HoM_v4.0_01_home_03.png "the Home Screen: Interact with Hardware Simulator (1)")
@@ -91,7 +90,6 @@ Updates:
 ![Settings Screen](img/HoM_v4.0_04_settings.png "Settings Screen")
 ![Adding Device Process](img/HoM_v4.0_05_assistant_0.png "Adding Device Process")
 ![Setting Device Process](img/HoM_v4.0_05_assistant_1.png "Setting Device Process")
-
 4. Filmed the [final video](https://youtu.be/TOnuw4eL4YA)
 
 5. Finished the [final report](https://medium.com/@jessicakwon/hom-your-household-monitor-6d515590e752#.llkxgew6i) together, typesetting and putting onto [medium](https://medium.com/) by [Jessica](https://medium.com/@jessicakwon)
