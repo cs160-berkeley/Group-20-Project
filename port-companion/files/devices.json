@@ -9,8 +9,7 @@
     	"timing": 0,
     	"time_start": -1,
     	"time_end": -1,
-    	"alert": 0,
-    	"alert_time": -1,
+        "repeat": "None",
     	"favorite": 0,
     },
     { 	
@@ -23,8 +22,7 @@
     	"timing": 0,
     	"time_start": -1,
     	"time_end": -1,
-    	"alert": 0,
-    	"alert_time": -1,
+        "repeat": "None",
     	"favorite": 0,
     },
     { 	
@@ -37,8 +35,7 @@
     	"timing": 0,
     	"time_start": -1,
     	"time_end": -1,
-    	"alert": 0,
-    	"alert_time": -1,
+        "repeat": "None",
     	"favorite": 0,
     }
 ]}
